@@ -52,4 +52,5 @@ export enum ActionType {
   logout = 'LOGOUT',
   autoLogin = 'AUTO_LOGIN',
   authError = 'AUTH_ERROR',
+  setAnonymousAuth = 'SET_ANONYMOUS_AUTH',
 }

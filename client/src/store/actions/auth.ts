@@ -17,3 +17,7 @@ export interface AutoLoginAction {
 export interface AuthErrorAction {
   type: ActionType.authError;
 }
+
+export interface SetAnonymousAuthAction {
+  type: ActionType.setAnonymousAuth;
+}

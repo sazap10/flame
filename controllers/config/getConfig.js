@@ -9,7 +9,10 @@ const getConfig = asyncWrapper(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    data: config,
+    data: {
+      ...config,
+      isAnonymousAuth: process.env.ANONYMOUS_AUTH === 'true',
+    },
   });
 });
 

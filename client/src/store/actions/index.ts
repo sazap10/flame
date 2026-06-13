@@ -56,6 +56,7 @@ import {
   AutoLoginAction,
   LoginAction,
   LogoutAction,
+  SetAnonymousAuthAction,
 } from './auth';
 
 export type Action =
@@ -105,4 +106,5 @@ export type Action =
   | LoginAction
   | LogoutAction
   | AutoLoginAction
-  | AuthErrorAction;
+  | AuthErrorAction
+  | SetAnonymousAuthAction;

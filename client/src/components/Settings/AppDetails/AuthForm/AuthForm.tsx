@@ -12,7 +12,9 @@ import { InputGroup, Button } from '../../../UI';
 import classes from '../AppDetails.module.css';
 
 export const AuthForm = (): JSX.Element => {
-  const { isAuthenticated, token } = useSelector((state: State) => state.auth);
+  const { isAuthenticated, isAnonymous, token } = useSelector(
+    (state: State) => state.auth
+  );
 
   const dispatch = useDispatch();
   const { login, logout } = bindActionCreators(actionCreators, dispatch);
@@ -45,6 +47,16 @@ export const AuthForm = (): JSX.Element => {
       duration: '14d',
     });
   };
+
+  if (isAnonymous) {
+    return (
+      <p className={classes.text}>
+        Anonymous access is enabled on this instance, so password
+        authentication is disabled. Everyone can view and edit. Unset the{' '}
+        <code>ANONYMOUS_AUTH</code> environment variable to re-enable the login.
+      </p>
+    );
+  }
 
   return (
     <Fragment>
