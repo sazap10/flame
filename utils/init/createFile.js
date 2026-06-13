@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { join } = require('path');
+const { join, dirname } = require('path');
 
 const Logger = require('../Logger');
 const logger = new Logger();
@@ -9,6 +9,9 @@ const createFile = async (file) => {
 
   const srcPath = join(__dirname, paths.src, name);
   const destPath = join(__dirname, paths.dest, name);
+
+  // Make sure the destination directory exists (self-heal on fresh checkouts)
+  fs.mkdirSync(dirname(destPath), { recursive: true });
 
   // Check if file exists
   if (fs.existsSync(srcPath)) {

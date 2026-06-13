@@ -82,6 +82,36 @@ const useDocker = async (apps) => {
         }
       }
 
+      // tsdproxy labels for URL configuration. A tsdproxy-exposed container
+      // (tsdproxy.enable=true + tsdproxy.name) is published at
+      // https://<tsdproxy.name>.<TSDPROXY_DOMAIN>, so derive the flame.* fields
+      // from it. Requires the TSDPROXY_DOMAIN env var (e.g. example.ts.net);
+      // when unset, tsdproxy discovery is skipped. Any explicit flame.* label
+      // wins, so a service can override the name/url/icon or opt out by setting
+      // flame.type to something that isn't "app".
+      const tsdproxyDomain = (process.env.TSDPROXY_DOMAIN || '').replace(
+        /^\.|\.$/g,
+        ''
+      );
+
+      if (
+        tsdproxyDomain &&
+        labels['tsdproxy.enable'] === 'true' &&
+        'tsdproxy.name' in labels
+      ) {
+        const tsdName = labels['tsdproxy.name'];
+
+        if (!('flame.url' in labels)) {
+          labels['flame.url'] = `https://${tsdName}.${tsdproxyDomain}`;
+        }
+        if (!('flame.name' in labels)) {
+          labels['flame.name'] = tsdName;
+        }
+        if (!('flame.type' in labels)) {
+          labels['flame.type'] = 'app';
+        }
+      }
+
       // add each container as flame formatted app
       if (
         'flame.name' in labels &&

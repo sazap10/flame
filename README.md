@@ -19,23 +19,20 @@ Flame is self-hosted startpage for your server. Its design is inspired (heavily)
 
 ### With Docker (recommended)
 
-[Docker Hub link](https://hub.docker.com/r/pawelmalak/flame)
+The image is published to the GitHub Container Registry by the included CI
+workflow (`.github/workflows/build-image.yml`), which pushes to
+`ghcr.io/<owner>/<repo>`. Replace `<owner>/<repo>` below with your GitHub
+repository (e.g. the exact path shown in the workflow run's summary).
 
 ```sh
-docker pull pawelmalak/flame
-
-# for ARM architecture (e.g. RaspberryPi)
-docker pull pawelmalak/flame:multiarch
-
-# installing specific version
-docker pull pawelmalak/flame:2.0.0
+docker pull ghcr.io/<owner>/<repo>
 ```
 
 #### Deployment
 
 ```sh
 # run container
-docker run -p 5005:5005 -v /path/to/data:/app/data -e PASSWORD=change_me pawelmalak/flame
+docker run -p 5005:5005 -v /path/to/data:/app/data -e PASSWORD=change_me ghcr.io/<owner>/<repo>
 ```
 
 #### Building images
@@ -59,7 +56,7 @@ version: '3.6'
 
 services:
   flame:
-    image: pawelmalak/flame
+    image: ghcr.io/<owner>/<repo>:latest
     container_name: flame
     volumes:
       - /path/to/host/data:/app/data
@@ -149,6 +146,18 @@ npm run dev
 
 Visit [project wiki](https://github.com/pawelmalak/flame/wiki/Authentication) to read more about authentication
 
+#### Anonymous access
+
+Set the `ANONYMOUS_AUTH=true` environment variable to disable the login wall. Every visitor is then treated as authenticated with full view and edit access, and the password login form is hidden. This is intended for instances that sit behind a trusted reverse proxy, SSO, or a private network where access is already controlled. Leave it unset (the default) to keep the normal password-based login.
+
+```yaml
+services:
+  flame:
+    image: ghcr.io/<owner>/<repo>:latest # image built by .github/workflows/build-image.yml
+    environment:
+      - ANONYMOUS_AUTH=true
+```
+
 ### Search bar
 
 #### Searching
@@ -178,6 +187,25 @@ labels:
 ```
 
 > "Use Docker API" option must be enabled for this to work. You can find it in Settings > Docker
+
+#### tsdproxy auto-discovery
+
+If your containers are exposed through [tsdproxy](https://github.com/almeidapaulopt/tsdproxy), Flame can discover them automatically without any `flame.*` labels. Set the `TSDPROXY_DOMAIN` environment variable to your tailnet/proxy domain, and any container with `tsdproxy.enable: "true"` and a `tsdproxy.name` is added as an app at `https://<tsdproxy.name>.<TSDPROXY_DOMAIN>`.
+
+```yaml
+# Flame container
+environment:
+  - TSDPROXY_DOMAIN=example.ts.net
+
+# A discovered service needs nothing extra — its existing tsdproxy labels are enough:
+labels:
+  tsdproxy.enable: "true"
+  tsdproxy.name: "myservice" # -> https://myservice.example.ts.net
+  # flame.icon: myservice    # optional nicer icon
+  # flame.type: skip         # optional: opt this container out of Flame
+```
+
+Any explicit `flame.*` label still wins, so you can override the derived name, URL, or icon, or opt a container out by setting `flame.type` to anything that isn't `app`. Leaving `TSDPROXY_DOMAIN` unset disables tsdproxy discovery entirely.
 
 You can also set up different apps in the same label adding `;` between each one.
 

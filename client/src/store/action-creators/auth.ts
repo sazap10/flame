@@ -6,6 +6,7 @@ import {
   AutoLoginAction,
   LoginAction,
   LogoutAction,
+  SetAnonymousAuthAction,
 } from '../actions/auth';
 import axios, { AxiosError } from 'axios';
 import { getApps, getCategories } from '.';
@@ -64,6 +65,19 @@ export const autoLogin = () => async (dispatch: Dispatch<AutoLoginAction>) => {
     dispatch<any>(authError(err, false));
   }
 };
+
+export const setAnonymousAuth =
+  () => (dispatch: Dispatch<SetAnonymousAuthAction>) => {
+    // Drop any stale token so the App expiry timer can't later log us out
+    localStorage.removeItem('token');
+
+    dispatch({
+      type: ActionType.setAnonymousAuth,
+    });
+
+    dispatch<any>(getApps());
+    dispatch<any>(getCategories());
+  };
 
 export const authError =
   (error: unknown, showNotification: boolean) =>

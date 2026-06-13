@@ -12,6 +12,7 @@ import { ApiResponse, Config, Query } from '../../interfaces';
 import { ActionType } from '../action-types';
 import { storeUIConfig, applyAuth } from '../../utility';
 import { ConfigFormData } from '../../types';
+import { setAnonymousAuth } from './auth';
 
 const keys: (keyof Config)[] = [
   'useAmericanDate',
@@ -30,6 +31,11 @@ export const getConfig = () => async (dispatch: Dispatch<GetConfigAction>) => {
       type: ActionType.getConfig,
       payload: res.data.data,
     });
+
+    // Enable anonymous auth when the server reports it is configured
+    if (res.data.data.isAnonymousAuth) {
+      dispatch<any>(setAnonymousAuth());
+    }
 
     // Set custom page title if set
     document.title = res.data.data.customTitle;
