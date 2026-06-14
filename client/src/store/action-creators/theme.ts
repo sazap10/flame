@@ -23,6 +23,8 @@ import {
   resolveScheme,
   getStoredMode,
   getSlotColors,
+  isThemeMode,
+  migrateLegacyTheme,
   THEME_MODE_KEY,
   LIGHT_THEME_KEY,
   DARK_THEME_KEY,
@@ -41,6 +43,9 @@ const applyColors = (colors: ThemeColors, scheme: ColorScheme): void => {
 // Apply the stored color scheme on app start (prevents flash of default theme)
 export const initTheme =
   () => (dispatch: Dispatch<SetColorSchemeAction>) => {
+    // Carry over any pre-light/dark single-theme preference into a slot
+    migrateLegacyTheme();
+
     const mode = getStoredMode();
     const scheme = resolveScheme(mode);
     const colors = getSlotColors(scheme);
@@ -128,7 +133,9 @@ export const initThemeFromConfig =
     if (!localStorage.getItem(THEME_MODE_KEY)) {
       localStorage.setItem(
         THEME_MODE_KEY,
-        config.defaultColorScheme || 'system'
+        isThemeMode(config.defaultColorScheme)
+          ? config.defaultColorScheme
+          : 'system'
       );
     }
 
