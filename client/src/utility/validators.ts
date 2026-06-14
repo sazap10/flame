@@ -13,13 +13,13 @@ export const isUrl = (data: string): boolean => {
 };
 
 export const isImage = (data: string): boolean => {
-  const regex = /.(jpeg|jpg|png|ico|webp)$/i;
+  const regex = /\.(jpeg|jpg|png|ico|webp)(\?|#|$)/i;
 
   return regex.test(data);
 };
 
 export const isSvg = (data: string): boolean => {
-  const regex = /.(svg)$/i;
+  const regex = /\.(svg)(\?|#|$)/i;
 
   return regex.test(data);
 };
