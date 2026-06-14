@@ -10,9 +10,11 @@ export const checkVersion = async (isForced: boolean = false) => {
 
     const githubVersion = res.data
       .split('\n')
-      .map((pair) => pair.split('='))[0][1];
+      .find((line) => line.startsWith('VITE_VERSION='))
+      ?.split('=')[1]
+      ?.trim();
 
-    if (githubVersion !== process.env.REACT_APP_VERSION) {
+    if (githubVersion && githubVersion !== import.meta.env.VITE_VERSION) {
       store.dispatch<any>(
         createNotification({
           title: 'Info',

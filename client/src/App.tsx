@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import 'external-svg-loader';
 
 // Redux
@@ -101,12 +101,12 @@ export const App = (): JSX.Element => {
   return (
     <>
       <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/settings" component={Settings} />
-          <Route path="/applications" component={Apps} />
-          <Route path="/bookmarks" component={Bookmarks} />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/settings/*" element={<Settings />} />
+          <Route path="/applications" element={<Apps searching={false} />} />
+          <Route path="/bookmarks" element={<Bookmarks searching={false} />} />
+        </Routes>
       </BrowserRouter>
       <NotificationCenter />
     </>
