@@ -39,7 +39,7 @@ export const Settings = (): JSX.Element => {
       <div className={classes.Settings}>
         {/* NAVIGATION MENU */}
         <nav className={classes.SettingsNav}>
-          {tabs.map(({ name, dest }: SettingsRoute, idx) => (
+          {tabs.map(({ name, dest }: SettingsRoute) => (
             <NavLink
               className={({ isActive }) =>
                 isActive
@@ -48,7 +48,7 @@ export const Settings = (): JSX.Element => {
               }
               end
               to={dest}
-              key={idx}
+              key={dest}
             >
               {name}
             </NavLink>
