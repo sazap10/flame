@@ -183,10 +183,13 @@ labels:
   - flame.name=My container
   - flame.url=https://example.com
   - flame.icon=icon-name # optional, default is "docker"
+  - flame.category=Media # optional, the category to group this under
 # - flame.icon=custom to make changes in app. ie: custom icon upload
 ```
 
 > "Use Docker API" option must be enabled for this to work. You can find it in Settings > Docker
+
+> **Note (this fork):** discovered containers are created as **categorised bookmarks**, not flat apps. `flame.category` chooses the category; containers without it fall back to the `DOCKER_DEFAULT_CATEGORY` environment variable (default `Apps`). Categories are created automatically, and any app previously auto-created for the same service is removed so it isn't listed twice.
 
 #### tsdproxy auto-discovery
 
@@ -201,11 +204,12 @@ environment:
 labels:
   tsdproxy.enable: "true"
   tsdproxy.name: "myservice" # -> https://myservice.example.ts.net
+  # flame.category: Media    # optional, group it under a category
   # flame.icon: myservice    # optional nicer icon
   # flame.type: skip         # optional: opt this container out of Flame
 ```
 
-Any explicit `flame.*` label still wins, so you can override the derived name, URL, or icon, or opt a container out by setting `flame.type` to anything that isn't `app`. Leaving `TSDPROXY_DOMAIN` unset disables tsdproxy discovery entirely.
+Any explicit `flame.*` label still wins, so you can override the derived name, URL, icon, or category, or opt a container out by setting `flame.type` to anything that isn't `app`. Leaving `TSDPROXY_DOMAIN` unset disables tsdproxy discovery entirely.
 
 You can also set up different apps in the same label adding `;` between each one.
 

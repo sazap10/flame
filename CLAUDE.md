@@ -68,7 +68,7 @@ App settings live in the DB `Config` model (key/value), seeded from `utils/init/
 
 ### Integrations
 
-- **Docker** — `controllers/apps/docker/useDocker.js` reads container labels (`flame.type`, `flame.name`, `flame.url`, `flame.icon`; `;`-separated for multiple) to auto-create apps. Requires the Docker socket mounted and "Use Docker API" enabled in settings. URLs can also be derived from `traefik.*` rules, or from `tsdproxy.*` labels when `TSDPROXY_DOMAIN` is set (`tsdproxy.name` → `https://<name>.<TSDPROXY_DOMAIN>`); explicit `flame.*` labels always override the derived values.
+- **Docker** — `controllers/apps/docker/useDocker.js` reads container labels (`flame.type`, `flame.name`, `flame.url`, `flame.icon`, `flame.category`; `;`-separated for multiple) and auto-creates **categorised bookmarks** (not flat apps). `flame.category` sets the category; containers without it fall back to `DOCKER_DEFAULT_CATEGORY` (default `Apps`). Categories are created on demand, and an app previously auto-created for the same service is deleted so it isn't shown twice. Discovery runs from `controllers/categories/getAllCategories.js` (gated by the "Use Docker API" setting), so it executes when categories are fetched. Requires the Docker socket mounted. URLs can also be derived from `traefik.*` rules, or from `tsdproxy.*` labels when `TSDPROXY_DOMAIN` is set (`tsdproxy.name` → `https://<name>.<TSDPROXY_DOMAIN>`); explicit `flame.*` labels always override the derived values.
 - **Kubernetes** — `@kubernetes/client-node` reads ingress annotations (`flame.pawelmalak/*`).
 - **Weather** — `utils/getExternalWeather.js` calls weatherapi.com; results pushed to the client over the `weather` WebSocket (`Socket.js`, registered in the `Sockets` singleton registry).
 

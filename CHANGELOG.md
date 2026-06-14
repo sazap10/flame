@@ -5,6 +5,7 @@
 - Pinned categories with no bookmarks are now shown on the home page instead of being hidden
 - Added support for webp format for app and bookmark icons
 - Hardened image/SVG icon URL matching so URLs with query strings (e.g. `icon.png?v=2`) are detected correctly
+- Docker/tsdproxy discovery now creates categorised **bookmarks** instead of flat apps: the `flame.category` label sets the category (containers without it fall back to the `DOCKER_DEFAULT_CATEGORY` env var, default `Apps`), categories are created automatically, and any app previously auto-created for the same service is removed
 
 ### v2.4.0 (2026-04-24)
 - Fixed high severity authentication security issues ([#465](https://github.com/pawelmalak/flame/issues/465))

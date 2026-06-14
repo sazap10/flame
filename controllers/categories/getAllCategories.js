@@ -3,12 +3,20 @@ const Category = require('../../models/Category');
 const Bookmark = require('../../models/Bookmark');
 const { Sequelize } = require('sequelize');
 const loadConfig = require('../../utils/loadConfig');
+const { useDocker } = require('../apps/docker');
 
 // @desc      Get all categories
 // @route     GET /api/categories
 // @access    Public
 const getAllCategories = asyncWrapper(async (req, res, next) => {
-  const { useOrdering: orderType } = await loadConfig();
+  const { useOrdering: orderType, dockerApps: useDockerAPI } =
+    await loadConfig();
+
+  // Docker discovery creates categorised bookmarks, so run it here (before the
+  // categories are read) rather than during app fetching.
+  if (useDockerAPI) {
+    await useDocker();
+  }
 
   let categories;
   let output;
