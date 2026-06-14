@@ -27,6 +27,9 @@
   "monthSchema": "January;February;March;April;May;June;July;August;September;October;November;December",
   "showTime": false,
   "defaultTheme": "tron",
+  "defaultColorScheme": "system",
+  "defaultLightTheme": "#222222;#dddddd;#ffffff",
+  "defaultDarkTheme": "#EFFBFF;#6EE2FF;#242B33",
   "isKilometer": true,
   "weatherData": "cloud",
   "hideDate": false

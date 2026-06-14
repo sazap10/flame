@@ -12,6 +12,20 @@
   height: 30px;
 }
 
+.HeaderTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 32px;
+}
+
+.HeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
 .HeaderMain {
   display: flex;
   justify-content: space-between;

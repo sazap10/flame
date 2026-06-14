@@ -1,4 +1,5 @@
 import { WeatherData } from '../types';
+import { ThemeMode } from './Theme';
 
 export interface Config {
   WEATHER_API_KEY: string;
@@ -29,6 +30,9 @@ export interface Config {
   monthSchema: string;
   showTime: boolean;
   defaultTheme: string;
+  defaultColorScheme: ThemeMode;
+  defaultLightTheme: string;
+  defaultDarkTheme: string;
   isKilometer: boolean;
   weatherData: WeatherData;
   hideDate: boolean;

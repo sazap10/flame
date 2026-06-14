@@ -17,6 +17,16 @@ const App = sequelize.define(
       allowNull: false,
       defaultValue: 'cancel',
     },
+    iconLight: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: '',
+    },
+    iconDark: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: '',
+    },
     isPinned: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,

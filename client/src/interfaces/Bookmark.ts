@@ -5,6 +5,8 @@ export interface NewBookmark {
   url: string;
   categoryId: number;
   icon: string;
+  iconLight: string;
+  iconDark: string;
   isPublic: boolean;
 }
 

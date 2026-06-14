@@ -1,30 +1,45 @@
 import { Action } from '../actions';
 import { ActionType } from '../action-types';
-import { Theme } from '../../interfaces/Theme';
-import { arrayPartition, parsePABToTheme } from '../../utility';
+import { ColorScheme, Theme, ThemeColors, ThemeMode } from '../../interfaces';
+import {
+  arrayPartition,
+  getSlotColors,
+  getStoredMode,
+  resolveScheme,
+} from '../../utility';
 
 interface ThemeState {
   activeTheme: Theme;
   themes: Theme[];
   userThemes: Theme[];
   themeInEdit: Theme | null;
+  mode: ThemeMode;
+  scheme: ColorScheme;
+  lightTheme: ThemeColors;
+  darkTheme: ThemeColors;
 }
 
-const savedTheme = localStorage.theme
-  ? parsePABToTheme(localStorage.theme)
-  : parsePABToTheme('#effbff;#6ee2ff;#242b33');
+const mode = getStoredMode();
+const scheme = resolveScheme(mode);
+const lightTheme = getSlotColors('light');
+const darkTheme = getSlotColors('dark');
+const activeColors = scheme === 'dark' ? darkTheme : lightTheme;
 
 const initialState: ThemeState = {
   activeTheme: {
     name: 'main',
     isCustom: false,
     colors: {
-      ...savedTheme,
+      ...activeColors,
     },
   },
   themes: [],
   userThemes: [],
   themeInEdit: null,
+  mode,
+  scheme,
+  lightTheme,
+  darkTheme,
 };
 
 export const themeReducer = (
@@ -32,13 +47,24 @@ export const themeReducer = (
   action: Action
 ): ThemeState => {
   switch (action.type) {
-    case ActionType.setTheme: {
+    case ActionType.setColorScheme: {
       return {
         ...state,
+        mode: action.payload.mode,
+        scheme: action.payload.scheme,
         activeTheme: {
           ...state.activeTheme,
-          colors: action.payload,
+          colors: action.payload.colors,
         },
+      };
+    }
+
+    case ActionType.setSlotTheme: {
+      return {
+        ...state,
+        ...(action.payload.scheme === 'dark'
+          ? { darkTheme: action.payload.colors }
+          : { lightTheme: action.payload.colors }),
       };
     }
 

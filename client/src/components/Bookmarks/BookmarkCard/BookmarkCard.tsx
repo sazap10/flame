@@ -25,6 +25,7 @@ export const BookmarkCard = (props: Props): JSX.Element => {
   const {
     config: { config },
     auth: { isAuthenticated },
+    theme: { scheme },
   } = useSelector((state: State) => state);
 
   const dispatch = useDispatch();
@@ -51,8 +52,13 @@ export const BookmarkCard = (props: Props): JSX.Element => {
 
           let iconEl: JSX.Element = <Fragment></Fragment>;
 
-          if (bookmark.icon) {
-            const { icon, name } = bookmark;
+          // Use the scheme-specific icon when set, otherwise fall back to default
+          const icon =
+            (scheme === 'dark' ? bookmark.iconDark : bookmark.iconLight) ||
+            bookmark.icon;
+
+          if (icon) {
+            const { name } = bookmark;
 
             if (isImage(icon)) {
               const source = isUrl(icon) ? icon : `/uploads/${icon}`;
@@ -94,7 +100,7 @@ export const BookmarkCard = (props: Props): JSX.Element => {
               rel="noreferrer"
               key={`bookmark-${bookmark.id}`}
             >
-              {bookmark.icon && iconEl}
+              {icon && iconEl}
               {bookmark.name}
             </a>
           );

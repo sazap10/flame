@@ -4,6 +4,8 @@ export interface NewApp {
   name: string;
   url: string;
   icon: string;
+  iconLight: string;
+  iconDark: string;
   isPublic: boolean;
   description: string;
 }

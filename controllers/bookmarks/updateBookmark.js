@@ -28,6 +28,14 @@ const updateBookmark = asyncWrapper(async (req, res, next) => {
     body.icon = body.icon.trim();
   }
 
+  if (body.iconLight) {
+    body.iconLight = body.iconLight.trim();
+  }
+
+  if (body.iconDark) {
+    body.iconDark = body.iconDark.trim();
+  }
+
   if (req.file) {
     body.icon = req.file.filename;
   }

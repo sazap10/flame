@@ -1,6 +1,8 @@
 export enum ActionType {
   // THEME
   setTheme = 'SET_THEME',
+  setColorScheme = 'SET_COLOR_SCHEME',
+  setSlotTheme = 'SET_SLOT_THEME',
   fetchThemes = 'FETCH_THEMES',
   addTheme = 'ADD_THEME',
   deleteTheme = 'DELETE_THEME',
