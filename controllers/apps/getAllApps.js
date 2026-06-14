@@ -17,7 +17,7 @@ const getAllApps = asyncWrapper(async (req, res, next) => {
   let apps;
 
   if (useKubernetesAPI) {
-    await useKubernetes(apps);
+    await useKubernetes();
   }
 
   // apps visibility
