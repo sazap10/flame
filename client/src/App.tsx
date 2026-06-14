@@ -5,12 +5,12 @@ import 'external-svg-loader';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { autoLogin, getConfig } from './store/action-creators';
+import { autoLogin, getConfig, initTheme } from './store/action-creators';
 import { actionCreators, store } from './store';
 import { State } from './store/reducers';
 
 // Utils
-import { checkVersion, decodeToken, parsePABToTheme } from './utility';
+import { checkVersion, decodeToken } from './utility';
 
 // Routes
 import { Home } from './components/Home/Home';
@@ -18,6 +18,9 @@ import { Apps } from './components/Apps/Apps';
 import { Settings } from './components/Settings/Settings';
 import { Bookmarks } from './components/Bookmarks/Bookmarks';
 import { NotificationCenter } from './components/NotificationCenter/NotificationCenter';
+
+// Apply the stored color scheme as early as possible to avoid a flash
+store.dispatch<any>(initTheme());
 
 // Get config
 store.dispatch<any>(getConfig());
@@ -31,8 +34,14 @@ export const App = (): JSX.Element => {
   const { config, loading } = useSelector((state: State) => state.config);
 
   const dispath = useDispatch();
-  const { fetchQueries, setTheme, logout, createNotification, fetchThemes } =
-    bindActionCreators(actionCreators, dispath);
+  const {
+    fetchQueries,
+    logout,
+    createNotification,
+    fetchThemes,
+    initThemeFromConfig,
+    syncSystemScheme,
+  } = bindActionCreators(actionCreators, dispath);
 
   useEffect(() => {
     // check if token is valid
@@ -54,9 +63,15 @@ export const App = (): JSX.Element => {
     // load themes
     fetchThemes();
 
-    // set user theme if present
-    if (localStorage.theme) {
-      setTheme(parsePABToTheme(localStorage.theme));
+    // re-apply theme when the OS color scheme changes (only affects 'system' mode)
+    const mql = window.matchMedia('(prefers-color-scheme: dark)');
+    const schemeListener = () => syncSystemScheme();
+
+    if (mql.addEventListener) {
+      mql.addEventListener('change', schemeListener);
+    } else {
+      // Safari < 14 fallback
+      mql.addListener(schemeListener);
     }
 
     // check for updated
@@ -65,13 +80,21 @@ export const App = (): JSX.Element => {
     // load custom search queries
     fetchQueries();
 
-    return () => window.clearInterval(tokenIsValid);
+    return () => {
+      window.clearInterval(tokenIsValid);
+
+      if (mql.removeEventListener) {
+        mql.removeEventListener('change', schemeListener);
+      } else {
+        mql.removeListener(schemeListener);
+      }
+    };
   }, []);
 
-  // If there is no user theme, set the default one
+  // Seed this browser's scheme preferences from the server defaults on first load
   useEffect(() => {
-    if (!loading && !localStorage.theme) {
-      setTheme(parsePABToTheme(config.defaultTheme), false);
+    if (!loading) {
+      initThemeFromConfig(config);
     }
   }, [loading]);
 

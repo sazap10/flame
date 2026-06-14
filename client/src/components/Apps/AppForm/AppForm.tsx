@@ -77,6 +77,8 @@ export const AppForm = ({ modalHandler }: Props): JSX.Element => {
       data.append('name', formData.name);
       data.append('description', formData.description);
       data.append('url', formData.url);
+      data.append('iconLight', formData.iconLight);
+      data.append('iconDark', formData.iconDark);
       data.append('isPublic', `${formData.isPublic ? 1 : 0}`);
 
       return data;
@@ -200,6 +202,39 @@ export const AppForm = ({ modalHandler }: Props): JSX.Element => {
           </span>
         </InputGroup>
       )}
+
+      {/* LIGHT/DARK ICON OVERRIDES */}
+      <InputGroup>
+        <label htmlFor="iconLight">Light theme icon (optional)</label>
+        <input
+          type="text"
+          name="iconLight"
+          id="iconLight"
+          placeholder="book-open-outline"
+          value={formData.iconLight}
+          onChange={(e) => inputChangeHandler(e)}
+        />
+        <span>
+          Shown when a light color scheme is active. MDI name or URL. Falls back
+          to the main icon.
+        </span>
+      </InputGroup>
+
+      <InputGroup>
+        <label htmlFor="iconDark">Dark theme icon (optional)</label>
+        <input
+          type="text"
+          name="iconDark"
+          id="iconDark"
+          placeholder="book-open-outline"
+          value={formData.iconDark}
+          onChange={(e) => inputChangeHandler(e)}
+        />
+        <span>
+          Shown when a dark color scheme is active. MDI name or URL. Falls back
+          to the main icon.
+        </span>
+      </InputGroup>
 
       {/* VISIBILITY */}
       <InputGroup>

@@ -20,6 +20,16 @@ const Bookmark = sequelize.define(
       type: DataTypes.STRING,
       defaultValue: '',
     },
+    iconLight: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: '',
+    },
+    iconDark: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: '',
+    },
     isPublic: {
       type: DataTypes.INTEGER,
       allowNull: true,

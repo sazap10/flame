@@ -10,6 +10,7 @@ import classes from './Header.module.css';
 
 // Components
 import { WeatherWidget } from '../../Widgets/WeatherWidget/WeatherWidget';
+import { ThemeToggle } from './ThemeToggle/ThemeToggle';
 
 // Utils
 import { getDateTime } from './functions/getDateTime';
@@ -36,11 +37,16 @@ export const Header = (): JSX.Element => {
 
   return (
     <header className={classes.Header}>
-      {(!hideDate || showTime) && <p>{dateTime}</p>}
+      <div className={classes.HeaderTop}>
+        {(!hideDate || showTime) && <p>{dateTime}</p>}
 
-      <Link to="/settings" className={classes.SettingsLink}>
-        Go to Settings
-      </Link>
+        <div className={classes.HeaderActions}>
+          <ThemeToggle />
+          <Link to="/settings" className={classes.SettingsLink}>
+            Go to Settings
+          </Link>
+        </div>
+      </div>
 
       {!hideHeader && (
         <span className={classes.HeaderMain}>

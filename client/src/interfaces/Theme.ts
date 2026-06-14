@@ -9,3 +9,9 @@ export interface Theme {
   colors: ThemeColors;
   isCustom: boolean;
 }
+
+// User-selectable color scheme preference
+export type ThemeMode = 'light' | 'dark' | 'system';
+
+// Resolved color scheme actually applied to the page
+export type ColorScheme = 'light' | 'dark';

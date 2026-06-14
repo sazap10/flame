@@ -1,4 +1,5 @@
 import { WeatherData } from '../types';
+import { ThemeMode } from './Theme';
 
 export interface WeatherForm {
   WEATHER_API_KEY: string;
@@ -43,4 +44,7 @@ export interface DockerSettingsForm {
 
 export interface ThemeSettingsForm {
   defaultTheme: string;
+  defaultColorScheme: ThemeMode;
+  defaultLightTheme: string;
+  defaultDarkTheme: string;
 }

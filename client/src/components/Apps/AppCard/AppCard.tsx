@@ -12,11 +12,13 @@ interface Props {
 
 export const AppCard = ({ app }: Props): JSX.Element => {
   const { config } = useSelector((state: State) => state.config);
+  const { scheme } = useSelector((state: State) => state.theme);
 
   const [displayUrl, redirectUrl] = urlParser(app.url);
 
   let iconEl: JSX.Element;
-  const { icon } = app;
+  // Use the scheme-specific icon when set, otherwise fall back to the default
+  const icon = (scheme === 'dark' ? app.iconDark : app.iconLight) || app.icon;
 
   if (isImage(icon)) {
     const source = isUrl(icon) ? icon : `/uploads/${icon}`;

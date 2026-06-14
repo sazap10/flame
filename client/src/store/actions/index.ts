@@ -6,6 +6,8 @@ import {
   EditThemeAction,
   FetchThemesAction,
   SetThemeAction,
+  SetColorSchemeAction,
+  SetSlotThemeAction,
   UpdateThemeAction,
 } from './theme';
 
@@ -62,6 +64,8 @@ import {
 export type Action =
   // Theme
   | SetThemeAction
+  | SetColorSchemeAction
+  | SetSlotThemeAction
   | FetchThemesAction
   | AddThemeAction
   | DeleteThemeAction

@@ -4,6 +4,8 @@ export const newAppTemplate: NewApp = {
   name: '',
   url: '',
   icon: '',
+  iconLight: '',
+  iconDark: '',
   isPublic: true,
   description: '',
 };
