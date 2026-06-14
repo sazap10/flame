@@ -1,13 +1,17 @@
 import { useSelector } from 'react-redux';
-import { Redirect, Route, RouteProps } from 'react-router';
+import { Navigate } from 'react-router-dom';
 import { State } from '../../store/reducers';
 
-export const ProtectedRoute = ({ ...rest }: RouteProps) => {
+interface Props {
+  children: JSX.Element;
+}
+
+export const ProtectedRoute = ({ children }: Props): JSX.Element => {
   const { isAuthenticated } = useSelector((state: State) => state.auth);
 
   if (isAuthenticated) {
-    return <Route {...rest} />;
-  } else {
-    return <Redirect to="/settings/app" />;
+    return children;
   }
+
+  return <Navigate to="/settings/app" replace />;
 };

@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 const { join } = require('path');
-const Umzug = require('umzug');
+const { Umzug, SequelizeStorage } = require('umzug');
 
 // Utils
 const backupDB = require('./utils/backupDb');
@@ -15,13 +15,21 @@ const sequelize = new Sequelize({
 
 const umzug = new Umzug({
   migrations: {
-    path: join(__dirname, './migrations'),
-    params: [sequelize.getQueryInterface()],
+    glob: join(__dirname, './migrations/*.js'),
+    // Migration files export { up, down } expecting the query interface as
+    // their single argument. Adapt them to the umzug v3 resolver signature.
+    resolve: ({ name, path, context }) => {
+      const migration = require(path);
+      return {
+        name,
+        up: async () => migration.up(context),
+        down: async () => migration.down(context),
+      };
+    },
   },
-  storage: 'sequelize',
-  storageOptions: {
-    sequelize,
-  },
+  context: sequelize.getQueryInterface(),
+  storage: new SequelizeStorage({ sequelize }),
+  logger: undefined,
 });
 
 const connectDB = async () => {

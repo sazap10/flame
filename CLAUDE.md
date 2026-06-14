@@ -19,7 +19,7 @@ npm run dev
 
 # Run them individually
 npm run dev-server   # nodemon server.js
-npm run dev-client   # CRA dev server in client/
+npm run dev-client   # Vite dev server in client/
 
 # Production: client must be built into public/ first, then:
 npm start            # node server.js
@@ -28,12 +28,13 @@ npm start            # node server.js
 Client-only commands (run from `client/`):
 
 ```sh
-npm start            # CRA dev server with proxy to :5005
-npm run build        # production build (output goes to client/build, copied to public/ in Docker)
-npm test             # react-scripts test (Jest). Single test: npm test -- MyComponent
+npm start            # Vite dev server on :3000 with proxy to :5005 (vite.config.ts)
+npm run build        # production build (Vite, output goes to client/build, copied to public/ in Docker)
+npm run preview      # serve the production build locally
+npm run typecheck    # tsc --noEmit (the build itself does not type-check)
 ```
 
-There is no backend test suite and no lint script — formatting is Prettier only (`.prettierrc`: 2-space, single quotes, `printWidth` 80, `trailingComma: es5`).
+There is no test suite and no lint script — formatting is Prettier only (`.prettierrc`: 2-space, single quotes, `printWidth` 80, `trailingComma: es5`). The client uses Vite (not Create React App); the build is bundled by esbuild/Rolldown and does not run `tsc`, so run `npm run typecheck` separately to catch type errors.
 
 ## Architecture
 
@@ -75,7 +76,7 @@ App settings live in the DB `Config` model (key/value), seeded from `utils/init/
 ### Client (`client/src`)
 
 - **Redux** lives in `store/` split into `action-types/`, `action-creators/` (thunks, async), `actions/` (typed action interfaces), and `reducers/`. Add a feature by touching all four plus `store/index.ts`.
-- **`setupProxy.js`** proxies `/api`, `/uploads`, and `/socket` (WebSocket) to `localhost:5005` in dev.
+- **`vite.config.ts`** proxies `/api`, `/uploads`, and `/socket` (WebSocket) to `localhost:5005` in dev, and sets the build output dir to `build/`. Client env vars must be prefixed `VITE_` and are read via `import.meta.env` (e.g. `VITE_VERSION` in `client/.env`).
 - Components grouped by feature under `components/` (Apps, Bookmarks, Home, Settings, SearchBar, Widgets, UI, …). TypeScript throughout; shared types in `interfaces/` and `types/`.
 - Icons use `@mdi/js` (Material Design Icons); external SVG icons via `external-svg-loader`.
 

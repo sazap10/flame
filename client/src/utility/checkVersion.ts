@@ -12,7 +12,7 @@ export const checkVersion = async (isForced: boolean = false) => {
       .split('\n')
       .map((pair) => pair.split('='))[0][1];
 
-    if (githubVersion !== process.env.REACT_APP_VERSION) {
+    if (githubVersion !== import.meta.env.VITE_VERSION) {
       store.dispatch<any>(
         createNotification({
           title: 'Info',
