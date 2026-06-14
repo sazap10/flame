@@ -2,6 +2,7 @@
 - Added anonymous auth mode via the `ANONYMOUS_AUTH` environment variable to disable the login wall and grant full access for trusted/reverse-proxied deployments
 - Docker integration now auto-discovers tsdproxy-exposed containers, deriving app name and URL from `tsdproxy.name` + the `TSDPROXY_DOMAIN` environment variable (no `flame.*` labels required)
 - Init now self-heals missing destination directories (e.g. `public/`) instead of crashing on a fresh checkout
+- Pinned categories with no bookmarks are now shown on the home page instead of being hidden
 
 ### v2.4.0 (2026-04-24)
 - Fixed high severity authentication security issues ([#465](https://github.com/pawelmalak/flame/issues/465))
