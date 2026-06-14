@@ -187,7 +187,7 @@ export const AppForm = ({ modalHandler }: Props): JSX.Element => {
             id="icon"
             required
             onChange={(e) => fileChangeHandler(e)}
-            accept=".jpg,.jpeg,.png,.svg,.ico"
+            accept=".jpg,.jpeg,.png,.svg,.ico,.webp"
           />
           <span
             onClick={() => {
