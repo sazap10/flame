@@ -146,9 +146,7 @@ export const Home = (): JSX.Element => {
             <BookmarkGrid
               categories={
                 !bookmarkSearchResult
-                  ? categories.filter(
-                      ({ isPinned, bookmarks }) => isPinned && bookmarks.length
-                    )
+                  ? categories.filter(({ isPinned }) => isPinned)
                   : bookmarkSearchResult
               }
               totalCategories={categories.length}
