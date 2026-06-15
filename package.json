@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "init-server": "echo Instaling server dependencies && npm install",
-    "init-client": "cd client && echo Instaling client dependencies && npm install",
+    "init-server": "echo Installing server dependencies && npm install",
+    "init-client": "cd client && echo Installing client dependencies && npm install",
     "dir-init": "npx mkdirp data public && touch public/flame.css public/customQueries.json",
     "dev-init": "npm run dir-init && npm run init-server && npm run init-client",
     "dev-server": "nodemon server.js -e js",
@@ -14,8 +14,8 @@
     "dev": "concurrently \"npm run dev-server\" \"npm run dev-client\"",
     "skaffold": "concurrently \"npm run init-client\" \"npm run dev-server\""
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Sachin Pande",
+  "license": "MIT",
   "dependencies": {
     "@kubernetes/client-node": "^1.4.0",
     "@types/express": "^5.0.6",
