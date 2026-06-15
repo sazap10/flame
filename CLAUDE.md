@@ -34,7 +34,7 @@ npm run preview      # serve the production build locally
 npm run typecheck    # tsc --noEmit (the build itself does not type-check)
 ```
 
-There is no test suite and no lint script — formatting is Prettier only (`.prettierrc`: 2-space, single quotes, `printWidth` 80, `trailingComma: es5`). The client uses Vite (not Create React App); the build is bundled by esbuild/Rolldown and does not run `tsc`, so run `npm run typecheck` separately to catch type errors.
+Backend tests run via the built-in Node test runner (`npm test` → `node --test`); there are no client tests yet and no lint script — formatting is Prettier only (`.prettierrc`: 2-space, single quotes, `printWidth` 80, `trailingComma: es5`). Test files sit next to the code as `*.test.js` (e.g. `controllers/apps/docker/parseLabels.test.js`). The client uses Vite (not Create React App); the build is bundled by esbuild/Rolldown and does not run `tsc`, so run `npm run typecheck` separately to catch type errors.
 
 ## Architecture
 

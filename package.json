@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
+    "test": "node --test",
     "init-server": "echo Installing server dependencies && npm install",
     "init-client": "cd client && echo Installing client dependencies && npm install",
     "dir-init": "npx mkdirp data public && touch public/flame.css public/customQueries.json",
