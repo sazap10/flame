@@ -35,7 +35,7 @@ const getAllCategories = asyncWrapper(async (req, res, next) => {
           [{ model: Bookmark, as: 'bookmarks' }, orderType, 'ASC'],
         ];
 
-  categories = categories = await Category.findAll({
+  categories = await Category.findAll({
     include: [
       {
         model: Bookmark,
