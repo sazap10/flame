@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../../store/reducers';
+import type { State } from '../../store/reducers';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../store';
 
 // Typescript
-import { App, Category } from '../../interfaces';
+import type { App, Category } from '../../interfaces';
 
 // UI
 import { Icon, Container, SectionHeadline, Spinner, Message } from '../UI';
@@ -76,8 +76,7 @@ export const Home = (): JSX.Element => {
 
       category.name = 'Search Results';
       category.bookmarks = categories
-        .map(({ bookmarks }) => bookmarks)
-        .flat()
+        .flatMap(({ bookmarks }) => bookmarks)
         .filter(({ name }) =>
           new RegExp(escapeRegex(localSearch), 'i').test(name)
         );

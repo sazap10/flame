@@ -1,5 +1,5 @@
-import { ActionType } from '../action-types';
-import { App } from '../../interfaces';
+import type { ActionType } from '../action-types';
+import type { App } from '../../interfaces';
 
 export interface GetAppsAction<T> {
   type:

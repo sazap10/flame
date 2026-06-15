@@ -1,4 +1,4 @@
-import { ColorScheme, ThemeColors, ThemeMode } from '../interfaces';
+import type { ColorScheme, ThemeColors, ThemeMode } from '../interfaces';
 import { parsePABToTheme } from './parseTheme';
 
 // localStorage keys used by the color scheme engine

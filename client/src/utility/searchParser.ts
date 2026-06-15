@@ -1,5 +1,5 @@
 import searchQueries from './searchQueries.json';
-import { SearchResult } from '../interfaces';
+import type { SearchResult } from '../interfaces';
 import { store } from '../store/store';
 import { isUrlOrIp } from '.';
 

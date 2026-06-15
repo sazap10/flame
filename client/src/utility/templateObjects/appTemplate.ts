@@ -1,4 +1,4 @@
-import { App, NewApp } from '../../interfaces';
+import type { App, NewApp } from '../../interfaces';
 
 export const newAppTemplate: NewApp = {
   name: '',

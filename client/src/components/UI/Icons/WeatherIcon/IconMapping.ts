@@ -1,4 +1,4 @@
-import { IconKey } from 'skycons-ts';
+import type { IconKey } from 'skycons-ts';
 
 export interface WeatherCondition {
   code: number;

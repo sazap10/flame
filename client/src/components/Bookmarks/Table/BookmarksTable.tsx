@@ -3,17 +3,17 @@ import {
   DragDropContext,
   Droppable,
   Draggable,
-  DropResult,
+  type DropResult,
 } from '@hello-pangea/dnd';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../../../store/reducers';
+import type { State } from '../../../store/reducers';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../store';
 
 // Typescript
-import { Bookmark, Category } from '../../../interfaces';
+import type { Bookmark, Category } from '../../../interfaces';
 
 // UI
 import { Message, Table } from '../../UI';

@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 
 // Redux
 import { useDispatch } from 'react-redux';
@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../store';
 
 // Typescript
-import { Category, NewCategory } from '../../../interfaces';
+import type { Category, NewCategory } from '../../../interfaces';
 
 // UI
 import { ModalForm, InputGroup, Button } from '../../UI';

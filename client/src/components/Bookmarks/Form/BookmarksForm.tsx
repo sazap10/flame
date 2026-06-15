@@ -1,13 +1,13 @@
-import { useState, ChangeEvent, useEffect, FormEvent } from 'react';
+import { useState, type ChangeEvent, useEffect, type FormEvent } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../../../store/reducers';
+import type { State } from '../../../store/reducers';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../store';
 
 // Typescript
-import { Bookmark, Category, NewBookmark } from '../../../interfaces';
+import type { Bookmark, Category, NewBookmark } from '../../../interfaces';
 
 // UI
 import { ModalForm, InputGroup, Button } from '../../UI';
@@ -69,7 +69,7 @@ export const BookmarksForm = ({
   const formSubmitHandler = (e: FormEvent): void => {
     e.preventDefault();
 
-    for (let field of ['name', 'url', 'icon'] as const) {
+    for (const field of ['name', 'url', 'icon'] as const) {
       if (/^ +$/.test(formData[field])) {
         createNotification({
           title: 'Error',

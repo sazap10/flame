@@ -1,6 +1,6 @@
 import { ActionType } from '../action-types';
-import { Action } from '../actions/index';
-import { App } from '../../interfaces';
+import type { Action } from '../actions/index';
+import type { App } from '../../interfaces';
 import { sortData } from '../../utility';
 
 interface AppsState {

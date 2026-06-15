@@ -1,4 +1,4 @@
-import { Config } from '../../interfaces';
+import type { Config } from '../../interfaces';
 
 export const configTemplate: Config = {
   WEATHER_API_KEY: '',

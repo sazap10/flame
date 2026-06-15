@@ -1,4 +1,4 @@
-import { Action } from '../actions';
+import type { Action } from '../actions';
 import { ActionType } from '../action-types';
 
 interface AuthState {

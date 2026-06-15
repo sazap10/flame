@@ -1,4 +1,4 @@
-import { Model } from '.';
+import type { Model } from '.';
 
 export interface Weather extends Model {
   externalLastUpdate: string;

@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node server.js",
     "test": "node --test",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "ci": "biome ci .",
     "init-server": "echo Installing server dependencies && npm install",
     "init-client": "cd client && echo Installing client dependencies && npm install",
     "dir-init": "npx mkdirp data public && touch public/flame.css public/customQueries.json",
@@ -39,6 +42,7 @@
     "ws": "^8.21.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.5.0",
     "nodemon": "^3.1.14"
   },
   "overrides": {

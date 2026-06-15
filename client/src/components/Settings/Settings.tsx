@@ -2,10 +2,10 @@ import { NavLink, Link, Routes, Route } from 'react-router-dom';
 
 // Redux
 import { useSelector } from 'react-redux';
-import { State } from '../../store/reducers';
+import type { State } from '../../store/reducers';
 
 // Typescript
-import { Route as SettingsRoute } from '../../interfaces';
+import type { Route as SettingsRoute } from '../../interfaces';
 
 // CSS
 import classes from './Settings.module.css';

@@ -1,4 +1,4 @@
-import { Config } from '../interfaces';
+import type { Config } from '../interfaces';
 
 export const storeUIConfig = <K extends keyof Config>(
   key: K,

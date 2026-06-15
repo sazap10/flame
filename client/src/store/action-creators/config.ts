@@ -1,5 +1,5 @@
-import { Dispatch } from 'redux';
-import {
+import type { Dispatch } from 'redux';
+import type {
   AddQueryAction,
   DeleteQueryAction,
   FetchQueriesAction,
@@ -7,11 +7,11 @@ import {
   UpdateConfigAction,
   UpdateQueryAction,
 } from '../actions/config';
-import axios, { AxiosError } from 'axios';
-import { ApiResponse, Config, Query } from '../../interfaces';
+import axios, { type AxiosError } from 'axios';
+import type { ApiResponse, Config, Query } from '../../interfaces';
 import { ActionType } from '../action-types';
 import { storeUIConfig, applyAuth } from '../../utility';
-import { ConfigFormData } from '../../types';
+import type { ConfigFormData } from '../../types';
 import { setAnonymousAuth } from './auth';
 
 const keys: (keyof Config)[] = [
@@ -41,7 +41,7 @@ export const getConfig = () => async (dispatch: Dispatch<GetConfigAction>) => {
     document.title = res.data.data.customTitle;
 
     // Store settings for priority UI elements
-    for (let key of keys) {
+    for (const key of keys) {
       storeUIConfig(key, res.data.data);
     }
   } catch (err) {
@@ -75,7 +75,7 @@ export const updateConfig =
       });
 
       // Store settings for priority UI elements
-      for (let key of keys) {
+      for (const key of keys) {
         storeUIConfig(key, res.data.data);
       }
     } catch (err) {

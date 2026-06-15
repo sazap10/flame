@@ -1,17 +1,17 @@
-import { useRef, useEffect, KeyboardEvent } from 'react';
+import { useRef, useEffect, type KeyboardEvent } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 
 // Typescript
-import { App, Category } from '../../interfaces';
+import type { App, Category } from '../../interfaces';
 
 // CSS
 import classes from './SearchBar.module.css';
 
 // Utils
 import { searchParser, urlParser, redirectUrl } from '../../utility';
-import { State } from '../../store/reducers';
+import type { State } from '../../store/reducers';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../store';
 

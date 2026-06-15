@@ -1,10 +1,10 @@
-import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
+import { type ChangeEvent, type FormEvent, useState, useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../../store';
 
-import { Query } from '../../../../interfaces';
+import type { Query } from '../../../../interfaces';
 
 import { Button, InputGroup, ModalForm } from '../../../UI';
 

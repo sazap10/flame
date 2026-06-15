@@ -30,12 +30,13 @@ const parseContainerLabels = (
         const value = labels[label];
 
         if (value.indexOf('Host') !== -1) {
-          const regex = /\`([a-zA-Z0-9\.\-]+)\`/g;
+          const regex = /`([a-zA-Z0-9.-]+)`/g;
           const domains = [];
-          let match;
+          let match = regex.exec(value);
 
-          while ((match = regex.exec(value)) != null) {
+          while (match != null) {
             domains.push('http://' + match[1]);
+            match = regex.exec(value);
           }
 
           if (domains.length > 0) {

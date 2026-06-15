@@ -1,4 +1,4 @@
-import { MouseEvent, ReactNode, useRef } from 'react';
+import { type MouseEvent, type ReactNode, useRef } from 'react';
 
 import classes from './Modal.module.css';
 

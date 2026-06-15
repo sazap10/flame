@@ -2,7 +2,7 @@
 import { ThemePreview } from '../ThemePreview/ThemePreview';
 
 // Other
-import { Theme } from '../../../../interfaces';
+import type { Theme } from '../../../../interfaces';
 import classes from './ThemeGrid.module.css';
 
 interface Props {

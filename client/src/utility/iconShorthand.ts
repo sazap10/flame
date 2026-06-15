@@ -1,4 +1,4 @@
-import { ColorScheme } from '../interfaces/Theme';
+import type { ColorScheme } from '../interfaces/Theme';
 
 const JSDELIVR_GH = 'https://cdn.jsdelivr.net/gh';
 

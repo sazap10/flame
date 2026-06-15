@@ -1,6 +1,6 @@
-import { App } from '../../interfaces';
+import type { App } from '../../interfaces';
 
-import {
+import type {
   AddThemeAction,
   DeleteThemeAction,
   EditThemeAction,
@@ -11,7 +11,7 @@ import {
   UpdateThemeAction,
 } from './theme';
 
-import {
+import type {
   AddQueryAction,
   DeleteQueryAction,
   FetchQueriesAction,
@@ -20,12 +20,12 @@ import {
   UpdateQueryAction,
 } from './config';
 
-import {
+import type {
   ClearNotificationAction,
   CreateNotificationAction,
 } from './notification';
 
-import {
+import type {
   GetAppsAction,
   PinAppAction,
   AddAppAction,
@@ -36,7 +36,7 @@ import {
   SetEditAppAction,
 } from './app';
 
-import {
+import type {
   GetCategoriesAction,
   AddCategoryAction,
   PinCategoryAction,
@@ -53,7 +53,7 @@ import {
   SortBookmarksAction,
 } from './bookmark';
 
-import {
+import type {
   AuthErrorAction,
   AutoLoginAction,
   LoginAction,

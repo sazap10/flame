@@ -1,7 +1,7 @@
 import { ActionType } from '../action-types';
-import { Dispatch } from 'redux';
-import { ApiResponse, App, Config, NewApp } from '../../interfaces';
-import {
+import type { Dispatch } from 'redux';
+import type { ApiResponse, App, Config, NewApp } from '../../interfaces';
+import type {
   AddAppAction,
   DeleteAppAction,
   GetAppsAction,

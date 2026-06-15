@@ -6,9 +6,9 @@ const File = require('../../utils/File');
 // @access    Public
 const updateTheme = asyncWrapper(async (req, res, next) => {
   const file = new File('data/themes.json');
-  let content = JSON.parse(file.read());
+  const content = JSON.parse(file.read());
 
-  let themeIdx = content.themes.findIndex((t) => t.name == req.params.name);
+  const themeIdx = content.themes.findIndex((t) => t.name == req.params.name);
 
   // theme found
   if (themeIdx > -1) {

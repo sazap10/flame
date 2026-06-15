@@ -37,7 +37,7 @@ const useDocker = async () => {
   try {
     if (host.includes('localhost')) {
       // Use default host
-      let { data } = await axios.get(
+      const { data } = await axios.get(
         `http://${host}/containers/json?{"status":["running"]}`,
         {
           socketPath: '/var/run/docker.sock',
@@ -47,7 +47,7 @@ const useDocker = async () => {
       containers = data;
     } else {
       // Use custom host
-      let { data } = await axios.get(
+      const { data } = await axios.get(
         `http://${host}/containers/json?{"status":["running"]}`
       );
 
@@ -92,7 +92,7 @@ const useDocker = async () => {
       return categoryCache.get(name);
     }
 
-    let [category] = await Category.findOrCreate({
+    const [category] = await Category.findOrCreate({
       where: { name },
       defaults: { name, isPinned: true },
     });

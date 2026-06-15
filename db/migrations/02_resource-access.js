@@ -10,13 +10,13 @@ const up = async (query) => {
     defaultValue: 1,
   };
 
-  for await (let table of tables) {
+  for await (const table of tables) {
     await query.addColumn(table, 'isPublic', template);
   }
 };
 
 const down = async (query) => {
-  for await (let table of tables) {
+  for await (const table of tables) {
     await query.removeColumn(table, 'isPublic');
   }
 };

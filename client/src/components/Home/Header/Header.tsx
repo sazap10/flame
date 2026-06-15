@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 // Redux
 import { useSelector } from 'react-redux';
-import { State } from '../../../store/reducers';
+import type { State } from '../../../store/reducers';
 
 // CSS
 import classes from './Header.module.css';

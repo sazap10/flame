@@ -19,7 +19,7 @@ const updateBookmark = asyncWrapper(async (req, res, next) => {
     );
   }
 
-  let body = {
+  const body = {
     ...req.body,
     categoryId: parseInt(req.body.categoryId),
   };

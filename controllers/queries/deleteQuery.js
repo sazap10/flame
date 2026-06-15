@@ -6,7 +6,7 @@ const File = require('../../utils/File');
 // @access    Public
 const deleteQuery = asyncWrapper(async (req, res, next) => {
   const file = new File('data/customQueries.json');
-  let content = JSON.parse(file.read());
+  const content = JSON.parse(file.read());
 
   content.queries = content.queries.filter(
     (q) => q.prefix != req.params.prefix

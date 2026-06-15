@@ -5,14 +5,14 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 // Typescript
-import { Weather, ApiResponse } from '../../../interfaces';
+import type { Weather, ApiResponse } from '../../../interfaces';
 
 // CSS
 import classes from './WeatherWidget.module.css';
 
 // UI
 import { WeatherIcon } from '../../UI';
-import { State } from '../../../store/reducers';
+import type { State } from '../../../store/reducers';
 import { weatherTemplate } from '../../../utility/templateObjects/weatherTemplate';
 
 export const WeatherWidget = (): JSX.Element => {

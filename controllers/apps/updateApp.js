@@ -18,7 +18,7 @@ const updateApp = asyncWrapper(async (req, res, next) => {
     );
   }
 
-  let body = { ...req.body };
+  const body = { ...req.body };
 
   if (body.icon) {
     body.icon = body.icon.trim();

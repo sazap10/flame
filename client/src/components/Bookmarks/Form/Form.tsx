@@ -6,7 +6,7 @@ import { CategoryForm } from './CategoryForm';
 import { BookmarksForm } from './BookmarksForm';
 import { Fragment } from 'react';
 import { useSelector } from 'react-redux';
-import { State } from '../../../store/reducers';
+import type { State } from '../../../store/reducers';
 import { bookmarkTemplate, categoryTemplate } from '../../../utility';
 
 interface Props {

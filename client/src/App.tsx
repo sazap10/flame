@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { autoLogin, getConfig, initTheme } from './store/action-creators';
 import { actionCreators, store } from './store';
-import { State } from './store/reducers';
+import type { State } from './store/reducers';
 
 // Utils
 import { checkVersion, decodeToken } from './utility';

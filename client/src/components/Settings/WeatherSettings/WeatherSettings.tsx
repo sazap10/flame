@@ -1,14 +1,14 @@
-import { useState, ChangeEvent, useEffect, FormEvent } from 'react';
+import { useState, type ChangeEvent, useEffect, type FormEvent } from 'react';
 import axios from 'axios';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../store';
-import { State } from '../../../store/reducers';
+import type { State } from '../../../store/reducers';
 
 // Typescript
-import { ApiResponse, Weather, WeatherForm } from '../../../interfaces';
+import type { ApiResponse, Weather, WeatherForm } from '../../../interfaces';
 
 // UI
 import { InputGroup, Button, SettingsHeadline } from '../../UI';

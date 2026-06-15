@@ -1,5 +1,5 @@
-import { Dispatch } from 'redux';
-import {
+import type { Dispatch } from 'redux';
+import type {
   AddThemeAction,
   DeleteThemeAction,
   EditThemeAction,
@@ -9,7 +9,7 @@ import {
   UpdateThemeAction,
 } from '../actions/theme';
 import { ActionType } from '../action-types';
-import {
+import type {
   Theme,
   ApiResponse,
   ThemeColors,
@@ -29,7 +29,7 @@ import {
   LIGHT_THEME_KEY,
   DARK_THEME_KEY,
 } from '../../utility';
-import axios, { AxiosError } from 'axios';
+import axios, { type AxiosError } from 'axios';
 
 // Write theme colors to CSS variables and reflect the active scheme on <body>
 const applyColors = (colors: ThemeColors, scheme: ColorScheme): void => {

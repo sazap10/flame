@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { Dispatch } from 'redux';
+import type { Dispatch } from 'redux';
 import { applyAuth } from '../../utility';
 import { ActionType } from '../action-types';
 
-import {
+import type {
   ApiResponse,
   Bookmark,
   Category,
@@ -12,7 +12,7 @@ import {
   NewCategory,
 } from '../../interfaces';
 
-import {
+import type {
   AddBookmarkAction,
   AddCategoryAction,
   DeleteBookmarkAction,

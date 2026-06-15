@@ -1,4 +1,4 @@
-import { ThemeColors } from '../interfaces';
+import type { ThemeColors } from '../interfaces';
 
 // parse theme in PAB (primary;accent;background) format to theme colors object
 export const parsePABToTheme = (themeStr: string): ThemeColors => {

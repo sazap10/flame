@@ -6,7 +6,7 @@ const Logger = require('./Logger');
 const loadConfig = require('./loadConfig');
 const logger = new Logger();
 
-module.exports = async function () {
+module.exports = async () => {
   const { WEATHER_API_KEY } = await loadConfig();
 
   if (WEATHER_API_KEY != '') {

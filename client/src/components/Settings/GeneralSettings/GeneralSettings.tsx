@@ -1,9 +1,9 @@
 // React
-import { useState, useEffect, FormEvent, ChangeEvent, Fragment } from 'react';
+import { useState, useEffect, type FormEvent, type ChangeEvent, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Typescript
-import { Query, GeneralForm } from '../../../interfaces';
+import type { Query, GeneralForm } from '../../../interfaces';
 
 // Components
 import { CustomQueries } from './CustomQueries/CustomQueries';
@@ -18,7 +18,7 @@ import { inputHandler, generalSettingsTemplate } from '../../../utility';
 import searchQueries from '../../../utility/searchQueries.json';
 
 // Redux
-import { State } from '../../../store/reducers';
+import type { State } from '../../../store/reducers';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../store';
 
@@ -58,7 +58,7 @@ export const GeneralSettings = (): JSX.Element => {
       sortApps();
       sortCategories();
 
-      for (let { id } of categories) {
+      for (const { id } of categories) {
         sortBookmarks(id);
       }
     }

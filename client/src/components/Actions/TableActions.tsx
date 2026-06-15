@@ -27,7 +27,7 @@ export const TableActions = (props: Props): JSX.Element => {
     showPin = true,
   } = props;
 
-  const _pinHandler = pinHanlder || function () {};
+  const _pinHandler = pinHanlder || (() => {});
 
   return (
     <td className={classes.TableActions}>
