@@ -17,6 +17,9 @@
   },
   "author": "Sachin Pande",
   "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "@kubernetes/client-node": "^1.4.0",
     "@types/express": "^5.0.6",
