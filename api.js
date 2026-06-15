@@ -1,8 +1,35 @@
 const { join } = require('path');
 const express = require('express');
+const helmet = require('helmet');
 const { errorHandler } = require('./middleware');
 
 const api = express();
+
+// Trust the reverse proxy (opt-in) so req.ip reflects the real client address
+// from X-Forwarded-For. Without this, rate limiting behind a proxy keys on the
+// shared proxy IP and throttles all users at once. Accepts a hop count, a
+// boolean, or an Express trust-proxy string (e.g. a subnet or "loopback").
+if (process.env.TRUST_PROXY) {
+  const value = process.env.TRUST_PROXY;
+  const asNumber = Number(value);
+
+  if (value === 'true' || value === 'false') {
+    api.set('trust proxy', value === 'true');
+  } else if (Number.isInteger(asNumber)) {
+    api.set('trust proxy', asNumber);
+  } else {
+    api.set('trust proxy', value);
+  }
+}
+
+// Security headers (X-Content-Type-Options, Referrer-Policy, frame options,
+// etc.). CSP is disabled because the SPA relies on inline theming, custom CSS,
+// and externally-loaded SVG icons that a default policy would block.
+api.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
 // Static files
 api.use(express.static(join(__dirname, 'public')));
