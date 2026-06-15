@@ -26,19 +26,33 @@ export const AppCategoryGrid = (props: Props): JSX.Element => {
 
   const categoryIds = new Set(categories.map((c) => c.id));
 
-  // An app whose categoryId is null — or points to a category not visible in
-  // this list (e.g. a hidden category for an anonymous visitor) — is treated
-  // as uncategorised so it is never silently dropped.
-  const uncategorised = apps.filter(
-    (app) => !app.categoryId || !categoryIds.has(app.categoryId)
-  );
+  // Bucket apps by category in a single pass. An app whose categoryId is null —
+  // or points to a category not visible in this list (e.g. a hidden category
+  // for an anonymous visitor) — is treated as uncategorised so it is never
+  // silently dropped.
+  const byCategory = new Map<number, App[]>();
+  const uncategorised: App[] = [];
 
+  for (const app of apps) {
+    if (app.categoryId && categoryIds.has(app.categoryId)) {
+      const bucket = byCategory.get(app.categoryId);
+      if (bucket) {
+        bucket.push(app);
+      } else {
+        byCategory.set(app.categoryId, [app]);
+      }
+    } else {
+      uncategorised.push(app);
+    }
+  }
+
+  // Render in category order, keeping only categories that have apps.
   const groups = categories
+    .filter((category) => byCategory.has(category.id))
     .map((category) => ({
       category,
-      apps: apps.filter((app) => app.categoryId === category.id),
-    }))
-    .filter((group) => group.apps.length);
+      apps: byCategory.get(category.id) as App[],
+    }));
 
   return (
     <Fragment>

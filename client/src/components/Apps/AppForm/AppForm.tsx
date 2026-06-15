@@ -89,9 +89,10 @@ export const AppForm = ({ modalHandler }: Props): JSX.Element => {
       data.append('iconLight', formData.iconLight);
       data.append('iconDark', formData.iconDark);
       data.append('isPublic', `${formData.isPublic ? 1 : 0}`);
-      if (categoryId) {
-        data.append('categoryId', `${categoryId}`);
-      }
+      // Always send categoryId (empty string = uncategorised) so a category can
+      // also be cleared while uploading a custom icon. The backend coerces an
+      // empty value to null.
+      data.append('categoryId', categoryId === null ? '' : `${categoryId}`);
 
       return data;
     };

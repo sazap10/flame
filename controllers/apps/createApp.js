@@ -26,6 +26,12 @@ const createApp = asyncWrapper(async (req, res, next) => {
     body.icon = req.file.filename;
   }
 
+  // FormData sends categoryId as a string; an empty string (or the -1 sentinel)
+  // means uncategorised.
+  if (body.categoryId === '' || body.categoryId === '-1') {
+    body.categoryId = null;
+  }
+
   const app = await App.create({
     ...body,
     isPinned: pinAppsByDefault,
