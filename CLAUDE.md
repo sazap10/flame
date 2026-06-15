@@ -65,7 +65,7 @@ Auth is JWT-based with a single password (env `PASSWORD` / `PASSWORD_FILE`). Man
 
 ### Config
 
-App settings live in the DB `Config` model (key/value), seeded from `utils/init/initialConfig.json`. Read settings in controllers via `loadConfig()` (`utils/loadConfig.js`) rather than reading env directly. Env vars (`.env`): `PORT`, `NODE_ENV`, `VERSION`, `PASSWORD`.
+App settings live in the DB `Config` model (key/value), seeded from `utils/init/initialConfig.json`. Read settings in controllers via `loadConfig()` (`utils/loadConfig.js`) rather than reading env directly. Env vars (`.env`): `PORT`, `NODE_ENV`, `VERSION`, `PASSWORD`. `TRUST_PROXY` (opt-in) sets Express's `trust proxy` so `req.ip` (and thus login rate limiting) uses the real client address behind a reverse proxy — accepts a hop count, `true`/`false`, or a trust-proxy string like a subnet or `loopback`.
 
 ### Integrations
 

@@ -14,6 +14,12 @@ const digest = (value) => createHash('sha256').update(String(value)).digest();
 const login = asyncWrapper(async (req, res, next) => {
   const { password, duration } = req.body;
 
+  // Fail closed if no server password is configured, otherwise a submitted
+  // value that hashes to the digest of an empty/undefined password could log in.
+  if (!process.env.PASSWORD) {
+    return next(new ErrorResponse('Invalid credentials', 401));
+  }
+
   const isMatch = timingSafeEqual(
     digest(process.env.PASSWORD),
     digest(password)

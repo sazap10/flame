@@ -8,6 +8,9 @@ const loginRateLimit = rateLimit({
   limit: 10, // max attempts per window per IP
   standardHeaders: 'draft-7',
   legacyHeaders: false,
+  // Proxy trust is an explicit operator opt-in via TRUST_PROXY (see api.js),
+  // so skip the library's permissive-trust-proxy guard.
+  validate: { trustProxy: false },
   handler: (req, res, next) =>
     next(new ErrorResponse('Too many login attempts, try again later', 429)),
 });
