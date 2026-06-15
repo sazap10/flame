@@ -1,4 +1,5 @@
 export * from './iconParser';
+export * from './iconShorthand';
 export * from './urlParser';
 export * from './checkVersion';
 export * from './sortData';
