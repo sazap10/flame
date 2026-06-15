@@ -1,0 +1,3 @@
+# Force textual diffs for JS sources even if a stray non-text byte sneaks in,
+# so reviews (and PR diffs) stay readable.
+*.js diff
