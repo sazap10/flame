@@ -12,8 +12,11 @@ const getAllCategories = asyncWrapper(async (req, res, next) => {
   const { useOrdering: orderType, dockerApps: useDockerAPI } =
     await loadConfig();
 
-  // Docker discovery creates categorised bookmarks, so run it here (before the
-  // categories are read) rather than during app fetching.
+  // Docker discovery creates apps grouped into categories (see useDocker). It's
+  // run here, from the categories fetch, because categories must exist before
+  // their apps/bookmarks are read and this public endpoint is hit on every home
+  // page load — making it a reliable trigger that also picks up newly created
+  // categories in the same request.
   if (useDockerAPI) {
     await useDocker();
   }
