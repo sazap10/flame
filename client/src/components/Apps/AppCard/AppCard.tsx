@@ -5,7 +5,7 @@ import {
   isImage,
   isSvg,
   isUrl,
-  parseSelfhstIcon,
+  parseShorthandIcon,
   urlParser,
 } from '../../../utility';
 
@@ -27,21 +27,21 @@ export const AppCard = ({ app }: Props): JSX.Element => {
   // Use the scheme-specific icon when set, otherwise fall back to the default
   const icon = (scheme === 'dark' ? app.iconDark : app.iconLight) || app.icon;
 
-  const selfhstIcon = parseSelfhstIcon(icon, scheme);
+  const shorthandIcon = parseShorthandIcon(icon, scheme);
 
-  if (selfhstIcon) {
+  if (shorthandIcon) {
     iconEl =
-      selfhstIcon.format === 'svg' ? (
+      shorthandIcon.format === 'svg' ? (
         <div className={classes.CustomIcon}>
           <svg
-            data-src={selfhstIcon.url}
+            data-src={shorthandIcon.url}
             fill="var(--color-primary)"
             className={classes.CustomIcon}
           ></svg>
         </div>
       ) : (
         <img
-          src={selfhstIcon.url}
+          src={shorthandIcon.url}
           alt={`${app.name} icon`}
           className={classes.CustomIcon}
         />

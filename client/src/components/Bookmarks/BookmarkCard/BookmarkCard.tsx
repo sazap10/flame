@@ -17,7 +17,7 @@ import {
   isImage,
   isSvg,
   isUrl,
-  parseSelfhstIcon,
+  parseShorthandIcon,
   urlParser,
 } from '../../../utility';
 
@@ -66,14 +66,14 @@ export const BookmarkCard = (props: Props): JSX.Element => {
 
           if (icon) {
             const { name } = bookmark;
-            const selfhstIcon = parseSelfhstIcon(icon, scheme);
+            const shorthandIcon = parseShorthandIcon(icon, scheme);
 
-            if (selfhstIcon) {
+            if (shorthandIcon) {
               iconEl =
-                selfhstIcon.format === 'svg' ? (
+                shorthandIcon.format === 'svg' ? (
                   <div className={classes.BookmarkIcon}>
                     <svg
-                      data-src={selfhstIcon.url}
+                      data-src={shorthandIcon.url}
                       fill="var(--color-primary)"
                       className={classes.BookmarkIconSvg}
                     ></svg>
@@ -81,7 +81,7 @@ export const BookmarkCard = (props: Props): JSX.Element => {
                 ) : (
                   <div className={classes.BookmarkIcon}>
                     <img
-                      src={selfhstIcon.url}
+                      src={shorthandIcon.url}
                       alt={`${name} icon`}
                       className={classes.CustomIcon}
                     />

@@ -166,11 +166,12 @@ export const AppForm = ({ modalHandler }: Props): JSX.Element => {
             onChange={(e) => inputChangeHandler(e)}
           />
           <span>
-            Use an MDI icon name, a valid URL, or a{' '}
+            Use an MDI icon name, a valid URL, a{' '}
             <a href="https://selfh.st/icons/" target="blank">
               selfh.st
             </a>{' '}
-            icon (e.g. selfhst:bitwarden).
+            icon (e.g. selfhst:bitwarden), or a GitHub icon repo (e.g.
+            gh:owner/repo/name).
             <a href="https://pictogrammers.com/library/mdi/" target="blank">
               {' '}
               MDI reference
