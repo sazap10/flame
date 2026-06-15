@@ -2,6 +2,7 @@ const asyncWrapper = require('../../middleware/asyncWrapper');
 const ErrorResponse = require('../../utils/ErrorResponse');
 const Category = require('../../models/Category');
 const Bookmark = require('../../models/Bookmark');
+const App = require('../../models/App');
 
 // @desc      Delete category
 // @route     DELETE /api/categories/:id
@@ -9,12 +10,6 @@ const Bookmark = require('../../models/Bookmark');
 const deleteCategory = asyncWrapper(async (req, res, next) => {
   const category = await Category.findOne({
     where: { id: req.params.id },
-    include: [
-      {
-        model: Bookmark,
-        as: 'bookmarks',
-      },
-    ],
   });
 
   if (!category) {
@@ -26,11 +21,16 @@ const deleteCategory = asyncWrapper(async (req, res, next) => {
     );
   }
 
-  category.bookmarks.forEach(async (bookmark) => {
-    await Bookmark.destroy({
-      where: { id: bookmark.id },
-    });
-  });
+  // Delete this category's bookmarks in a single awaited query so the handler
+  // completes deterministically (a forEach(async ...) would not be awaited).
+  await Bookmark.destroy({ where: { categoryId: req.params.id } });
+
+  // Apps share categories with bookmarks but are more valuable to keep, so
+  // uncategorise them (rather than delete) when their category is removed.
+  await App.update(
+    { categoryId: null },
+    { where: { categoryId: req.params.id } }
+  );
 
   await Category.destroy({
     where: { id: req.params.id },

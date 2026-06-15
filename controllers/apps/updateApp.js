@@ -36,6 +36,13 @@ const updateApp = asyncWrapper(async (req, res, next) => {
     body.icon = req.file.filename;
   }
 
+  // FormData sends categoryId as a string; an empty string (or the -1 sentinel)
+  // means uncategorised. Only normalise when explicitly present so partial
+  // updates (e.g. pin/unpin) don't clear an existing category.
+  if (body.categoryId === '' || body.categoryId === '-1') {
+    body.categoryId = null;
+  }
+
   app = await app.update(body);
 
   res.status(200).json({

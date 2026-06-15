@@ -14,7 +14,7 @@ import classes from './Apps.module.css';
 import { Headline, Spinner, ActionButton, Modal, Container } from '../UI';
 
 // Subcomponents
-import { AppGrid } from './AppGrid/AppGrid';
+import { AppCategoryGrid } from './AppGrid/AppCategoryGrid';
 import { AppForm } from './AppForm/AppForm';
 import { AppTable } from './AppTable/AppTable';
 
@@ -31,17 +31,29 @@ export const Apps = (props: Props): JSX.Element => {
   // Get Redux state
   const {
     apps: { apps, loading },
+    bookmarks: { categories },
     auth: { isAuthenticated },
   } = useSelector((state: State) => state);
 
   // Get Redux action creators
   const dispatch = useDispatch();
-  const { getApps, setEditApp } = bindActionCreators(actionCreators, dispatch);
+  const { getApps, getCategories, setEditApp } = bindActionCreators(
+    actionCreators,
+    dispatch
+  );
 
   // Load apps if array is empty
   useEffect(() => {
     if (!apps.length) {
       getApps();
+    }
+  }, []);
+
+  // Load categories so apps can be grouped and the form's category select is
+  // populated even when navigating straight to /applications.
+  useEffect(() => {
+    if (!categories.length) {
+      getCategories();
     }
   }, []);
 
@@ -100,7 +112,11 @@ export const Apps = (props: Props): JSX.Element => {
         {loading ? (
           <Spinner />
         ) : !showTable ? (
-          <AppGrid apps={apps} searching={props.searching} />
+          <AppCategoryGrid
+            apps={apps}
+            categories={categories}
+            searching={props.searching}
+          />
         ) : (
           <AppTable openFormForUpdating={openFormForUpdating} />
         )}

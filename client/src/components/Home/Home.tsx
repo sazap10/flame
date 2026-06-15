@@ -17,7 +17,7 @@ import { Icon, Container, SectionHeadline, Spinner, Message } from '../UI';
 import classes from './Home.module.css';
 
 // Components
-import { AppGrid } from '../Apps/AppGrid/AppGrid';
+import { AppCategoryGrid } from '../Apps/AppGrid/AppCategoryGrid';
 import { BookmarkGrid } from '../Bookmarks/BookmarkGrid/BookmarkGrid';
 import { SearchBar } from '../SearchBar/SearchBar';
 import { Header } from './Header/Header';
@@ -120,12 +120,13 @@ export const Home = (): JSX.Element => {
           {appsLoading ? (
             <Spinner />
           ) : (
-            <AppGrid
+            <AppCategoryGrid
               apps={
                 !appSearchResult
                   ? apps.filter(({ isPinned }) => isPinned)
                   : appSearchResult
               }
+              categories={categories}
               totalApps={apps.length}
               searching={!!localSearch}
             />
