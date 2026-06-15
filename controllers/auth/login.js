@@ -1,6 +1,12 @@
+const { createHash, timingSafeEqual } = require('crypto');
 const asyncWrapper = require('../../middleware/asyncWrapper');
 const ErrorResponse = require('../../utils/ErrorResponse');
 const signToken = require('../../utils/signToken');
+
+// Hash both values to fixed-length digests so timingSafeEqual gets equal-length
+// buffers (it throws otherwise) and the comparison doesn't leak the password
+// length through timing.
+const digest = (value) => createHash('sha256').update(String(value)).digest();
 
 // @desc      Login user
 // @route     POST /api/auth/
@@ -8,7 +14,10 @@ const signToken = require('../../utils/signToken');
 const login = asyncWrapper(async (req, res, next) => {
   const { password, duration } = req.body;
 
-  const isMatch = process.env.PASSWORD == password;
+  const isMatch = timingSafeEqual(
+    digest(process.env.PASSWORD),
+    digest(password)
+  );
 
   if (!isMatch) {
     return next(new ErrorResponse('Invalid credentials', 401));

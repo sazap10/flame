@@ -1,8 +1,18 @@
 const { join } = require('path');
 const express = require('express');
+const helmet = require('helmet');
 const { errorHandler } = require('./middleware');
 
 const api = express();
+
+// Security headers (X-Content-Type-Options, Referrer-Policy, frame options,
+// etc.). CSP is disabled because the SPA relies on inline theming, custom CSS,
+// and externally-loaded SVG icons that a default policy would block.
+api.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
 // Static files
 api.use(express.static(join(__dirname, 'public')));
