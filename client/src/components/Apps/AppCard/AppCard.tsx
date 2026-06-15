@@ -1,6 +1,13 @@
 import classes from './AppCard.module.css';
 import { Icon } from '../../UI';
-import { iconParser, isImage, isSvg, isUrl, urlParser } from '../../../utility';
+import {
+  iconParser,
+  isImage,
+  isSvg,
+  isUrl,
+  parseSelfhstIcon,
+  urlParser,
+} from '../../../utility';
 
 import { App } from '../../../interfaces';
 import { useSelector } from 'react-redux';
@@ -20,7 +27,26 @@ export const AppCard = ({ app }: Props): JSX.Element => {
   // Use the scheme-specific icon when set, otherwise fall back to the default
   const icon = (scheme === 'dark' ? app.iconDark : app.iconLight) || app.icon;
 
-  if (isImage(icon)) {
+  const selfhstIcon = parseSelfhstIcon(icon, scheme);
+
+  if (selfhstIcon) {
+    iconEl =
+      selfhstIcon.format === 'svg' ? (
+        <div className={classes.CustomIcon}>
+          <svg
+            data-src={selfhstIcon.url}
+            fill="var(--color-primary)"
+            className={classes.CustomIcon}
+          ></svg>
+        </div>
+      ) : (
+        <img
+          src={selfhstIcon.url}
+          alt={`${app.name} icon`}
+          className={classes.CustomIcon}
+        />
+      );
+  } else if (isImage(icon)) {
     const source = isUrl(icon) ? icon : `/uploads/${icon}`;
 
     iconEl = (

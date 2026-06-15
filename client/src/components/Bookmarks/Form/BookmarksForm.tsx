@@ -221,10 +221,14 @@ export const BookmarksForm = ({
             onChange={(e) => inputChangeHandler(e)}
           />
           <span>
-            Use icon name from MDI or pass a valid URL.
+            Use an MDI icon name, a valid URL, or a{' '}
+            <a href="https://selfh.st/icons/" target="blank">
+              selfh.st
+            </a>{' '}
+            icon (e.g. selfhst:bitwarden).
             <a href="https://materialdesignicons.com/" target="blank">
               {' '}
-              Click here for reference
+              MDI reference
             </a>
           </span>
           <span

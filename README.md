@@ -186,11 +186,13 @@ labels:
   - flame.icon.light=icon-name # optional, icon used when the light theme is active
   - flame.icon.dark=icon-name # optional, icon used when the dark theme is active
   - flame.category=Media # optional, the category to group this under
-# flame.icon accepts a Material Design icon name, an image/SVG URL, or the
-# filename of an icon you've uploaded in the UI (e.g. flame.icon=myservice.png)
+# flame.icon accepts a Material Design icon name, an image/SVG URL, a selfh.st
+# icon shorthand (e.g. flame.icon=selfhst:bitwarden, optionally /png|/webp for the
+# format and/or /auto to pick the -light/-dark variant per theme), or the filename
+# of an icon you've uploaded in the UI (e.g. flame.icon=myservice.png)
 ```
 
-> `flame.icon.light` / `flame.icon.dark` let you supply theme-specific icons. When the active scheme has no matching icon, Flame falls back to `flame.icon`. They accept the same values as `flame.icon` (Material Design icon name, URL, or uploaded file).
+> `flame.icon.light` / `flame.icon.dark` let you supply theme-specific icons. When the active scheme has no matching icon, Flame falls back to `flame.icon`. They accept the same values as `flame.icon` (Material Design icon name, URL, selfh.st shorthand, or uploaded file).
 
 > "Use Docker API" option must be enabled for this to work. You can find it in Settings > Docker
 
