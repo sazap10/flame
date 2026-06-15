@@ -148,12 +148,14 @@ export const Home = (): JSX.Element => {
               categories={
                 !bookmarkSearchResult
                   ? categories.filter(
-                      ({ isPinned, bookmarks }) => isPinned && bookmarks.length
+                      ({ isPinned, bookmarks }) =>
+                        isPinned && bookmarks.length > 0
                     )
                   : bookmarkSearchResult
               }
               totalCategories={
-                categories.filter(({ bookmarks }) => bookmarks.length).length
+                categories.filter(({ bookmarks }) => bookmarks.length > 0)
+                  .length
               }
               searching={!!localSearch}
               fromHomepage={true}
