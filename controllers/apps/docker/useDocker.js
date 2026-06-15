@@ -205,8 +205,17 @@ const useDocker = async () => {
   // duplicates), instead of a findOne per app.
   const existingApps = await App.findAll({
     where: { name: { [Op.in]: [...appByName.keys()] } },
+    order: [['id', 'ASC']],
   });
-  const existingByName = new Map(existingApps.map((app) => [app.name, app]));
+  // name isn't unique, so a name can match multiple rows. Keep the lowest-id
+  // one (the ordered first), matching the old findOne behaviour and keeping
+  // which row gets updated deterministic across discovery cycles.
+  const existingByName = new Map();
+  for (const app of existingApps) {
+    if (!existingByName.has(app.name)) {
+      existingByName.set(app.name, app);
+    }
+  }
 
   const toCreate = [];
   const toUpdate = [];
