@@ -186,7 +186,8 @@ labels:
   - flame.icon.light=icon-name # optional, icon used when the light theme is active
   - flame.icon.dark=icon-name # optional, icon used when the dark theme is active
   - flame.category=Media # optional, the category to group this under
-# - flame.icon=custom to make changes in app. ie: custom icon upload
+# flame.icon accepts a Material Design icon name, an image/SVG URL, or the
+# filename of an icon you've uploaded in the UI (e.g. flame.icon=myservice.png)
 ```
 
 > `flame.icon.light` / `flame.icon.dark` let you supply theme-specific icons. When the active scheme has no matching icon, Flame falls back to `flame.icon`. They accept the same values as `flame.icon` (Material Design icon name, URL, or uploaded file).
