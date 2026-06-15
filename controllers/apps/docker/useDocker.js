@@ -192,15 +192,33 @@ const useDocker = async () => {
     return category;
   };
 
+  // Collapse duplicate names so a single app maps to one record. Later
+  // containers win, matching the old per-item loop where a second container
+  // with the same name updated the row created by the first.
+  const appByName = new Map();
   for (const item of dockerApps) {
-    const category = await resolveCategory(item.category);
+    appByName.set(item.name, item);
+  }
 
-    // Match an existing app by name (regardless of its current category) so
-    // flame.category can move it and we never create duplicates.
-    const existing = await App.findOne({ where: { name: item.name } });
+  // One query to look up every referenced app by name (regardless of its
+  // current category, so flame.category can move it and we never create
+  // duplicates), instead of a findOne per app.
+  const existingApps = await App.findAll({
+    where: { name: { [Op.in]: [...appByName.keys()] } },
+  });
+  const existingByName = new Map(existingApps.map((app) => [app.name, app]));
+
+  const toCreate = [];
+  const toUpdate = [];
+
+  for (const item of appByName.values()) {
+    const category = await resolveCategory(item.category);
+    const existing = existingByName.get(item.name);
 
     if (existing) {
-      await existing.update({
+      toUpdate.push({
+        id: existing.id,
+        name: item.name,
         url: item.url,
         icon: item.icon,
         iconLight: item.iconLight,
@@ -212,7 +230,7 @@ const useDocker = async () => {
       // previous behaviour where discovery created bookmarks in a pinned
       // category. Only set on create — an app's pinned state is left untouched
       // on update so a user's manual unpin is respected.
-      await App.create({
+      toCreate.push({
         name: item.name,
         url: item.url,
         icon: item.icon,
@@ -222,6 +240,25 @@ const useDocker = async () => {
         isPinned: true,
       });
     }
+  }
+
+  if (toCreate.length > 0) {
+    await App.bulkCreate(toCreate);
+  }
+
+  // Upsert keyed on the primary key (every record carries an existing id), so
+  // only the listed columns are overwritten. isPinned is deliberately excluded
+  // so an app's pinned state is left untouched on update.
+  if (toUpdate.length > 0) {
+    await App.bulkCreate(toUpdate, {
+      updateOnDuplicate: [
+        'url',
+        'icon',
+        'iconLight',
+        'iconDark',
+        'categoryId',
+      ],
+    });
   }
 
   // Remove any bookmark previously auto-created by discovery for a service that
