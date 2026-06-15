@@ -183,9 +183,14 @@ labels:
   - flame.name=My container
   - flame.url=https://example.com
   - flame.icon=icon-name # optional, default is "docker"
+  - flame.icon.light=icon-name # optional, icon used when the light theme is active
+  - flame.icon.dark=icon-name # optional, icon used when the dark theme is active
   - flame.category=Media # optional, the category to group this under
-# - flame.icon=custom to make changes in app. ie: custom icon upload
+# flame.icon accepts a Material Design icon name, an image/SVG URL, or the
+# filename of an icon you've uploaded in the UI (e.g. flame.icon=myservice.png)
 ```
+
+> `flame.icon.light` / `flame.icon.dark` let you supply theme-specific icons. When the active scheme has no matching icon, Flame falls back to `flame.icon`. They accept the same values as `flame.icon` (Material Design icon name, URL, or uploaded file).
 
 > "Use Docker API" option must be enabled for this to work. You can find it in Settings > Docker
 
@@ -219,6 +224,8 @@ labels:
   - flame.name=First App;Second App
   - flame.url=https://example1.com;https://example2.com
   - flame.icon=icon-name1;icon-name2
+  - flame.icon.light=light-icon1;light-icon2 # optional, per-app light-theme icons
+  - flame.icon.dark=dark-icon1;dark-icon2 # optional, per-app dark-theme icons
 ```
 
 If you want to use a remote docker host follow this instructions in the host:
