@@ -8,6 +8,7 @@ export interface NewApp {
   iconDark: string;
   isPublic: boolean;
   description: string;
+  categoryId: number | null;
 }
 
 export interface App extends Model, NewApp {

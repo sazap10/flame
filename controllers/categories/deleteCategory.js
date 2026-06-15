@@ -2,6 +2,7 @@ const asyncWrapper = require('../../middleware/asyncWrapper');
 const ErrorResponse = require('../../utils/ErrorResponse');
 const Category = require('../../models/Category');
 const Bookmark = require('../../models/Bookmark');
+const App = require('../../models/App');
 
 // @desc      Delete category
 // @route     DELETE /api/categories/:id
@@ -31,6 +32,13 @@ const deleteCategory = asyncWrapper(async (req, res, next) => {
       where: { id: bookmark.id },
     });
   });
+
+  // Apps share categories with bookmarks but are more valuable to keep, so
+  // uncategorise them (rather than delete) when their category is removed.
+  await App.update(
+    { categoryId: null },
+    { where: { categoryId: req.params.id } }
+  );
 
   await Category.destroy({
     where: { id: req.params.id },

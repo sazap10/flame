@@ -1,6 +1,6 @@
 import { useState, useEffect, ChangeEvent, SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NewApp } from '../../../interfaces';
+import { Category, NewApp } from '../../../interfaces';
 
 import classes from './AppForm.module.css';
 
@@ -16,6 +16,7 @@ interface Props {
 
 export const AppForm = ({ modalHandler }: Props): JSX.Element => {
   const { appInUpdate } = useSelector((state: State) => state.apps);
+  const { categories } = useSelector((state: State) => state.bookmarks);
 
   const dispatch = useDispatch();
   const { addApp, updateApp, setEditApp, createNotification } =
@@ -67,6 +68,14 @@ export const AppForm = ({ modalHandler }: Props): JSX.Element => {
       }
     }
 
+    // Category is optional for apps: the "Select category" sentinel (-1) and
+    // any non-positive value mean "uncategorised" and are sent as null.
+    const categoryId =
+      formData.categoryId && formData.categoryId > 0
+        ? formData.categoryId
+        : null;
+    const appData: NewApp = { ...formData, categoryId };
+
     const createFormData = (): FormData => {
       const data = new FormData();
 
@@ -80,6 +89,9 @@ export const AppForm = ({ modalHandler }: Props): JSX.Element => {
       data.append('iconLight', formData.iconLight);
       data.append('iconDark', formData.iconDark);
       data.append('isPublic', `${formData.isPublic ? 1 : 0}`);
+      if (categoryId) {
+        data.append('categoryId', `${categoryId}`);
+      }
 
       return data;
     };
@@ -89,14 +101,14 @@ export const AppForm = ({ modalHandler }: Props): JSX.Element => {
         const data = createFormData();
         addApp(data);
       } else {
-        addApp(formData);
+        addApp(appData);
       }
     } else {
       if (customIcon) {
         const data = createFormData();
         updateApp(appInUpdate.id, data);
       } else {
-        updateApp(appInUpdate.id, formData);
+        updateApp(appInUpdate.id, appData);
         modalHandler();
       }
     }
@@ -151,6 +163,30 @@ export const AppForm = ({ modalHandler }: Props): JSX.Element => {
         </span>
       </InputGroup>
 
+      {/* CATEGORY */}
+      <InputGroup>
+        <label htmlFor="categoryId">App category</label>
+        <select
+          name="categoryId"
+          id="categoryId"
+          onChange={(e) => inputChangeHandler(e, { isNumber: true })}
+          value={formData.categoryId ?? -1}
+        >
+          <option value={-1}>Uncategorised</option>
+          {categories.map(
+            (category: Category): JSX.Element => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            )
+          )}
+        </select>
+        <span>
+          Optional - Apps in a category are grouped under its name. Categories
+          are shared with bookmarks.
+        </span>
+      </InputGroup>
+
       {/* ICON */}
       {!useCustomIcon ? (
         // use mdi icon
@@ -167,11 +203,7 @@ export const AppForm = ({ modalHandler }: Props): JSX.Element => {
           />
           <span>
             Use an MDI icon name, a valid URL, a{' '}
-            <a
-              href="https://selfh.st/icons/"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href="https://selfh.st/icons/" target="_blank" rel="noreferrer">
               selfh.st
             </a>{' '}
             icon (e.g. selfhst:bitwarden), or a GitHub icon repo (e.g.

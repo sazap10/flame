@@ -8,6 +8,7 @@ export const newAppTemplate: NewApp = {
   iconDark: '',
   isPublic: true,
   description: '',
+  categoryId: -1,
 };
 
 export const appTemplate: App = {

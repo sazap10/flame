@@ -36,6 +36,11 @@ const App = sequelize.define(
       allowNull: true,
       defaultValue: null,
     },
+    categoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+    },
     isPublic: {
       type: DataTypes.INTEGER,
       allowNull: true,
