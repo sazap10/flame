@@ -1,6 +1,7 @@
 ### Unreleased
 - Added light/dark color schemes with a header toggle that cycles Light → Dark → System (follows the OS `prefers-color-scheme` and updates live when it changes); assign any theme to the Light and Dark slots in Settings → Theme
 - Apps and bookmarks can now specify optional per-scheme icons (a light-theme icon and a dark-theme icon), each falling back to the main icon, so logos stay legible against the active background
+- Docker discovery now reads optional `flame.icon.light` and `flame.icon.dark` labels to set per-scheme icons on auto-created bookmarks (`;`-separated for multi-app labels, falling back to `flame.icon`)
 - Added anonymous auth mode via the `ANONYMOUS_AUTH` environment variable to disable the login wall and grant full access for trusted/reverse-proxied deployments
 - Docker integration now auto-discovers tsdproxy-exposed containers, deriving app name and URL from `tsdproxy.name` + the `TSDPROXY_DOMAIN` environment variable (no `flame.*` labels required)
 - Init now self-heals missing destination directories (e.g. `public/`) instead of crashing on a fresh checkout
