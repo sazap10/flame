@@ -194,7 +194,7 @@ labels:
 # /png|/webp format and/or /auto to pick the -light/-dark variant per theme
 ```
 
-> `flame.icon.light` / `flame.icon.dark` let you supply theme-specific icons. When the active scheme has no matching icon, Flame falls back to `flame.icon`. They accept the same values as `flame.icon` (Material Design icon name, URL, selfh.st shorthand, or uploaded file).
+> `flame.icon.light` / `flame.icon.dark` let you supply theme-specific icons. When the active scheme has no matching icon, Flame falls back to `flame.icon`. They accept the same values as `flame.icon` (Material Design icon name, URL, `selfhst:`/`gh:` shorthand, or uploaded file).
 
 > "Use Docker API" option must be enabled for this to work. You can find it in Settings > Docker
 

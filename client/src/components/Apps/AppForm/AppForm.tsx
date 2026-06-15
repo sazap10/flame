@@ -167,12 +167,20 @@ export const AppForm = ({ modalHandler }: Props): JSX.Element => {
           />
           <span>
             Use an MDI icon name, a valid URL, a{' '}
-            <a href="https://selfh.st/icons/" target="blank">
+            <a
+              href="https://selfh.st/icons/"
+              target="_blank"
+              rel="noreferrer"
+            >
               selfh.st
             </a>{' '}
             icon (e.g. selfhst:bitwarden), or a GitHub icon repo (e.g.
             gh:owner/repo/name).
-            <a href="https://pictogrammers.com/library/mdi/" target="blank">
+            <a
+              href="https://pictogrammers.com/library/mdi/"
+              target="_blank"
+              rel="noreferrer"
+            >
               {' '}
               MDI reference
             </a>

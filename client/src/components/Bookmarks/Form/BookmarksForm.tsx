@@ -222,12 +222,20 @@ export const BookmarksForm = ({
           />
           <span>
             Use an MDI icon name, a valid URL, a{' '}
-            <a href="https://selfh.st/icons/" target="blank">
+            <a
+              href="https://selfh.st/icons/"
+              target="_blank"
+              rel="noreferrer"
+            >
               selfh.st
             </a>{' '}
             icon (e.g. selfhst:bitwarden), or a GitHub icon repo (e.g.
             gh:owner/repo/name).
-            <a href="https://materialdesignicons.com/" target="blank">
+            <a
+              href="https://materialdesignicons.com/"
+              target="_blank"
+              rel="noreferrer"
+            >
               {' '}
               MDI reference
             </a>

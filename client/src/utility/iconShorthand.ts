@@ -4,6 +4,11 @@ const JSDELIVR_GH = 'https://cdn.jsdelivr.net/gh';
 
 export type IconFormat = 'svg' | 'png' | 'webp';
 
+const ICON_FORMATS: readonly IconFormat[] = ['svg', 'png', 'webp'];
+
+const isIconFormat = (value: string): value is IconFormat =>
+  (ICON_FORMATS as readonly string[]).includes(value);
+
 export interface ShorthandIcon {
   url: string;
   format: IconFormat;
@@ -25,7 +30,7 @@ const buildShorthandIcon = (
   modifiers: string[],
   scheme: ColorScheme
 ): ShorthandIcon => {
-  const format = (modifiers.find((m) => m !== 'auto') as IconFormat) || 'svg';
+  const format = modifiers.find(isIconFormat) ?? 'svg';
   const iconName = modifiers.includes('auto')
     ? `${name}${scheme === 'dark' ? '-light' : '-dark'}`
     : name;
