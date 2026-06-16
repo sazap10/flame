@@ -13,7 +13,7 @@ const initConfig = async () => {
   const parsedConfig = JSON.parse(existingConfig);
 
   // Add new config pairs if necessary
-  for (let key in initialConfig) {
+  for (const key in initialConfig) {
     if (!Object.keys(parsedConfig).includes(key)) {
       parsedConfig[key] = initialConfig[key];
     }

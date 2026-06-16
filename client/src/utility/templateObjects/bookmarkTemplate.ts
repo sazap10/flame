@@ -1,4 +1,4 @@
-import { Bookmark, NewBookmark } from '../../interfaces';
+import type { Bookmark, NewBookmark } from '../../interfaces';
 
 export const newBookmarkTemplate: NewBookmark = {
   name: '',

@@ -8,7 +8,7 @@ const loadConfig = require('../../utils/loadConfig');
 const createApp = asyncWrapper(async (req, res, next) => {
   const { pinAppsByDefault } = await loadConfig();
 
-  let body = { ...req.body };
+  const body = { ...req.body };
 
   if (body.icon) {
     body.icon = body.icon.trim();

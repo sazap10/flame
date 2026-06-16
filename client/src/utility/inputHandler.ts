@@ -1,4 +1,4 @@
-import { ChangeEvent, SetStateAction } from 'react';
+import type { ChangeEvent, SetStateAction } from 'react';
 
 type Event = ChangeEvent<HTMLInputElement | HTMLSelectElement>;
 

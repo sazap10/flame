@@ -1,13 +1,13 @@
-import { ChangeEvent, FormEvent, Fragment, useEffect, useState } from 'react';
+import { type ChangeEvent, type FormEvent, Fragment, useEffect, useState } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../store';
-import { State } from '../../../store/reducers';
+import type { State } from '../../../store/reducers';
 
 // Typescript
-import {
+import type {
   ColorScheme,
   Theme,
   ThemeMode,

@@ -1,10 +1,10 @@
-import { FormEvent, Fragment, useEffect, useState, useRef } from 'react';
+import { type FormEvent, Fragment, useEffect, useState, useRef } from 'react';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../../store';
-import { State } from '../../../../store/reducers';
+import type { State } from '../../../../store/reducers';
 import { decodeToken, parseTokenExpire } from '../../../../utility';
 
 // Other

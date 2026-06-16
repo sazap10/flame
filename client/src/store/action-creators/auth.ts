@@ -1,14 +1,14 @@
-import { Dispatch } from 'redux';
-import { ApiResponse } from '../../interfaces';
+import type { Dispatch } from 'redux';
+import type { ApiResponse } from '../../interfaces';
 import { ActionType } from '../action-types';
-import {
+import type {
   AuthErrorAction,
   AutoLoginAction,
   LoginAction,
   LogoutAction,
   SetAnonymousAuthAction,
 } from '../actions/auth';
-import axios, { AxiosError } from 'axios';
+import axios, { type AxiosError } from 'axios';
 import { getApps, getCategories } from '.';
 
 export const login =

@@ -1,7 +1,7 @@
-import { Dispatch } from 'redux';
-import { NewNotification } from '../../interfaces';
+import type { Dispatch } from 'redux';
+import type { NewNotification } from '../../interfaces';
 import { ActionType } from '../action-types';
-import {
+import type {
   CreateNotificationAction,
   ClearNotificationAction,
 } from '../actions/notification';

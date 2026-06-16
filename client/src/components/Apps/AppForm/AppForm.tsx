@@ -1,6 +1,6 @@
-import { useState, useEffect, ChangeEvent, SyntheticEvent } from 'react';
+import { useState, useEffect, type ChangeEvent, type SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Category, NewApp } from '../../../interfaces';
+import type { Category, NewApp } from '../../../interfaces';
 
 import classes from './AppForm.module.css';
 
@@ -8,7 +8,7 @@ import { ModalForm, InputGroup, Button } from '../../UI';
 import { inputHandler, newAppTemplate } from '../../../utility';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../store';
-import { State } from '../../../store/reducers';
+import type { State } from '../../../store/reducers';
 
 interface Props {
   modalHandler: () => void;
@@ -57,7 +57,7 @@ export const AppForm = ({ modalHandler }: Props): JSX.Element => {
   const formSubmitHandler = (e: SyntheticEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
-    for (let field of ['name', 'url', 'icon'] as const) {
+    for (const field of ['name', 'url', 'icon'] as const) {
       if (/^ +$/.test(formData[field])) {
         createNotification({
           title: 'Error',

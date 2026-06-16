@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Skycons } from 'skycons-ts';
-import { State } from '../../../../store/reducers';
+import type { State } from '../../../../store/reducers';
 import { IconMapping, TimeOfDay } from './IconMapping';
 
 interface Props {

@@ -1,13 +1,13 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../../../store/reducers';
+import type { State } from '../../../store/reducers';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../store';
 
 // Typescript
-import { UISettingsForm } from '../../../interfaces';
+import type { UISettingsForm } from '../../../interfaces';
 
 // UI
 import { InputGroup, Button, SettingsHeadline } from '../../UI';

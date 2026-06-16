@@ -1,4 +1,4 @@
-import { Weather } from '../../interfaces';
+import type { Weather } from '../../interfaces';
 
 export const weatherTemplate: Weather = {
   externalLastUpdate: '',

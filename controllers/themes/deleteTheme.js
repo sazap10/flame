@@ -6,7 +6,7 @@ const File = require('../../utils/File');
 // @access    Public
 const deleteTheme = asyncWrapper(async (req, res, next) => {
   const file = new File('data/themes.json');
-  let content = JSON.parse(file.read());
+  const content = JSON.parse(file.read());
 
   content.themes = content.themes.filter((t) => t.name != req.params.name);
   file.write(content, true);

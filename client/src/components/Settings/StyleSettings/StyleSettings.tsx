@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
 import axios from 'axios';
 
 // Redux
@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../store';
 
 // Typescript
-import { ApiResponse } from '../../../interfaces';
+import type { ApiResponse } from '../../../interfaces';
 
 // Other
 import { InputGroup, Button } from '../../UI';

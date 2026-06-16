@@ -1,6 +1,6 @@
-import { Action } from '../actions';
+import type { Action } from '../actions';
 import { ActionType } from '../action-types';
-import { ColorScheme, Theme, ThemeColors, ThemeMode } from '../../interfaces';
+import type { ColorScheme, Theme, ThemeColors, ThemeMode } from '../../interfaces';
 import {
   arrayPartition,
   getSlotColors,

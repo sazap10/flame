@@ -1,4 +1,4 @@
-import { ActionType } from '../action-types';
+import type { ActionType } from '../action-types';
 
 export interface LoginAction {
   type: ActionType.login;

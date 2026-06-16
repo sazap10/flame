@@ -7,7 +7,7 @@ import classes from './AppDetails.module.css';
 
 // Store
 import { useSelector } from 'react-redux';
-import { State } from '../../../store/reducers';
+import type { State } from '../../../store/reducers';
 
 // Other
 import { checkVersion } from '../../../utility';

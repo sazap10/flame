@@ -6,6 +6,7 @@ const axios = require('axios');
 const Logger = require('../../../utils/Logger');
 const logger = new Logger();
 const loadConfig = require('../../../utils/loadConfig');
+const parseContainerLabels = require('./parseLabels');
 
 // Discovery hits the Docker API and writes to the DB, but it's triggered on
 // every (public) categories fetch, which polling/refreshes can amplify. Throttle
@@ -36,7 +37,7 @@ const useDocker = async () => {
   try {
     if (host.includes('localhost')) {
       // Use default host
-      let { data } = await axios.get(
+      const { data } = await axios.get(
         `http://${host}/containers/json?{"status":["running"]}`,
         {
           socketPath: '/var/run/docker.sock',
@@ -46,7 +47,7 @@ const useDocker = async () => {
       containers = data;
     } else {
       // Use custom host
-      let { data } = await axios.get(
+      const { data } = await axios.get(
         `http://${host}/containers/json?{"status":["running"]}`
       );
 
@@ -63,111 +64,19 @@ const useDocker = async () => {
   // Filter out containers without any annotations
   containers = containers.filter((e) => Object.keys(e.Labels).length !== 0);
 
+  // tsdproxy derives URLs from the TSDPROXY_DOMAIN env var (e.g. example.ts.net);
+  // when unset, tsdproxy discovery is skipped.
+  const tsdproxyDomain = process.env.TSDPROXY_DOMAIN || '';
+
   const dockerApps = [];
 
   for (const container of containers) {
-    let labels = container.Labels;
-
-    // Traefik labels for URL configuration
-    if (!('flame.url' in labels)) {
-      for (const label of Object.keys(labels)) {
-        if (/^traefik.*.frontend.rule/.test(label)) {
-          // Traefik 1.x
-          let value = labels[label];
-
-          if (value.indexOf('Host') !== -1) {
-            value = value.split('Host:')[1];
-            labels['flame.url'] =
-              'https://' + value.split(',').join(';https://');
-          }
-        } else if (/^traefik.*?\.rule/.test(label)) {
-          // Traefik 2.x
-          const value = labels[label];
-
-          if (value.indexOf('Host') !== -1) {
-            const regex = /\`([a-zA-Z0-9\.\-]+)\`/g;
-            const domains = [];
-            let match;
-
-            while ((match = regex.exec(value)) != null) {
-              domains.push('http://' + match[1]);
-            }
-
-            if (domains.length > 0) {
-              labels['flame.url'] = domains.join(';');
-            }
-          }
-        }
-      }
-    }
-
-    // tsdproxy labels for URL configuration. A tsdproxy-exposed container
-    // (tsdproxy.enable=true + tsdproxy.name) is published at
-    // https://<tsdproxy.name>.<TSDPROXY_DOMAIN>, so derive the flame.* fields
-    // from it. Requires the TSDPROXY_DOMAIN env var (e.g. example.ts.net);
-    // when unset, tsdproxy discovery is skipped. Any explicit flame.* label
-    // wins, so a service can override the name/url/icon or opt out by setting
-    // flame.type to something that isn't "app".
-    const tsdproxyDomain = (process.env.TSDPROXY_DOMAIN || '').replace(
-      /^\.|\.$/g,
-      ''
+    dockerApps.push(
+      ...parseContainerLabels(container.Labels, {
+        tsdproxyDomain,
+        defaultCategory,
+      })
     );
-
-    if (
-      tsdproxyDomain &&
-      labels['tsdproxy.enable'] === 'true' &&
-      'tsdproxy.name' in labels
-    ) {
-      const tsdName = labels['tsdproxy.name'];
-
-      if (!('flame.url' in labels)) {
-        labels['flame.url'] = `https://${tsdName}.${tsdproxyDomain}`;
-      }
-      if (!('flame.name' in labels)) {
-        labels['flame.name'] = tsdName;
-      }
-      if (!('flame.type' in labels)) {
-        labels['flame.type'] = 'app';
-      }
-    }
-
-    // A container is discovered when it has a name + url and isn't opted out
-    // via flame.type. An absent flame.type defaults to "app"; only the exact
-    // values "app" and "application" count (anything else opts the container
-    // out).
-    const type = labels['flame.type'] || 'app';
-
-    if (
-      'flame.name' in labels &&
-      'flame.url' in labels &&
-      /^app(lication)?$/.test(type)
-    ) {
-      const category = labels['flame.category'] || defaultCategory;
-
-      const names = labels['flame.name'].split(';');
-      const urls = labels['flame.url'].split(';');
-      const icons =
-        'flame.icon' in labels ? labels['flame.icon'].split(';') : [];
-      // Optional theme-specific icons. When set, the client picks the matching
-      // one for the active light/dark scheme and falls back to flame.icon.
-      const iconsLight =
-        'flame.icon.light' in labels
-          ? labels['flame.icon.light'].split(';')
-          : [];
-      const iconsDark =
-        'flame.icon.dark' in labels ? labels['flame.icon.dark'].split(';') : [];
-
-      for (let i = 0; i < names.length; i++) {
-        dockerApps.push({
-          name: names[i] || names[0],
-          url: urls[i] || urls[0],
-          icon: icons[i] || icons[0] || 'docker',
-          iconLight: iconsLight[i] || iconsLight[0] || '',
-          iconDark: iconsDark[i] || iconsDark[0] || '',
-          category,
-        });
-      }
-    }
   }
 
   if (dockerApps.length === 0) {
@@ -183,7 +92,7 @@ const useDocker = async () => {
       return categoryCache.get(name);
     }
 
-    let [category] = await Category.findOrCreate({
+    const [category] = await Category.findOrCreate({
       where: { name },
       defaults: { name, isPinned: true },
     });

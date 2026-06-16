@@ -7,7 +7,7 @@ const Bookmark = require('../../models/Bookmark');
 const createBookmark = asyncWrapper(async (req, res, next) => {
   let bookmark;
 
-  let body = {
+  const body = {
     ...req.body,
     categoryId: parseInt(req.body.categoryId),
   };

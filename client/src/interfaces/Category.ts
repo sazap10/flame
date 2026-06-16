@@ -1,4 +1,4 @@
-import { Model, Bookmark } from '.';
+import type { Model, Bookmark } from '.';
 
 export interface NewCategory {
   name: string;

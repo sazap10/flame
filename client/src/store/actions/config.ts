@@ -1,5 +1,5 @@
-import { ActionType } from '../action-types';
-import { Config, Query } from '../../interfaces';
+import type { ActionType } from '../action-types';
+import type { Config, Query } from '../../interfaces';
 
 export interface GetConfigAction {
   type: ActionType.getConfig;

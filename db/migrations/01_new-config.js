@@ -9,7 +9,7 @@ const up = async (query) => {
 
   const existingConfig = await Config.findAll({ raw: true });
 
-  for (let pair of existingConfig) {
+  for (const pair of existingConfig) {
     const { key, value, valueType } = pair;
 
     let newValue = value;

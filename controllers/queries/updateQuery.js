@@ -6,9 +6,9 @@ const File = require('../../utils/File');
 // @access    Public
 const updateQuery = asyncWrapper(async (req, res, next) => {
   const file = new File('data/customQueries.json');
-  let content = JSON.parse(file.read());
+  const content = JSON.parse(file.read());
 
-  let queryIdx = content.queries.findIndex(
+  const queryIdx = content.queries.findIndex(
     (q) => q.prefix == req.params.prefix
   );
 

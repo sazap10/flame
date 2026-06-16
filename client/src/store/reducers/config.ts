@@ -1,6 +1,6 @@
-import { Action } from '../actions';
+import type { Action } from '../actions';
 import { ActionType } from '../action-types';
-import { Config, Query } from '../../interfaces';
+import type { Config, Query } from '../../interfaces';
 import { configTemplate } from '../../utility';
 
 interface ConfigState {

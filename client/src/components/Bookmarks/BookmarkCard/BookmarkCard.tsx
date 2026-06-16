@@ -2,12 +2,12 @@ import { Fragment } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../../../store/reducers';
+import type { State } from '../../../store/reducers';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../store';
 
 // Typescript
-import { Bookmark, Category } from '../../../interfaces';
+import type { Bookmark, Category } from '../../../interfaces';
 
 // Other
 import classes from './BookmarkCard.module.css';

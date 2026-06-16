@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../../store';
-import { State } from '../../../../store/reducers';
+import type { State } from '../../../../store/reducers';
 
 // Other
-import { Theme } from '../../../../interfaces';
+import type { Theme } from '../../../../interfaces';
 
 // UI
 import { Button, Modal } from '../../../UI';

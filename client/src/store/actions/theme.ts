@@ -1,5 +1,5 @@
-import { ActionType } from '../action-types';
-import { ColorScheme, Theme, ThemeColors, ThemeMode } from '../../interfaces';
+import type { ActionType } from '../action-types';
+import type { ColorScheme, Theme, ThemeColors, ThemeMode } from '../../interfaces';
 
 export interface SetThemeAction {
   type: ActionType.setTheme;

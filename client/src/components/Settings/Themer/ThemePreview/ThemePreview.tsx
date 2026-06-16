@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../../store';
 
 // Other
-import { Theme } from '../../../../interfaces/Theme';
+import type { Theme } from '../../../../interfaces/Theme';
 import classes from './ThemePreview.module.css';
 
 interface Props {

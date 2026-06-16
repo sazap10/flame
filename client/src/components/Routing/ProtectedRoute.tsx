@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { State } from '../../store/reducers';
+import type { State } from '../../store/reducers';
 
 interface Props {
   children: ReactNode;

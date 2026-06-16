@@ -1,5 +1,5 @@
-import { WeatherData } from '../types';
-import { ThemeMode } from './Theme';
+import type { WeatherData } from '../types';
+import type { ThemeMode } from './Theme';
 
 export interface Config {
   WEATHER_API_KEY: string;

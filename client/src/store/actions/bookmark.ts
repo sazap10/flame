@@ -1,5 +1,5 @@
-import { Bookmark, Category } from '../../interfaces';
-import { ActionType } from '../action-types';
+import type { Bookmark, Category } from '../../interfaces';
+import type { ActionType } from '../action-types';
 
 export interface GetCategoriesAction<T> {
   type:

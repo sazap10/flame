@@ -7,7 +7,7 @@ const File = require('../../utils/File');
 // @access    Private
 const addTheme = asyncWrapper(async (req, res, next) => {
   const file = new File('data/themes.json');
-  let content = JSON.parse(file.read());
+  const content = JSON.parse(file.read());
 
   const themeNames = content.themes.map((t) => t.name);
 

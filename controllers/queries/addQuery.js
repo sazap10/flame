@@ -7,7 +7,7 @@ const File = require('../../utils/File');
 // @access    Public
 const addQuery = asyncWrapper(async (req, res, next) => {
   const file = new File('data/customQueries.json');
-  let content = JSON.parse(file.read());
+  const content = JSON.parse(file.read());
 
   const prefixes = content.queries.map((q) => q.prefix);
 

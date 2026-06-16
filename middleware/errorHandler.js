@@ -3,7 +3,7 @@ const Logger = require('../utils/Logger');
 const logger = new Logger();
 
 const errorHandler = (err, req, res, next) => {
-  let error = { ...err };
+  const error = { ...err };
   error.message = err.message;
 
   // if (error.errors[0].type === 'unique violation') {

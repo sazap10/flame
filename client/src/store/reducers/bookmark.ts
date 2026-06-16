@@ -1,7 +1,7 @@
-import { Bookmark, Category } from '../../interfaces';
+import type { Bookmark, Category } from '../../interfaces';
 import { sortData } from '../../utility';
 import { ActionType } from '../action-types';
-import { Action } from '../actions';
+import type { Action } from '../actions';
 
 interface BookmarksState {
   loading: boolean;

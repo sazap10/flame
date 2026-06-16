@@ -1,5 +1,5 @@
-import { ActionType } from '../action-types';
-import { NewNotification } from '../../interfaces';
+import type { ActionType } from '../action-types';
+import type { NewNotification } from '../../interfaces';
 
 export interface CreateNotificationAction {
   type: ActionType.createNotification;

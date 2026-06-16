@@ -9,9 +9,9 @@ import {
   urlParser,
 } from '../../../utility';
 
-import { App } from '../../../interfaces';
+import type { App } from '../../../interfaces';
 import { useSelector } from 'react-redux';
-import { State } from '../../../store/reducers';
+import type { State } from '../../../store/reducers';
 
 interface Props {
   app: App;

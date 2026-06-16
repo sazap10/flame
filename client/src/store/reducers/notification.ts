@@ -1,6 +1,6 @@
-import { Action } from '../actions';
+import type { Action } from '../actions';
 import { ActionType } from '../action-types';
-import { Notification } from '../../interfaces';
+import type { Notification } from '../../interfaces';
 
 export interface NotificationState {
   notifications: Notification[];
