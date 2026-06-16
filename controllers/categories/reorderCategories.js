@@ -4,7 +4,7 @@ const Category = require('../../models/Category');
 // @desc      Reorder categories
 // @route     PUT /api/categories/0/reorder
 // @access    Public
-const reorderCategories = asyncWrapper(async (req, res, next) => {
+const reorderCategories = asyncWrapper(async (req, res, _next) => {
   req.body.categories.forEach(async ({ id, orderId }) => {
     await Category.update(
       { orderId },

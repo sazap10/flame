@@ -1,30 +1,24 @@
-import { NavLink, Link, Routes, Route } from 'react-router-dom';
-
 // Redux
 import { useSelector } from 'react-redux';
-import type { State } from '../../store/reducers';
-
+import { Link, NavLink, Route, Routes } from 'react-router-dom';
 // Typescript
 import type { Route as SettingsRoute } from '../../interfaces';
-
-// CSS
-import classes from './Settings.module.css';
-
-// Components
-import { Themer } from './Themer/Themer';
-import { WeatherSettings } from './WeatherSettings/WeatherSettings';
-import { UISettings } from './UISettings/UISettings';
-import { AppDetails } from './AppDetails/AppDetails';
-import { StyleSettings } from './StyleSettings/StyleSettings';
-import { GeneralSettings } from './GeneralSettings/GeneralSettings';
-import { DockerSettings } from './DockerSettings/DockerSettings';
+import type { State } from '../../store/reducers';
 import { ProtectedRoute } from '../Routing/ProtectedRoute';
-
 // UI
 import { Container, Headline } from '../UI';
-
+import { AppDetails } from './AppDetails/AppDetails';
+import { DockerSettings } from './DockerSettings/DockerSettings';
+import { GeneralSettings } from './GeneralSettings/GeneralSettings';
+// CSS
+import classes from './Settings.module.css';
+import { StyleSettings } from './StyleSettings/StyleSettings';
 // Data
 import clientRoutes from './settings.json';
+// Components
+import { Themer } from './Themer/Themer';
+import { UISettings } from './UISettings/UISettings';
+import { WeatherSettings } from './WeatherSettings/WeatherSettings';
 
 export const Settings = (): JSX.Element => {
   const routes = clientRoutes.routes;

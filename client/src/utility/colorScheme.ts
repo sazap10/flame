@@ -16,15 +16,16 @@ export const isThemeMode = (value: unknown): value is ThemeMode =>
   typeof value === 'string' && THEME_MODES.includes(value as ThemeMode);
 
 // Fallback themes used before any slot has been assigned (white / tron)
-export const fallbackLightTheme: ThemeColors =
-  parsePABToTheme('#222222;#dddddd;#ffffff');
-export const fallbackDarkTheme: ThemeColors =
-  parsePABToTheme('#EFFBFF;#6EE2FF;#242B33');
+export const fallbackLightTheme: ThemeColors = parsePABToTheme(
+  '#222222;#dddddd;#ffffff'
+);
+export const fallbackDarkTheme: ThemeColors = parsePABToTheme(
+  '#EFFBFF;#6EE2FF;#242B33'
+);
 
 // Read the operating system color scheme preference
 export const getSystemScheme = (): ColorScheme =>
-  window.matchMedia &&
-  window.matchMedia('(prefers-color-scheme: dark)').matches
+  window.matchMedia?.('(prefers-color-scheme: dark)').matches
     ? 'dark'
     : 'light';
 

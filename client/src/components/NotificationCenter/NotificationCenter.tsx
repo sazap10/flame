@@ -1,10 +1,9 @@
 import { useSelector } from 'react-redux';
 import type { Notification as NotificationInterface } from '../../interfaces';
-
-import classes from './NotificationCenter.module.css';
+import type { State } from '../../store/reducers';
 
 import { Notification } from '../UI';
-import type { State } from '../../store/reducers';
+import classes from './NotificationCenter.module.css';
 
 export const NotificationCenter = (): JSX.Element => {
   const { notifications } = useSelector((state: State) => state.notification);

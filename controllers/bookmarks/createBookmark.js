@@ -4,12 +4,10 @@ const Bookmark = require('../../models/Bookmark');
 // @desc      Create new bookmark
 // @route     POST /api/bookmarks
 // @access    Public
-const createBookmark = asyncWrapper(async (req, res, next) => {
-  let bookmark;
-
+const createBookmark = asyncWrapper(async (req, res, _next) => {
   const body = {
     ...req.body,
-    categoryId: parseInt(req.body.categoryId),
+    categoryId: parseInt(req.body.categoryId, 10),
   };
 
   if (body.icon) {
@@ -28,7 +26,7 @@ const createBookmark = asyncWrapper(async (req, res, next) => {
     body.icon = req.file.filename;
   }
 
-  bookmark = await Bookmark.create(body);
+  const bookmark = await Bookmark.create(body);
 
   res.status(201).json({
     success: true,

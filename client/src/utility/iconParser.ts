@@ -11,4 +11,4 @@ export const iconParser = (mdiName: string): string => {
   parsedName = `mdi${parsedName}`;
 
   return parsedName;
-}
+};

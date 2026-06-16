@@ -4,12 +4,12 @@ const File = require('../../utils/File');
 // @desc      Delete query
 // @route     DELETE /api/queries/:prefix
 // @access    Public
-const deleteQuery = asyncWrapper(async (req, res, next) => {
+const deleteQuery = asyncWrapper(async (req, res, _next) => {
   const file = new File('data/customQueries.json');
   const content = JSON.parse(file.read());
 
   content.queries = content.queries.filter(
-    (q) => q.prefix != req.params.prefix
+    (q) => q.prefix !== req.params.prefix
   );
   file.write(content, true);
 

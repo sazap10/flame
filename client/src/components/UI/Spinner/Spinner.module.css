@@ -21,7 +21,7 @@
 .Spinner:after {
   position: absolute;
   top: 0;
-  content: '';
+  content: "";
 }
 
 .Spinner:before {

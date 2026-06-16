@@ -169,13 +169,7 @@ const useDocker = async () => {
   // so an app's pinned state is left untouched on update.
   if (toUpdate.length > 0) {
     await App.bulkCreate(toUpdate, {
-      updateOnDuplicate: [
-        'url',
-        'icon',
-        'iconLight',
-        'iconDark',
-        'categoryId',
-      ],
+      updateOnDuplicate: ['url', 'icon', 'iconLight', 'iconDark', 'categoryId'],
     });
   }
 

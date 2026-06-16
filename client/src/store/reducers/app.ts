@@ -1,7 +1,7 @@
-import { ActionType } from '../action-types';
-import type { Action } from '../actions/index';
 import type { App } from '../../interfaces';
 import { sortData } from '../../utility';
+import { ActionType } from '../action-types';
+import type { Action } from '../actions/index';
 
 interface AppsState {
   loading: boolean;

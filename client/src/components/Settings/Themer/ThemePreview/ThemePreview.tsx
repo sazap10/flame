@@ -1,10 +1,9 @@
 // Redux
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../../store';
-
 // Other
 import type { Theme } from '../../../../interfaces/Theme';
+import { actionCreators } from '../../../../store';
 import classes from './ThemePreview.module.css';
 
 interface Props {
@@ -17,7 +16,18 @@ export const ThemePreview = ({
   const { setTheme } = bindActionCreators(actionCreators, useDispatch());
 
   return (
-    <div className={classes.ThemePreview} onClick={() => setTheme(colors)}>
+    <div
+      className={classes.ThemePreview}
+      role="button"
+      tabIndex={0}
+      onClick={() => setTheme(colors)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setTheme(colors);
+        }
+      }}
+    >
       <div className={classes.ColorsPreview}>
         <div
           className={classes.ColorPreview}

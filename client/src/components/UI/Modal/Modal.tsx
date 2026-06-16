@@ -1,12 +1,17 @@
-import { type MouseEvent, type ReactNode, useRef } from 'react';
+import {
+  type KeyboardEvent,
+  type MouseEvent,
+  type ReactNode,
+  useRef,
+} from 'react';
 
 import classes from './Modal.module.css';
 
 interface Props {
   isOpen: boolean;
-  setIsOpen: Function;
+  setIsOpen: (isOpen: boolean) => void;
   children: ReactNode;
-  cb?: Function;
+  cb?: () => void;
 }
 
 export const Modal = ({
@@ -21,16 +26,37 @@ export const Modal = ({
     isOpen ? classes.ModalOpen : classes.ModalClose,
   ].join(' ');
 
-  const clickHandler = (e: MouseEvent) => {
-    if (e.target === modalRef.current) {
-      setIsOpen(false);
+  const close = () => {
+    setIsOpen(false);
 
-      if (cb) cb();
+    if (cb) cb();
+  };
+
+  const clickHandler = (e: MouseEvent) => {
+    // Only dismiss when the backdrop itself (not the content) is clicked
+    if (e.target === modalRef.current) {
+      close();
+    }
+  };
+
+  const keyHandler = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      close();
     }
   };
 
   return (
-    <div className={modalClasses} onClick={clickHandler} ref={modalRef}>
+    // The backdrop closes the modal on outside-click / Escape; role="dialog"
+    // marks it as an interactive surface for assistive tech.
+    <div
+      className={modalClasses}
+      onClick={clickHandler}
+      onKeyDown={keyHandler}
+      ref={modalRef}
+      role="dialog"
+      aria-modal="true"
+      tabIndex={-1}
+    >
       {children}
     </div>
   );

@@ -1,6 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
-import { parseTime } from '.';
 import type { Token } from '../interfaces';
+import { parseTime } from '.';
 
 export const decodeToken = (token: string): Token => {
   const decoded = jwtDecode<Token>(token);

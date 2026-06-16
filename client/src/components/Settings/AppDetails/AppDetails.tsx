@@ -1,16 +1,13 @@
 import { Fragment } from 'react';
-
-// UI
-import { Button, SettingsHeadline } from '../../UI';
-import { AuthForm } from './AuthForm/AuthForm';
-import classes from './AppDetails.module.css';
-
 // Store
 import { useSelector } from 'react-redux';
 import type { State } from '../../../store/reducers';
-
 // Other
 import { checkVersion } from '../../../utility';
+// UI
+import { Button, SettingsHeadline } from '../../UI';
+import classes from './AppDetails.module.css';
+import { AuthForm } from './AuthForm/AuthForm';
 
 export const AppDetails = (): JSX.Element => {
   const { isAuthenticated } = useSelector((state: State) => state.auth);
@@ -38,13 +35,13 @@ export const AppDetails = (): JSX.Element => {
             </p>
 
             <p className={classes.text}>
-              See changelog{' '}
+              See the{' '}
               <a
                 href="https://github.com/pawelmalak/flame/blob/master/CHANGELOG.md"
                 target="_blank"
                 rel="noreferrer"
               >
-                here
+                changelog
               </a>
             </p>
 

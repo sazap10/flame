@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const auth = (req, res, next) => {
+const auth = (req, _res, next) => {
   // When anonymous auth is enabled every request is treated as authenticated.
   // Intended for instances behind a trusted reverse proxy / private network.
   if (process.env.ANONYMOUS_AUTH === 'true') {
@@ -12,7 +12,7 @@ const auth = (req, res, next) => {
   let token;
   let tokenIsValid = false;
 
-  if (authHeader && authHeader.startsWith('Bearer ')) {
+  if (authHeader?.startsWith('Bearer ')) {
     token = authHeader.split(' ')[1];
   }
 

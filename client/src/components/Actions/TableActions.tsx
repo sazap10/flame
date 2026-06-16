@@ -1,3 +1,4 @@
+import { onActivate } from '../../utility';
 import { Icon } from '../UI';
 import classes from './TableActions.module.css';
 
@@ -34,8 +35,10 @@ export const TableActions = (props: Props): JSX.Element => {
       {/* DELETE */}
       <div
         className={classes.TableAction}
-        onClick={() => deleteHandler(entity.id, entity.name)}
+        role="button"
         tabIndex={0}
+        onClick={() => deleteHandler(entity.id, entity.name)}
+        onKeyDown={onActivate(() => deleteHandler(entity.id, entity.name))}
       >
         <Icon icon="mdiDelete" />
       </div>
@@ -43,8 +46,10 @@ export const TableActions = (props: Props): JSX.Element => {
       {/* UPDATE */}
       <div
         className={classes.TableAction}
-        onClick={() => updateHandler(entity.id)}
+        role="button"
         tabIndex={0}
+        onClick={() => updateHandler(entity.id)}
+        onKeyDown={onActivate(() => updateHandler(entity.id))}
       >
         <Icon icon="mdiPencil" />
       </div>
@@ -53,8 +58,10 @@ export const TableActions = (props: Props): JSX.Element => {
       {showPin && (
         <div
           className={classes.TableAction}
-          onClick={() => _pinHandler(entity.id)}
+          role="button"
           tabIndex={0}
+          onClick={() => _pinHandler(entity.id)}
+          onKeyDown={onActivate(() => _pinHandler(entity.id))}
         >
           {entity.isPinned ? (
             <Icon icon="mdiPinOff" color="var(--color-accent)" />
@@ -67,8 +74,10 @@ export const TableActions = (props: Props): JSX.Element => {
       {/* VISIBILITY */}
       <div
         className={classes.TableAction}
-        onClick={() => changeVisibilty(entity.id)}
+        role="button"
         tabIndex={0}
+        onClick={() => changeVisibilty(entity.id)}
+        onKeyDown={onActivate(() => changeVisibilty(entity.id))}
       >
         {entity.isPublic ? (
           <Icon icon="mdiEyeOff" color="var(--color-accent)" />

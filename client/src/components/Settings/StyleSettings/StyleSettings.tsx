@@ -1,17 +1,15 @@
-import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
 import axios from 'axios';
+import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 
 // Redux
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../store';
-
 // Typescript
 import type { ApiResponse } from '../../../interfaces';
-
-// Other
-import { InputGroup, Button } from '../../UI';
+import { actionCreators } from '../../../store';
 import { applyAuth } from '../../../utility';
+// Other
+import { Button, InputGroup } from '../../UI';
 
 export const StyleSettings = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -35,7 +33,7 @@ export const StyleSettings = (): JSX.Element => {
     e.preventDefault();
 
     axios
-      .put<ApiResponse<{}>>(
+      .put<ApiResponse<unknown>>(
         '/api/config/0/css',
         { styles: customStyles },
         { headers: applyAuth() }

@@ -4,7 +4,7 @@ const loadConfig = require('../../utils/loadConfig');
 // @desc      Get config
 // @route     GET /api/config
 // @access    Public
-const getConfig = asyncWrapper(async (req, res, next) => {
+const getConfig = asyncWrapper(async (_req, res, _next) => {
   const config = await loadConfig();
 
   res.status(200).json({

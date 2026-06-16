@@ -1,30 +1,30 @@
 // React
-import { useState, useEffect, type FormEvent, type ChangeEvent, Fragment } from 'react';
+import {
+  type ChangeEvent,
+  type FormEvent,
+  Fragment,
+  useEffect,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { bindActionCreators } from 'redux';
 // Typescript
-import type { Query, GeneralForm } from '../../../interfaces';
-
+import type { GeneralForm, Query } from '../../../interfaces';
+import { actionCreators } from '../../../store';
+// Redux
+import type { State } from '../../../store/reducers';
+// Utils
+import { generalSettingsTemplate, inputHandler } from '../../../utility';
+// Data
+import searchQueries from '../../../utility/searchQueries.json';
+// UI
+import { Button, InputGroup, SettingsHeadline } from '../../UI';
 // Components
 import { CustomQueries } from './CustomQueries/CustomQueries';
 
-// UI
-import { Button, SettingsHeadline, InputGroup } from '../../UI';
-
-// Utils
-import { inputHandler, generalSettingsTemplate } from '../../../utility';
-
-// Data
-import searchQueries from '../../../utility/searchQueries.json';
-
-// Redux
-import type { State } from '../../../store/reducers';
-import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../store';
-
 export const GeneralSettings = (): JSX.Element => {
   const {
-    config: { loading, customQueries, config },
+    config: { customQueries, config },
     bookmarks: { categories },
   } = useSelector((state: State) => state);
 
@@ -44,7 +44,7 @@ export const GeneralSettings = (): JSX.Element => {
     setFormData({
       ...config,
     });
-  }, [loading]);
+  }, [config]);
 
   // Form handler
   const formSubmitHandler = async (e: FormEvent) => {
@@ -180,7 +180,7 @@ export const GeneralSettings = (): JSX.Element => {
               const isCustom = idx >= queries.length;
 
               return (
-                <option key={idx} value={query.prefix}>
+                <option key={query.prefix} value={query.prefix}>
                   {isCustom && '+'} {query.name}
                 </option>
               );
@@ -203,7 +203,7 @@ export const GeneralSettings = (): JSX.Element => {
                 const isCustom = idx >= queries.length;
 
                 return (
-                  <option key={idx} value={query.prefix}>
+                  <option key={query.prefix} value={query.prefix}>
                     {isCustom && '+'} {query.name}
                   </option>
                 );

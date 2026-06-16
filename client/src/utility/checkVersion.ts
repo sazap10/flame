@@ -1,6 +1,9 @@
 import axios from 'axios';
-import { store } from '../store/store';
 import { createNotification } from '../store/action-creators';
+import type { AppDispatch } from '../store/store';
+import { store } from '../store/store';
+
+const dispatch = store.dispatch as AppDispatch;
 
 export const checkVersion = async (isForced: boolean = false) => {
   try {
@@ -15,7 +18,7 @@ export const checkVersion = async (isForced: boolean = false) => {
       ?.trim();
 
     if (githubVersion && githubVersion !== import.meta.env.VITE_VERSION) {
-      store.dispatch<any>(
+      dispatch(
         createNotification({
           title: 'Info',
           message: 'New version is available!',
@@ -23,7 +26,7 @@ export const checkVersion = async (isForced: boolean = false) => {
         })
       );
     } else if (isForced) {
-      store.dispatch<any>(
+      dispatch(
         createNotification({
           title: 'Info',
           message: 'You are using the latest version!',

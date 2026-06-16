@@ -5,7 +5,7 @@ const loadConfig = require('../../utils/loadConfig');
 // @desc      Create new category
 // @route     POST /api/categories
 // @access    Public
-const createCategory = asyncWrapper(async (req, res, next) => {
+const createCategory = asyncWrapper(async (req, res, _next) => {
   const { pinCategoriesByDefault: pinCategories } = await loadConfig();
 
   const category = await Category.create({

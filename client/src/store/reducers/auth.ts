@@ -1,5 +1,5 @@
-import type { Action } from '../actions';
 import { ActionType } from '../action-types';
+import type { Action } from '../actions';
 
 interface AuthState {
   isAuthenticated: boolean;

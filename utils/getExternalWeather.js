@@ -26,7 +26,7 @@ const getExternalWeather = async () => {
       windM: cursor.wind_mph,
     });
     return weatherData;
-  } catch (err) {
+  } catch (_err) {
     throw new Error('External API request failed');
   }
 };

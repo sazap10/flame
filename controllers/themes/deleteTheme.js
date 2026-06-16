@@ -4,11 +4,11 @@ const File = require('../../utils/File');
 // @desc      Delete theme
 // @route     DELETE /api/themes/:name
 // @access    Public
-const deleteTheme = asyncWrapper(async (req, res, next) => {
+const deleteTheme = asyncWrapper(async (req, res, _next) => {
   const file = new File('data/themes.json');
   const content = JSON.parse(file.read());
 
-  content.themes = content.themes.filter((t) => t.name != req.params.name);
+  content.themes = content.themes.filter((t) => t.name !== req.params.name);
   file.write(content, true);
 
   const userThemes = content.themes.filter((t) => t.isCustom);

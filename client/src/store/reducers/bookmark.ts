@@ -36,7 +36,7 @@ export const bookmarksReducer = (
       return {
         ...state,
         loading: false,
-        categories: action.payload,
+        categories: action.payload || [],
       };
     }
 

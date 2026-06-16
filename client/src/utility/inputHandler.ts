@@ -28,7 +28,7 @@ export const inputHandler = <T>(params: Params<T>): void => {
     }
 
     if (isBool) {
-      value = !!parseInt(rawValue);
+      value = !!parseInt(rawValue, 10);
     }
   }
 

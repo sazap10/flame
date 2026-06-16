@@ -1,6 +1,6 @@
-const crypto = require('crypto');
-const fs = require('fs');
-const { join } = require('path');
+const crypto = require('node:crypto');
+const fs = require('node:fs');
+const { join } = require('node:path');
 
 const Logger = require('../Logger');
 const logger = new Logger();

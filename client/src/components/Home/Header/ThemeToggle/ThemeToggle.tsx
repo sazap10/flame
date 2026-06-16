@@ -1,11 +1,10 @@
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../../store';
-import type { State } from '../../../../store/reducers';
-
 // Typescript
 import type { ThemeMode } from '../../../../interfaces';
+import { actionCreators } from '../../../../store';
+import type { State } from '../../../../store/reducers';
 
 // UI
 import { Icon } from '../../../UI';

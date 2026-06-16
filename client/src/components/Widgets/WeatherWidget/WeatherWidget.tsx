@@ -1,19 +1,17 @@
-import { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
+import { Fragment, useEffect, useState } from 'react';
 
 // Redux
 import { useSelector } from 'react-redux';
 
 // Typescript
-import type { Weather, ApiResponse } from '../../../interfaces';
-
-// CSS
-import classes from './WeatherWidget.module.css';
-
-// UI
-import { WeatherIcon } from '../../UI';
+import type { ApiResponse, Weather } from '../../../interfaces';
 import type { State } from '../../../store/reducers';
 import { weatherTemplate } from '../../../utility/templateObjects/weatherTemplate';
+// UI
+import { WeatherIcon } from '../../UI';
+// CSS
+import classes from './WeatherWidget.module.css';
 
 export const WeatherWidget = (): JSX.Element => {
   const { loading: configLoading, config } = useSelector(
@@ -21,7 +19,7 @@ export const WeatherWidget = (): JSX.Element => {
   );
 
   const [weather, setWeather] = useState<Weather>(weatherTemplate);
-  const [isLoading, setIsLoading] = useState(true);
+  const [_isLoading, setIsLoading] = useState(true);
 
   // Initial request to get data
   useEffect(() => {
@@ -53,7 +51,7 @@ export const WeatherWidget = (): JSX.Element => {
     };
 
     return () => webSocketClient.close();
-  }, []);
+  }, [weather]);
 
   return (
     <div className={classes.WeatherWidget}>

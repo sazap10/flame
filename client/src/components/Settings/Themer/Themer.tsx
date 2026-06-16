@@ -1,11 +1,14 @@
-import { type ChangeEvent, type FormEvent, Fragment, useEffect, useState } from 'react';
+import {
+  type ChangeEvent,
+  type FormEvent,
+  Fragment,
+  useEffect,
+  useState,
+} from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../store';
-import type { State } from '../../../store/reducers';
-
 // Typescript
 import type {
   ColorScheme,
@@ -13,23 +16,23 @@ import type {
   ThemeMode,
   ThemeSettingsForm,
 } from '../../../interfaces';
-
-// Components
-import { Button, InputGroup, SettingsHeadline, Spinner } from '../../UI';
-import { ThemeBuilder } from './ThemeBuilder/ThemeBuilder';
-import { ThemeGrid } from './ThemeGrid/ThemeGrid';
-
+import { actionCreators } from '../../../store';
+import type { State } from '../../../store/reducers';
 // Other
 import {
   parsePABToTheme,
   parseThemeToPAB,
   themeSettingsTemplate,
 } from '../../../utility';
+// Components
+import { Button, InputGroup, SettingsHeadline, Spinner } from '../../UI';
+import { ThemeBuilder } from './ThemeBuilder/ThemeBuilder';
+import { ThemeGrid } from './ThemeGrid/ThemeGrid';
 
 export const Themer = (): JSX.Element => {
   const {
     auth: { isAuthenticated },
-    config: { loading, config },
+    config: { config },
     theme: { themes, userThemes, mode, lightTheme, darkTheme },
   } = useSelector((state: State) => state);
 
@@ -51,7 +54,7 @@ export const Themer = (): JSX.Element => {
     setFormData({
       ...config,
     });
-  }, [loading]);
+  }, [config]);
 
   // Change color scheme mode (live), and stage it as the new-user default
   const modeChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -101,8 +104,8 @@ export const Themer = (): JSX.Element => {
           <option value="system">System (follow device)</option>
         </select>
         <span>
-          Toggle between your light and dark themes, or automatically follow your
-          device setting.
+          Toggle between your light and dark themes, or automatically follow
+          your device setting.
         </span>
       </InputGroup>
 
@@ -113,8 +116,11 @@ export const Themer = (): JSX.Element => {
           value={parseThemeToPAB(lightTheme)}
           onChange={(e) => slotChangeHandler('light', e)}
         >
-          {allThemes.map((theme: Theme, idx) => (
-            <option key={idx} value={parseThemeToPAB(theme.colors)}>
+          {allThemes.map((theme: Theme) => (
+            <option
+              key={`${theme.name}-${theme.isCustom}`}
+              value={parseThemeToPAB(theme.colors)}
+            >
               {theme.isCustom && '+'} {theme.name}
             </option>
           ))}
@@ -129,8 +135,11 @@ export const Themer = (): JSX.Element => {
           value={parseThemeToPAB(darkTheme)}
           onChange={(e) => slotChangeHandler('dark', e)}
         >
-          {allThemes.map((theme: Theme, idx) => (
-            <option key={idx} value={parseThemeToPAB(theme.colors)}>
+          {allThemes.map((theme: Theme) => (
+            <option
+              key={`${theme.name}-${theme.isCustom}`}
+              value={parseThemeToPAB(theme.colors)}
+            >
               {theme.isCustom && '+'} {theme.name}
             </option>
           ))}
@@ -151,7 +160,7 @@ export const Themer = (): JSX.Element => {
         <form onSubmit={formSubmitHandler}>
           <SettingsHeadline text="Other settings" />
           <InputGroup>
-            <label>Default color scheme for new users</label>
+            <span>Default color scheme for new users</span>
             <span>
               Saving will store your current mode and light/dark theme selection
               as the default for new visitors.

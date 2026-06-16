@@ -4,12 +4,12 @@ const File = require('../../utils/File');
 // @desc      Update query
 // @route     PUT /api/queries/:prefix
 // @access    Public
-const updateQuery = asyncWrapper(async (req, res, next) => {
+const updateQuery = asyncWrapper(async (req, res, _next) => {
   const file = new File('data/customQueries.json');
   const content = JSON.parse(file.read());
 
   const queryIdx = content.queries.findIndex(
-    (q) => q.prefix == req.params.prefix
+    (q) => q.prefix === req.params.prefix
   );
 
   // query found

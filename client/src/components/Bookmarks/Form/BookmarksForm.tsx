@@ -1,22 +1,22 @@
-import { useState, type ChangeEvent, useEffect, type FormEvent } from 'react';
+import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import type { State } from '../../../store/reducers';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../store';
-
 // Typescript
 import type { Bookmark, Category, NewBookmark } from '../../../interfaces';
-
+import { actionCreators } from '../../../store';
+import type { State } from '../../../store/reducers';
+// Utils
+import {
+  inputHandler,
+  newBookmarkTemplate,
+  onActivate,
+} from '../../../utility';
 // UI
-import { ModalForm, InputGroup, Button } from '../../UI';
-
+import { Button, InputGroup, ModalForm } from '../../UI';
 // CSS
 import classes from './Form.module.css';
-
-// Utils
-import { inputHandler, newBookmarkTemplate } from '../../../utility';
 
 interface Props {
   modalHandler: () => void;
@@ -222,11 +222,7 @@ export const BookmarksForm = ({
           />
           <span>
             Use an MDI icon name, a valid URL, a{' '}
-            <a
-              href="https://selfh.st/icons/"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href="https://selfh.st/icons/" target="_blank" rel="noreferrer">
               selfh.st
             </a>{' '}
             icon (e.g. selfhst:bitwarden), or a GitHub icon repo (e.g.
@@ -241,7 +237,10 @@ export const BookmarksForm = ({
             </a>
           </span>
           <span
+            role="button"
+            tabIndex={0}
             onClick={() => toggleUseCustomIcon(!useCustomIcon)}
+            onKeyDown={onActivate(() => toggleUseCustomIcon(!useCustomIcon))}
             className={classes.Switch}
           >
             Switch to custom icon upload
@@ -259,10 +258,16 @@ export const BookmarksForm = ({
             accept=".jpg,.jpeg,.png,.svg,.ico,.webp"
           />
           <span
+            role="button"
+            tabIndex={0}
             onClick={() => {
               setCustomIcon(null);
               toggleUseCustomIcon(!useCustomIcon);
             }}
+            onKeyDown={onActivate(() => {
+              setCustomIcon(null);
+              toggleUseCustomIcon(!useCustomIcon);
+            })}
             className={classes.Switch}
           >
             Switch to MDI

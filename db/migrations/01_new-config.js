@@ -1,4 +1,4 @@
-const { readFile, writeFile, copyFile } = require('fs/promises');
+const { readFile, writeFile, copyFile } = require('node:fs/promises');
 const Config = require('../../models/Config');
 
 const up = async (query) => {
@@ -14,10 +14,10 @@ const up = async (query) => {
 
     let newValue = value;
 
-    if (valueType == 'number') {
+    if (valueType === 'number') {
       newValue = parseFloat(value);
-    } else if (valueType == 'boolean') {
-      newValue = value == 1;
+    } else if (valueType === 'boolean') {
+      newValue = value === 1;
     }
 
     parsedNewConfig[key] = newValue;
@@ -29,7 +29,7 @@ const up = async (query) => {
   await query.dropTable('config');
 };
 
-const down = async (query) => {};
+const down = async (_query) => {};
 
 module.exports = {
   up,

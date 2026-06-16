@@ -1,4 +1,4 @@
-import type { Category, Bookmark } from '../../../interfaces';
+import type { Bookmark, Category } from '../../../interfaces';
 import { ContentType } from '../Bookmarks';
 import { BookmarksTable } from './BookmarksTable';
 import { CategoryTable } from './CategoryTable';

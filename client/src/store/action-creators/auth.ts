@@ -1,19 +1,12 @@
-import type { Dispatch } from 'redux';
+import axios, { type AxiosError } from 'axios';
 import type { ApiResponse } from '../../interfaces';
 import { ActionType } from '../action-types';
-import type {
-  AuthErrorAction,
-  AutoLoginAction,
-  LoginAction,
-  LogoutAction,
-  SetAnonymousAuthAction,
-} from '../actions/auth';
-import axios, { type AxiosError } from 'axios';
+import type { AppDispatch } from '../store';
 import { getApps, getCategories } from '.';
 
 export const login =
   (formData: { password: string; duration: string }) =>
-  async (dispatch: Dispatch<LoginAction>) => {
+  async (dispatch: AppDispatch) => {
     try {
       const res = await axios.post<ApiResponse<{ token: string }>>(
         '/api/auth',
@@ -27,25 +20,25 @@ export const login =
         payload: res.data.data.token,
       });
 
-      dispatch<any>(getApps());
-      dispatch<any>(getCategories());
+      dispatch(getApps());
+      dispatch(getCategories());
     } catch (err) {
-      dispatch<any>(authError(err, true));
+      dispatch(authError(err, true));
     }
   };
 
-export const logout = () => (dispatch: Dispatch<LogoutAction>) => {
+export const logout = () => (dispatch: AppDispatch) => {
   localStorage.removeItem('token');
 
   dispatch({
     type: ActionType.logout,
   });
 
-  dispatch<any>(getApps());
-  dispatch<any>(getCategories());
+  dispatch(getApps());
+  dispatch(getCategories());
 };
 
-export const autoLogin = () => async (dispatch: Dispatch<AutoLoginAction>) => {
+export const autoLogin = () => async (dispatch: AppDispatch) => {
   const token: string = localStorage.token;
 
   try {
@@ -59,33 +52,31 @@ export const autoLogin = () => async (dispatch: Dispatch<AutoLoginAction>) => {
       payload: token,
     });
 
-    dispatch<any>(getApps());
-    dispatch<any>(getCategories());
+    dispatch(getApps());
+    dispatch(getCategories());
   } catch (err) {
-    dispatch<any>(authError(err, false));
+    dispatch(authError(err, false));
   }
 };
 
-export const setAnonymousAuth =
-  () => (dispatch: Dispatch<SetAnonymousAuthAction>) => {
-    // Drop any stale token so the App expiry timer can't later log us out
-    localStorage.removeItem('token');
+export const setAnonymousAuth = () => (dispatch: AppDispatch) => {
+  // Drop any stale token so the App expiry timer can't later log us out
+  localStorage.removeItem('token');
 
-    dispatch({
-      type: ActionType.setAnonymousAuth,
-    });
+  dispatch({
+    type: ActionType.setAnonymousAuth,
+  });
 
-    dispatch<any>(getApps());
-    dispatch<any>(getCategories());
-  };
+  dispatch(getApps());
+  dispatch(getCategories());
+};
 
 export const authError =
-  (error: unknown, showNotification: boolean) =>
-  (dispatch: Dispatch<AuthErrorAction>) => {
+  (error: unknown, showNotification: boolean) => (dispatch: AppDispatch) => {
     const apiError = error as AxiosError<{ error: string }>;
 
     if (showNotification) {
-      dispatch<any>({
+      dispatch({
         type: ActionType.createNotification,
         payload: {
           title: 'Error',
@@ -94,6 +85,6 @@ export const authError =
       });
     }
 
-    dispatch<any>(getApps());
-    dispatch<any>(getCategories());
+    dispatch(getApps());
+    dispatch(getCategories());
   };

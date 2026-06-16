@@ -35,7 +35,7 @@ export const Notification = (props: Props): JSX.Element => {
       window.clearTimeout(closeNotification);
       window.clearTimeout(clearNotificationTimeout);
     };
-  }, []);
+  }, [props.id, clearNotification]);
 
   const clickHandler = () => {
     if (props.url) {
@@ -44,7 +44,18 @@ export const Notification = (props: Props): JSX.Element => {
   };
 
   return (
-    <div className={elementClasses} onClick={clickHandler}>
+    <div
+      className={elementClasses}
+      role="button"
+      tabIndex={0}
+      onClick={clickHandler}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          clickHandler();
+        }
+      }}
+    >
       <h4>{props.title}</h4>
       <p>{props.message}</p>
       <div className={classes.Pog}></div>

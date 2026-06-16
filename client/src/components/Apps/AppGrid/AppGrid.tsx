@@ -1,9 +1,9 @@
-import classes from './AppGrid.module.css';
 import { Link } from 'react-router-dom';
 import type { App } from '../../../interfaces/App';
+import { Message } from '../../UI';
 
 import { AppCard } from '../AppCard/AppCard';
-import { Message } from '../../UI';
+import classes from './AppGrid.module.css';
 
 interface Props {
   apps: App[];

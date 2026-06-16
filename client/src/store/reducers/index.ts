@@ -1,11 +1,10 @@
 import { combineReducers } from 'redux';
-
-import { themeReducer } from './theme';
+import { appsReducer } from './app';
+import { authReducer } from './auth';
+import { bookmarksReducer } from './bookmark';
 import { configReducer } from './config';
 import { notificationReducer } from './notification';
-import { appsReducer } from './app';
-import { bookmarksReducer } from './bookmark';
-import { authReducer } from './auth';
+import { themeReducer } from './theme';
 
 export const reducers = combineReducers({
   theme: themeReducer,

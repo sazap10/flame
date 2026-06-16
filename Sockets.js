@@ -12,7 +12,7 @@ class Sockets {
   }
 
   getSocket(name) {
-    const socket = this.sockets.find(socket => socket.name === name);
+    const socket = this.sockets.find((socket) => socket.name === name);
     return socket;
   }
 }

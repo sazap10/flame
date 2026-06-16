@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../../store';
-import type { State } from '../../../../store/reducers';
-
 // Other
 import type { Theme } from '../../../../interfaces';
+import { actionCreators } from '../../../../store';
+import type { State } from '../../../../store/reducers';
 
 // UI
 import { Button, Modal } from '../../../UI';
@@ -43,7 +42,7 @@ export const ThemeBuilder = ({ themes }: Props): JSX.Element => {
       toggleIsInEdit(false);
       toggleShowModal(false);
     }
-  }, [userThemes]);
+  }, [userThemes, isInEdit]);
 
   return (
     <div className={classes.ThemeBuilder}>
@@ -85,9 +84,7 @@ export const ThemeBuilder = ({ themes }: Props): JSX.Element => {
             >
               Edit user themes
             </Button>
-          ) : (
-            <></>
-          )}
+          ) : null}
         </div>
       )}
     </div>

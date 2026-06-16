@@ -13,7 +13,7 @@ const validate = asyncWrapper(async (req, res, next) => {
       success: true,
       data: { token: { isValid: true } },
     });
-  } catch (err) {
+  } catch (_err) {
     return next(new ErrorResponse('Token expired', 401));
   }
 });

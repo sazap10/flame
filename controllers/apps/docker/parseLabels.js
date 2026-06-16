@@ -23,7 +23,7 @@ const parseContainerLabels = (
 
         if (value.indexOf('Host') !== -1) {
           value = value.split('Host:')[1];
-          labels['flame.url'] = 'https://' + value.split(',').join(';https://');
+          labels['flame.url'] = `https://${value.split(',').join(';https://')}`;
         }
       } else if (/^traefik.*?\.rule/.test(label)) {
         // Traefik 2.x
@@ -35,7 +35,7 @@ const parseContainerLabels = (
           let match = regex.exec(value);
 
           while (match != null) {
-            domains.push('http://' + match[1]);
+            domains.push(`http://${match[1]}`);
             match = regex.exec(value);
           }
 

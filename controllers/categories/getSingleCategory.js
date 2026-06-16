@@ -14,7 +14,7 @@ const getSingleCategory = asyncWrapper(async (req, res, next) => {
   const visibility = req.isAuthenticated ? {} : { isPublic: true };
 
   const order =
-    orderType == 'name'
+    orderType === 'name'
       ? [[Sequelize.fn('lower', Sequelize.col('bookmarks.name')), 'ASC']]
       : [[{ model: Bookmark, as: 'bookmarks' }, orderType, 'ASC']];
 

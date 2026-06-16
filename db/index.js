@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const { join } = require('path');
+const { join } = require('node:path');
 const { Umzug, SequelizeStorage } = require('umzug');
 
 // Utils

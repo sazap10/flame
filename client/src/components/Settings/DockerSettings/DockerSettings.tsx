@@ -1,22 +1,19 @@
-import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
+import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import type { State } from '../../../store/reducers';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../store';
-
 // Typescript
 import type { DockerSettingsForm } from '../../../interfaces';
-
-// UI
-import { InputGroup, Button, SettingsHeadline } from '../../UI';
-
+import { actionCreators } from '../../../store';
+import type { State } from '../../../store/reducers';
 // Utils
-import { inputHandler, dockerSettingsTemplate } from '../../../utility';
+import { dockerSettingsTemplate, inputHandler } from '../../../utility';
+// UI
+import { Button, InputGroup, SettingsHeadline } from '../../UI';
 
 export const DockerSettings = (): JSX.Element => {
-  const { loading, config } = useSelector((state: State) => state.config);
+  const { config } = useSelector((state: State) => state.config);
 
   const dispatch = useDispatch();
   const { updateConfig } = bindActionCreators(actionCreators, dispatch);
@@ -31,7 +28,7 @@ export const DockerSettings = (): JSX.Element => {
     setFormData({
       ...config,
     });
-  }, [loading]);
+  }, [config]);
 
   // Form handler
   const formSubmitHandler = async (e: FormEvent) => {

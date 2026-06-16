@@ -4,7 +4,7 @@ const App = require('../../models/App');
 // @desc      Reorder apps
 // @route     PUT /api/apps/0/reorder
 // @access    Public
-const reorderApps = asyncWrapper(async (req, res, next) => {
+const reorderApps = asyncWrapper(async (req, res, _next) => {
   req.body.apps.forEach(async ({ id, orderId }) => {
     await App.update(
       { orderId },

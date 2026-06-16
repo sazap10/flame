@@ -2,24 +2,23 @@ import { Fragment } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import type { State } from '../../../store/reducers';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../store';
-
 // Typescript
 import type { Bookmark, Category } from '../../../interfaces';
-
-// Other
-import classes from './BookmarkCard.module.css';
-import { Icon } from '../../UI';
+import { actionCreators } from '../../../store';
+import type { State } from '../../../store/reducers';
 import {
   iconParser,
   isImage,
   isSvg,
   isUrl,
+  onActivate,
   parseShorthandIcon,
   urlParser,
 } from '../../../utility';
+import { Icon } from '../../UI';
+// Other
+import classes from './BookmarkCard.module.css';
 
 interface Props {
   category: Category;
@@ -38,17 +37,23 @@ export const BookmarkCard = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
   const { setEditCategory } = bindActionCreators(actionCreators, dispatch);
 
+  // The header is only interactive (opens the category editor) for an
+  // authenticated user outside the homepage.
+  const isEditable = !fromHomepage && isAuthenticated;
+
+  const editHandler = () => {
+    if (isEditable) {
+      setEditCategory(category);
+    }
+  };
+
   return (
     <div className={classes.BookmarkCard}>
       <h3
-        className={
-          fromHomepage || !isAuthenticated ? '' : classes.BookmarkHeader
-        }
-        onClick={() => {
-          if (!fromHomepage && isAuthenticated) {
-            setEditCategory(category);
-          }
-        }}
+        className={isEditable ? classes.BookmarkHeader : ''}
+        onClick={editHandler}
+        onKeyDown={onActivate(editHandler)}
+        tabIndex={isEditable ? 0 : undefined}
       >
         {category.name}
       </h3>
@@ -76,6 +81,8 @@ export const BookmarkCard = (props: Props): JSX.Element => {
                       data-src={shorthandIcon.url}
                       fill="var(--color-primary)"
                       className={classes.BookmarkIconSvg}
+                      role="img"
+                      aria-label={`${name} icon`}
                     ></svg>
                   </div>
                 ) : (
@@ -108,6 +115,8 @@ export const BookmarkCard = (props: Props): JSX.Element => {
                     data-src={source}
                     fill="var(--color-primary)"
                     className={classes.BookmarkIconSvg}
+                    role="img"
+                    aria-label={`${name} icon`}
                   ></svg>
                 </div>
               );

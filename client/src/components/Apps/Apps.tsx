@@ -1,27 +1,21 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-
+import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 // Typescript
 import type { App } from '../../interfaces';
-
-// CSS
-import classes from './Apps.module.css';
-
-// UI
-import { Headline, Spinner, ActionButton, Modal, Container } from '../UI';
-
-// Subcomponents
-import { AppCategoryGrid } from './AppGrid/AppCategoryGrid';
-import { AppForm } from './AppForm/AppForm';
-import { AppTable } from './AppTable/AppTable';
-
+import { actionCreators } from '../../store';
 // Utils
 import type { State } from '../../store/reducers';
-import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../store';
+// UI
+import { ActionButton, Container, Headline, Modal, Spinner } from '../UI';
+import { AppForm } from './AppForm/AppForm';
+// Subcomponents
+import { AppCategoryGrid } from './AppGrid/AppCategoryGrid';
+// CSS
+import classes from './Apps.module.css';
+import { AppTable } from './AppTable/AppTable';
 
 interface Props {
   searching: boolean;
@@ -47,7 +41,7 @@ export const Apps = (props: Props): JSX.Element => {
     if (!apps.length) {
       getApps();
     }
-  }, []);
+  }, [apps.length, getApps]);
 
   // Load categories so apps can be grouped and the form's category select is
   // populated even when navigating straight to /applications.
@@ -55,7 +49,7 @@ export const Apps = (props: Props): JSX.Element => {
     if (!categories.length) {
       getCategories();
     }
-  }, []);
+  }, [getCategories, categories.length]);
 
   // Form
   const [modalIsOpen, setModalIsOpen] = useState(false);

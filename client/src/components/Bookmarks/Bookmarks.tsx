@@ -1,30 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import type { State } from '../../store/reducers';
+import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../store';
-
 // Typescript
-import type { Category, Bookmark } from '../../interfaces';
-
-// CSS
-import classes from './Bookmarks.module.css';
-
+import type { Bookmark, Category } from '../../interfaces';
+import { actionCreators } from '../../store';
+import type { State } from '../../store/reducers';
 // UI
 import {
+  ActionButton,
   Container,
   Headline,
-  ActionButton,
-  Spinner,
-  Modal,
   Message,
+  Modal,
+  Spinner,
 } from '../UI';
-
 // Components
 import { BookmarkGrid } from './BookmarkGrid/BookmarkGrid';
+// CSS
+import classes from './Bookmarks.module.css';
 import { Form } from './Form/Form';
 import { Table } from './Table/Table';
 
@@ -54,7 +49,7 @@ export const Bookmarks = (props: Props): JSX.Element => {
     if (!categories.length) {
       getCategories();
     }
-  }, []);
+  }, [getCategories, categories.length]);
 
   // Form
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -80,12 +75,12 @@ export const Bookmarks = (props: Props): JSX.Element => {
       setTableContentType(ContentType.bookmark);
       setShowTable(true);
     }
-  }, [categoryInEdit]);
+  }, [categoryInEdit, modalIsOpen]);
 
   useEffect(() => {
     setShowTable(false);
     setEditCategory(null);
-  }, []);
+  }, [setEditCategory]);
 
   // Form actions
   const toggleModal = (): void => {
@@ -101,7 +96,9 @@ export const Bookmarks = (props: Props): JSX.Element => {
   const openFormForUpdating = (data: Category | Bookmark): void => {
     setIsInUpdate(true);
 
-    const instanceOfCategory = (object: any): object is Category => {
+    const instanceOfCategory = (
+      object: Category | Bookmark
+    ): object is Category => {
       return 'bookmarks' in object;
     };
 
@@ -176,9 +173,7 @@ export const Bookmarks = (props: Props): JSX.Element => {
         <Message isPrimary={false}>
           Click on category name to edit its bookmarks
         </Message>
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       {loading ? (
         <Spinner />

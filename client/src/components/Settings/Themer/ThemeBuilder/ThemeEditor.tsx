@@ -1,11 +1,12 @@
 import { Fragment } from 'react';
 
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import type { Theme } from '../../../../interfaces';
 import { actionCreators } from '../../../../store';
 import type { State } from '../../../../store/reducers';
+import { onActivate } from '../../../../utility';
 
 // Other
 import { ActionIcons, CompactTable, Icon, ModalForm } from '../../../UI';
@@ -38,14 +39,26 @@ export const ThemeEditor = (props: Props): JSX.Element => {
   return (
     <ModalForm formHandler={() => {}} modalHandler={props.modalHandler}>
       <CompactTable headers={['Name', 'Actions']}>
-        {userThemes.map((t, idx) => (
-          <Fragment key={idx}>
+        {userThemes.map((t) => (
+          <Fragment key={t.name}>
             <span>{t.name}</span>
             <ActionIcons>
-              <span onClick={() => updateHandler(t)}>
+              <span
+                role="button"
+                tabIndex={0}
+                aria-label="Edit theme"
+                onClick={() => updateHandler(t)}
+                onKeyDown={onActivate(() => updateHandler(t))}
+              >
                 <Icon icon="mdiPencil" />
               </span>
-              <span onClick={() => deleteHandler(t)}>
+              <span
+                role="button"
+                tabIndex={0}
+                aria-label="Delete theme"
+                onClick={() => deleteHandler(t)}
+                onKeyDown={onActivate(() => deleteHandler(t))}
+              >
                 <Icon icon="mdiDelete" />
               </span>
             </ActionIcons>

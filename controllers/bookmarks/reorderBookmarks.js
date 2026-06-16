@@ -4,7 +4,7 @@ const Bookmark = require('../../models/Bookmark');
 // @desc      Reorder bookmarks
 // @route     PUT /api/bookmarks/0/reorder
 // @access    Public
-const reorderBookmarks = asyncWrapper(async (req, res, next) => {
+const reorderBookmarks = asyncWrapper(async (req, res, _next) => {
   req.body.bookmarks.forEach(async ({ id, orderId }) => {
     await Bookmark.update(
       { orderId },

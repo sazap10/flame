@@ -1,23 +1,20 @@
-import { useState, type ChangeEvent, useEffect, type FormEvent } from 'react';
 import axios from 'axios';
+import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../store';
-import type { State } from '../../../store/reducers';
-
 // Typescript
 import type { ApiResponse, Weather, WeatherForm } from '../../../interfaces';
-
-// UI
-import { InputGroup, Button, SettingsHeadline } from '../../UI';
-
+import { actionCreators } from '../../../store';
+import type { State } from '../../../store/reducers';
 // Utils
 import { inputHandler, weatherSettingsTemplate } from '../../../utility';
+// UI
+import { Button, InputGroup, SettingsHeadline } from '../../UI';
 
 export const WeatherSettings = (): JSX.Element => {
-  const { loading, config } = useSelector((state: State) => state.config);
+  const { config } = useSelector((state: State) => state.config);
 
   const dispatch = useDispatch();
   const { createNotification, updateConfig } = bindActionCreators(
@@ -35,7 +32,7 @@ export const WeatherSettings = (): JSX.Element => {
     setFormData({
       ...config,
     });
-  }, [loading]);
+  }, [config]);
 
   // Form handler
   const formSubmitHandler = async (e: FormEvent) => {
@@ -133,9 +130,9 @@ export const WeatherSettings = (): JSX.Element => {
           step="any"
           lang="en-150"
         />
-        <span onClick={getLocation}>
-          <a href="#">Click to get current location</a>
-        </span>
+        <button type="button" onClick={getLocation}>
+          Click to get current location
+        </button>
       </InputGroup>
 
       {/* LONG */}

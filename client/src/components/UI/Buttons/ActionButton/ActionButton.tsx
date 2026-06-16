@@ -1,8 +1,7 @@
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-
-import classes from './ActionButton.module.css';
 import { Icon } from '../..';
+import classes from './ActionButton.module.css';
 
 interface Props {
   name: string;
@@ -31,11 +30,15 @@ export const ActionButton = (props: Props): JSX.Element => {
     return (
       <div
         className={classes.ActionButton}
-        onClick={props.handler}
-        onKeyPress={(e) => {
-          if (e.key === 'Enter' && props.handler) props.handler();
-        }}
+        role="button"
         tabIndex={0}
+        onClick={props.handler}
+        onKeyDown={(e) => {
+          if ((e.key === 'Enter' || e.key === ' ') && props.handler) {
+            e.preventDefault();
+            props.handler();
+          }
+        }}
       >
         {body}
       </div>

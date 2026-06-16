@@ -1,14 +1,17 @@
-import { useState, useEffect, type ChangeEvent, type SyntheticEvent } from 'react';
+import {
+  type ChangeEvent,
+  type SyntheticEvent,
+  useEffect,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import type { Category, NewApp } from '../../../interfaces';
-
-import classes from './AppForm.module.css';
-
-import { ModalForm, InputGroup, Button } from '../../UI';
-import { inputHandler, newAppTemplate } from '../../../utility';
 import { bindActionCreators } from 'redux';
+import type { Category, NewApp } from '../../../interfaces';
 import { actionCreators } from '../../../store';
 import type { State } from '../../../store/reducers';
+import { inputHandler, newAppTemplate, onActivate } from '../../../utility';
+import { Button, InputGroup, ModalForm } from '../../UI';
+import classes from './AppForm.module.css';
 
 interface Props {
   modalHandler: () => void;
@@ -219,7 +222,10 @@ export const AppForm = ({ modalHandler }: Props): JSX.Element => {
             </a>
           </span>
           <span
+            role="button"
+            tabIndex={0}
             onClick={() => toggleUseCustomIcon(!useCustomIcon)}
+            onKeyDown={onActivate(() => toggleUseCustomIcon(!useCustomIcon))}
             className={classes.Switch}
           >
             Switch to custom icon upload
@@ -238,10 +244,16 @@ export const AppForm = ({ modalHandler }: Props): JSX.Element => {
             accept=".jpg,.jpeg,.png,.svg,.ico,.webp"
           />
           <span
+            role="button"
+            tabIndex={0}
             onClick={() => {
               setCustomIcon(null);
               toggleUseCustomIcon(!useCustomIcon);
             }}
+            onKeyDown={onActivate(() => {
+              setCustomIcon(null);
+              toggleUseCustomIcon(!useCustomIcon);
+            })}
             className={classes.Switch}
           >
             Switch to MDI

@@ -1,12 +1,17 @@
-import type { Action } from '../actions';
-import { ActionType } from '../action-types';
-import type { ColorScheme, Theme, ThemeColors, ThemeMode } from '../../interfaces';
+import type {
+  ColorScheme,
+  Theme,
+  ThemeColors,
+  ThemeMode,
+} from '../../interfaces';
 import {
   arrayPartition,
   getSlotColors,
   getStoredMode,
   resolveScheme,
 } from '../../utility';
+import { ActionType } from '../action-types';
+import type { Action } from '../actions';
 
 interface ThemeState {
   activeTheme: Theme;
