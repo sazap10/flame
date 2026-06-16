@@ -1,5 +1,7 @@
 import type { App } from '../../interfaces';
-import { sortData } from '../../utility';
+// Import directly (not via the utility barrel) so the reducer doesn't pull in
+// modules that import the store singleton, which would be a circular dependency.
+import { sortData } from '../../utility/sortData';
 import { ActionType } from '../action-types';
 import type { Action } from '../actions/index';
 

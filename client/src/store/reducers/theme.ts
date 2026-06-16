@@ -4,12 +4,14 @@ import type {
   ThemeColors,
   ThemeMode,
 } from '../../interfaces';
+// Import directly (not via the utility barrel) so the reducer doesn't pull in
+// modules that import the store singleton, which would be a circular dependency.
+import { arrayPartition } from '../../utility/arrayPartition';
 import {
-  arrayPartition,
   getSlotColors,
   getStoredMode,
   resolveScheme,
-} from '../../utility';
+} from '../../utility/colorScheme';
 import { ActionType } from '../action-types';
 import type { Action } from '../actions';
 

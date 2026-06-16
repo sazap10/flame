@@ -1,5 +1,7 @@
 import type { Config, Query } from '../../interfaces';
-import { configTemplate } from '../../utility';
+// Import directly (not via the utility barrel) so the reducer doesn't pull in
+// modules that import the store singleton, which would be a circular dependency.
+import { configTemplate } from '../../utility/templateObjects/configTemplate';
 import { ActionType } from '../action-types';
 import type { Action } from '../actions';
 
