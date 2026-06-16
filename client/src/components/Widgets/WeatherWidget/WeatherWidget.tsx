@@ -67,7 +67,7 @@ export const WeatherWidget = (): JSX.Element => {
             <div className={classes.WeatherDetails}>
               {/* TEMPERATURE */}
               {config.isCelsius ? (
-                <span>{weather.tempC}°C</span>
+                <span>{Math.round(weather.tempC)}°C</span>
               ) : (
                 <span>{Math.round(weather.tempF)}°F</span>
               )}

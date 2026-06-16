@@ -153,7 +153,11 @@ export const Home = (): JSX.Element => {
         </Fragment>
       ) : null}
 
-      <Link to="/settings" className={classes.SettingsButton}>
+      <Link
+        to="/settings"
+        className={classes.SettingsButton}
+        aria-label="Settings"
+      >
         <Icon icon="mdiCog" color="var(--color-background)" />
       </Link>
     </Container>

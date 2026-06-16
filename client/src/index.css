@@ -60,3 +60,27 @@ a {
   color: var(--color-primary);
   text-decoration: none;
 }
+
+/* Visible keyboard focus indicator for every interactive element. Uses
+   :focus-visible so pointer interactions stay clean while keyboard users
+   always get a clear, themed ring. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Honor reduced-motion: disable transitions/animations so the UI still
+   changes state, just without movement. !important is required here to win
+   over the more-specific per-component transitions across the app. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    /* biome-ignore lint/complexity/noImportantStyles: reduced-motion reset must override per-component transitions */
+    animation: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: reduced-motion reset must override per-component transitions */
+    transition: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: reduced-motion reset must override per-component transitions */
+    scroll-behavior: auto !important;
+  }
+}

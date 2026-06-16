@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import type { Theme } from '../../../../interfaces';
 import { actionCreators } from '../../../../store';
 import type { State } from '../../../../store/reducers';
+import { AA_CONTRAST_MIN, contrastRatio } from '../../../../utility';
 // UI
 import { Button, InputGroup, ModalForm } from '../../../UI';
 import classes from './ThemeCreator.module.css';
@@ -70,6 +71,14 @@ export const ThemeCreator = ({ modalHandler }: Props): JSX.Element => {
     editTheme(null);
     modalHandler();
   };
+
+  // Warn when the chosen colors would render text below AA contrast. Accent is
+  // checked too because it colors body text (app descriptions, category names).
+  const { primary, accent, background } = formData.colors;
+  const textContrast = contrastRatio(primary, background);
+  const accentContrast = contrastRatio(accent, background);
+  const lowContrast =
+    textContrast < AA_CONTRAST_MIN || accentContrast < AA_CONTRAST_MIN;
 
   const formHandler = (e: FormEvent) => {
     e.preventDefault();
@@ -139,6 +148,14 @@ export const ThemeCreator = ({ modalHandler }: Props): JSX.Element => {
           />
         </InputGroup>
       </div>
+
+      {lowContrast && (
+        <p className={classes.ContrastWarning} role="status">
+          Low contrast: text {textContrast.toFixed(1)}:1, accent{' '}
+          {accentContrast.toFixed(1)}:1. Aim for at least {AA_CONTRAST_MIN}:1
+          against the background so app names and descriptions stay readable.
+        </p>
+      )}
 
       {!themeInEdit ? (
         <Button>Add theme</Button>

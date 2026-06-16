@@ -1,4 +1,11 @@
-import { type KeyboardEvent, useCallback, useEffect, useRef } from 'react';
+import {
+  Fragment,
+  type KeyboardEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +16,8 @@ import { actionCreators } from '../../store';
 import type { State } from '../../store/reducers';
 // Utils
 import { redirectUrl, searchParser, urlParser } from '../../utility';
+// Components
+import { Icon } from '../UI';
 // CSS
 import classes from './SearchBar.module.css';
 
@@ -28,9 +37,29 @@ export const SearchBar = (props: Props): JSX.Element => {
 
   const inputRef = useRef<HTMLInputElement>(document.createElement('input'));
 
-  // Search bar autofocus
+  // Whether the field has text, so the clear button only shows when relevant.
+  const [hasQuery, setHasQuery] = useState(false);
+
+  // First-run tip teaching the search syntax, dismissed for good once seen.
+  const [showHint, setShowHint] = useState(false);
+
   useEffect(() => {
-    if (!loading && !config.disableAutofocus) {
+    if (!localStorage.getItem('searchHintDismissed')) {
+      setShowHint(true);
+    }
+  }, []);
+
+  const dismissHint = useCallback(() => {
+    localStorage.setItem('searchHintDismissed', 'true');
+    setShowHint(false);
+  }, []);
+
+  // Search bar autofocus. Skip on touch-sized screens so opening the page
+  // doesn't immediately pop the on-screen keyboard.
+  useEffect(() => {
+    const isDesktop = window.matchMedia('(min-width: 769px)').matches;
+
+    if (!loading && !config.disableAutofocus && isDesktop) {
       inputRef.current.focus();
     }
   }, [config]);
@@ -38,6 +67,8 @@ export const SearchBar = (props: Props): JSX.Element => {
   const clearSearch = useCallback(() => {
     inputRef.current.value = '';
     setLocalSearch('');
+    setHasQuery(false);
+    inputRef.current.focus();
   }, [setLocalSearch]);
 
   // Listen for keyboard events outside of search bar
@@ -76,11 +107,15 @@ export const SearchBar = (props: Props): JSX.Element => {
     }
 
     if (e.code === 'Enter' || e.code === 'NumpadEnter') {
+      // Once the user has run a search, they've learned the feature.
+      dismissHint();
+
       if (!primarySearch.prefix) {
         // Prefix not found -> emit notification
         createNotification({
-          title: 'Error',
-          message: 'Prefix not found',
+          title: 'No matching search prefix',
+          message:
+            'Use a slash prefix like /g (Google) or /yt (YouTube), or set a default search provider in Settings.',
         });
       } else if (isURL) {
         // URL or IP passed -> redirect
@@ -116,14 +151,50 @@ export const SearchBar = (props: Props): JSX.Element => {
   };
 
   return (
-    <div className={classes.SearchContainer}>
-      <input
-        ref={inputRef}
-        type="text"
-        className={classes.SearchBar}
-        onKeyUp={(e) => searchHandler(e)}
-        onDoubleClick={clearSearch}
-      />
-    </div>
+    <Fragment>
+      <div className={classes.SearchContainer}>
+        <span className={classes.SearchIcon} aria-hidden="true">
+          <Icon icon="mdiMagnify" />
+        </span>
+        <input
+          ref={inputRef}
+          type="text"
+          aria-label="Search applications and bookmarks"
+          placeholder="Search apps and bookmarks, or /g /yt /w to search the web"
+          className={classes.SearchBar}
+          onKeyUp={(e) => searchHandler(e)}
+          onChange={() => setHasQuery(inputRef.current.value.length > 0)}
+          onDoubleClick={clearSearch}
+        />
+        {hasQuery && (
+          <button
+            type="button"
+            className={classes.ClearButton}
+            onClick={clearSearch}
+            aria-label="Clear search"
+          >
+            <Icon icon="mdiClose" />
+          </button>
+        )}
+      </div>
+
+      {showHint && (
+        <div className={classes.SearchHint}>
+          <span>
+            Tip: type to search, or use a slash prefix like <code>/g</code>{' '}
+            Google, <code>/yt</code> YouTube, <code>/w</code> Wikipedia. Press
+            Esc to clear.
+          </span>
+          <button
+            type="button"
+            className={classes.HintDismiss}
+            onClick={dismissHint}
+            aria-label="Dismiss search tip"
+          >
+            <Icon icon="mdiClose" />
+          </button>
+        </div>
+      )}
+    </Fragment>
   );
 };

@@ -15,9 +15,12 @@ const THEME_MODES: ThemeMode[] = ['light', 'dark', 'system'];
 export const isThemeMode = (value: unknown): value is ThemeMode =>
   typeof value === 'string' && THEME_MODES.includes(value as ThemeMode);
 
-// Fallback themes used before any slot has been assigned (white / tron)
+// Fallback themes used before any slot has been assigned (white / tron).
+// The light accent is a deep cyan (not a light gray) so accent-colored text —
+// app descriptions, bookmark category headers, the search underline — clears
+// WCAG AA contrast (>=4.5:1) on the white background.
 export const fallbackLightTheme: ThemeColors = parsePABToTheme(
-  '#222222;#dddddd;#ffffff'
+  '#222222;#0e7490;#ffffff'
 );
 export const fallbackDarkTheme: ThemeColors = parsePABToTheme(
   '#EFFBFF;#6EE2FF;#242B33'
