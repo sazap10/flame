@@ -24,7 +24,7 @@ import { CustomQueries } from './CustomQueries/CustomQueries';
 
 export const GeneralSettings = (): JSX.Element => {
   const {
-    config: { customQueries, config },
+    config: { loading, customQueries, config },
     bookmarks: { categories },
   } = useSelector((state: State) => state);
 
@@ -44,7 +44,7 @@ export const GeneralSettings = (): JSX.Element => {
     setFormData({
       ...config,
     });
-  }, [config]);
+  }, [loading]);
 
   // Form handler
   const formSubmitHandler = async (e: FormEvent) => {

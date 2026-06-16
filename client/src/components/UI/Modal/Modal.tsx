@@ -2,6 +2,7 @@ import {
   type KeyboardEvent,
   type MouseEvent,
   type ReactNode,
+  useEffect,
   useRef,
 } from 'react';
 
@@ -20,11 +21,19 @@ export const Modal = ({
   children,
   cb,
 }: Props): JSX.Element => {
-  const modalRef = useRef(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const modalClasses = [
     classes.Modal,
     isOpen ? classes.ModalOpen : classes.ModalClose,
   ].join(' ');
+
+  // Focus the backdrop when the modal opens so the Escape key handler fires
+  // (tabIndex={-1} keeps it out of the tab order while still focusable).
+  useEffect(() => {
+    if (isOpen) {
+      modalRef.current?.focus();
+    }
+  }, [isOpen]);
 
   const close = () => {
     setIsOpen(false);

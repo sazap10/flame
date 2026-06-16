@@ -49,7 +49,7 @@ export const Bookmarks = (props: Props): JSX.Element => {
     if (!categories.length) {
       getCategories();
     }
-  }, [getCategories, categories.length]);
+  }, []);
 
   // Form
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -75,12 +75,12 @@ export const Bookmarks = (props: Props): JSX.Element => {
       setTableContentType(ContentType.bookmark);
       setShowTable(true);
     }
-  }, [categoryInEdit, modalIsOpen]);
+  }, [categoryInEdit]);
 
   useEffect(() => {
     setShowTable(false);
     setEditCategory(null);
-  }, [setEditCategory]);
+  }, []);
 
   // Form actions
   const toggleModal = (): void => {

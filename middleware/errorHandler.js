@@ -1,4 +1,3 @@
-const _ErrorResponse = require('../utils/ErrorResponse');
 const Logger = require('../utils/Logger');
 const logger = new Logger();
 

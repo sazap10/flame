@@ -32,7 +32,7 @@ import { ThemeGrid } from './ThemeGrid/ThemeGrid';
 export const Themer = (): JSX.Element => {
   const {
     auth: { isAuthenticated },
-    config: { config },
+    config: { loading, config },
     theme: { themes, userThemes, mode, lightTheme, darkTheme },
   } = useSelector((state: State) => state);
 
@@ -54,7 +54,7 @@ export const Themer = (): JSX.Element => {
     setFormData({
       ...config,
     });
-  }, [config]);
+  }, [loading]);
 
   // Change color scheme mode (live), and stage it as the new-user default
   const modeChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {

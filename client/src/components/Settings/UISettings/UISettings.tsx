@@ -13,7 +13,7 @@ import { inputHandler, uiSettingsTemplate } from '../../../utility';
 import { Button, InputGroup, SettingsHeadline } from '../../UI';
 
 export const UISettings = (): JSX.Element => {
-  const { config } = useSelector((state: State) => state.config);
+  const { loading, config } = useSelector((state: State) => state.config);
 
   const dispatch = useDispatch();
   const { updateConfig } = bindActionCreators(actionCreators, dispatch);
@@ -26,7 +26,7 @@ export const UISettings = (): JSX.Element => {
     setFormData({
       ...config,
     });
-  }, [config]);
+  }, [loading]);
 
   // Form handler
   const formSubmitHandler = async (e: FormEvent) => {

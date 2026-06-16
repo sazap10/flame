@@ -37,6 +37,9 @@
       "preset": "recommended",
       "a11y": {
         "useSemanticElements": "off"
+      },
+      "correctness": {
+        "useExhaustiveDependencies": "off"
       }
     }
   }

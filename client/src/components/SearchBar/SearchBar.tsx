@@ -33,7 +33,7 @@ export const SearchBar = (props: Props): JSX.Element => {
     if (!loading && !config.disableAutofocus) {
       inputRef.current.focus();
     }
-  }, [config, loading]);
+  }, [config]);
 
   const clearSearch = useCallback(() => {
     inputRef.current.value = '';

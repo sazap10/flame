@@ -41,7 +41,7 @@ export const Apps = (props: Props): JSX.Element => {
     if (!apps.length) {
       getApps();
     }
-  }, [apps.length, getApps]);
+  }, []);
 
   // Load categories so apps can be grouped and the form's category select is
   // populated even when navigating straight to /applications.
@@ -49,7 +49,7 @@ export const Apps = (props: Props): JSX.Element => {
     if (!categories.length) {
       getCategories();
     }
-  }, [getCategories, categories.length]);
+  }, []);
 
   // Form
   const [modalIsOpen, setModalIsOpen] = useState(false);

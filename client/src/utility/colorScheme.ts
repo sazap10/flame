@@ -25,7 +25,7 @@ export const fallbackDarkTheme: ThemeColors = parsePABToTheme(
 
 // Read the operating system color scheme preference
 export const getSystemScheme = (): ColorScheme =>
-  window.matchMedia?.('(prefers-color-scheme: dark)').matches
+  window.matchMedia?.('(prefers-color-scheme: dark)')?.matches
     ? 'dark'
     : 'light';
 

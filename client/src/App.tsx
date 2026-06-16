@@ -92,20 +92,14 @@ export const App = (): JSX.Element => {
         mql.removeListener(schemeListener);
       }
     };
-  }, [
-    logout,
-    syncSystemScheme, // load themes
-    fetchThemes, // load custom search queries
-    fetchQueries,
-    createNotification,
-  ]);
+  }, []);
 
   // Seed this browser's scheme preferences from the server defaults on first load
   useEffect(() => {
     if (!loading) {
       initThemeFromConfig(config);
     }
-  }, [loading, initThemeFromConfig, config]);
+  }, [loading]);
 
   return (
     <>

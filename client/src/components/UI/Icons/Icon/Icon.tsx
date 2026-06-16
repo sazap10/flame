@@ -8,8 +8,10 @@ interface Props {
   color?: string;
 }
 
-// Indexing the namespace import directly defeats tree-shaking; alias it to a
-// plain record so the icon can be looked up dynamically by name.
+// Look icons up by name at runtime. Aliasing the namespace import to a record
+// keeps the dynamic lookup in one place and satisfies
+// noDynamicNamespaceImportAccess (the dynamic access already prevents
+// tree-shaking of @mdi/js regardless).
 const icons: Record<string, string> = MDIcons;
 
 export const Icon = (props: Props): JSX.Element => {

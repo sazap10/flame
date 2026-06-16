@@ -26,7 +26,7 @@ export const WeatherIcon = (props: Props): JSX.Element => {
     return () => {
       clearTimeout(delay);
     };
-  }, [icon, activeTheme.colors.accent]);
+  }, [props.weatherStatusCode, icon, activeTheme.colors.accent]);
 
   return <canvas id={`weather-icon`} width="50" height="50"></canvas>;
 };

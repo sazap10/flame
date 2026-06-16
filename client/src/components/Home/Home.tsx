@@ -45,14 +45,14 @@ export const Home = (): JSX.Element => {
     if (!apps.length) {
       getApps();
     }
-  }, [getApps, apps.length]);
+  }, []);
 
   // Load bookmark categories
   useEffect(() => {
     if (!categories.length) {
       getCategories();
     }
-  }, [getCategories, categories.length]);
+  }, []);
 
   useEffect(() => {
     if (localSearch) {
@@ -80,7 +80,7 @@ export const Home = (): JSX.Element => {
       setAppSearchResult(null);
       setBookmarkSearchResult(null);
     }
-  }, [localSearch, categories[0], apps.filter]);
+  }, [localSearch]);
 
   return (
     <Container>

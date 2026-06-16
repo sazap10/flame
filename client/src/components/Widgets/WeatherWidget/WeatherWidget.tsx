@@ -51,7 +51,7 @@ export const WeatherWidget = (): JSX.Element => {
     };
 
     return () => webSocketClient.close();
-  }, [weather]);
+  }, []);
 
   return (
     <div className={classes.WeatherWidget}>

@@ -42,7 +42,7 @@ export const ThemeBuilder = ({ themes }: Props): JSX.Element => {
       toggleIsInEdit(false);
       toggleShowModal(false);
     }
-  }, [userThemes, isInEdit]);
+  }, [userThemes]);
 
   return (
     <div className={classes.ThemeBuilder}>

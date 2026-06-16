@@ -35,7 +35,7 @@ export const Notification = (props: Props): JSX.Element => {
       window.clearTimeout(closeNotification);
       window.clearTimeout(clearNotificationTimeout);
     };
-  }, [props.id, clearNotification]);
+  }, []);
 
   const clickHandler = () => {
     if (props.url) {

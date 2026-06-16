@@ -14,7 +14,7 @@ import { inputHandler, weatherSettingsTemplate } from '../../../utility';
 import { Button, InputGroup, SettingsHeadline } from '../../UI';
 
 export const WeatherSettings = (): JSX.Element => {
-  const { config } = useSelector((state: State) => state.config);
+  const { loading, config } = useSelector((state: State) => state.config);
 
   const dispatch = useDispatch();
   const { createNotification, updateConfig } = bindActionCreators(
@@ -32,7 +32,7 @@ export const WeatherSettings = (): JSX.Element => {
     setFormData({
       ...config,
     });
-  }, [config]);
+  }, [loading]);
 
   // Form handler
   const formSubmitHandler = async (e: FormEvent) => {
