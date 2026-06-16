@@ -14,7 +14,7 @@ export default defineConfig({
     // Component tests run in a simulated DOM and load the jest-dom matchers /
     // cleanup from the setup file.
     environment: 'jsdom',
-    setupFiles: './src/test/setup.ts',
+    setupFiles: './src/testing/setup.ts',
     css: true,
     restoreMocks: true,
   },

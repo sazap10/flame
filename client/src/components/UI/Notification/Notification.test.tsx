@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { renderWithStore } from '../../../test/test-utils';
+import { renderWithStore } from '../../../testing/test-utils';
 import { Notification } from './Notification';
 
 const props = {

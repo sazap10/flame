@@ -1,6 +1,6 @@
 import { act } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { renderWithStore } from '../../../test/test-utils';
+import { renderWithStore } from '../../../testing/test-utils';
 import { WeatherWidget } from './WeatherWidget';
 
 // The initial /api/weather request should resolve to nothing so only the
