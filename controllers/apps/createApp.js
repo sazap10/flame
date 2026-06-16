@@ -5,7 +5,7 @@ const loadConfig = require('../../utils/loadConfig');
 // @desc      Create new app
 // @route     POST /api/apps
 // @access    Public
-const createApp = asyncWrapper(async (req, res, next) => {
+const createApp = asyncWrapper(async (req, res, _next) => {
   const { pinAppsByDefault } = await loadConfig();
 
   const body = { ...req.body };

@@ -5,7 +5,9 @@ export const arrayPartition = <T>(
   const pass: T[] = [];
   const fail: T[] = [];
 
-  arr.forEach((e) => (isValid(e) ? pass : fail).push(e));
+  arr.forEach((e) => {
+    (isValid(e) ? pass : fail).push(e);
+  });
 
   return [pass, fail];
 };

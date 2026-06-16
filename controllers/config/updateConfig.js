@@ -1,11 +1,11 @@
 const asyncWrapper = require('../../middleware/asyncWrapper');
 const loadConfig = require('../../utils/loadConfig');
-const { writeFile } = require('fs/promises');
+const { writeFile } = require('node:fs/promises');
 
 // @desc      Update config
 // @route     PUT /api/config/
 // @access    Public
-const updateConfig = asyncWrapper(async (req, res, next) => {
+const updateConfig = asyncWrapper(async (req, res, _next) => {
   const existingConfig = await loadConfig();
 
   const newConfig = {

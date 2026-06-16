@@ -1,8 +1,5 @@
 import axios from 'axios';
 import type { Dispatch } from 'redux';
-import { applyAuth } from '../../utility';
-import { ActionType } from '../action-types';
-
 import type {
   ApiResponse,
   Bookmark,
@@ -11,23 +8,18 @@ import type {
   NewBookmark,
   NewCategory,
 } from '../../interfaces';
-
+import { applyAuth } from '../../utility';
+import { ActionType } from '../action-types';
 import type {
-  AddBookmarkAction,
-  AddCategoryAction,
-  DeleteBookmarkAction,
-  DeleteCategoryAction,
   GetCategoriesAction,
-  PinCategoryAction,
   ReorderBookmarksAction,
   ReorderCategoriesAction,
   SetEditBookmarkAction,
   SetEditCategoryAction,
   SortBookmarksAction,
   SortCategoriesAction,
-  UpdateBookmarkAction,
-  UpdateCategoryAction,
 } from '../actions/bookmark';
+import type { AppDispatch } from '../store';
 
 export const getCategories =
   () =>
@@ -52,7 +44,7 @@ export const getCategories =
   };
 
 export const addCategory =
-  (formData: NewCategory) => async (dispatch: Dispatch<AddCategoryAction>) => {
+  (formData: NewCategory) => async (dispatch: AppDispatch) => {
     try {
       const res = await axios.post<ApiResponse<Category>>(
         '/api/categories',
@@ -60,7 +52,7 @@ export const addCategory =
         { headers: applyAuth() }
       );
 
-      dispatch<any>({
+      dispatch({
         type: ActionType.createNotification,
         payload: {
           title: 'Success',
@@ -73,15 +65,14 @@ export const addCategory =
         payload: res.data.data,
       });
 
-      dispatch<any>(sortCategories());
+      dispatch(sortCategories());
     } catch (err) {
       console.log(err);
     }
   };
 
 export const addBookmark =
-  (formData: NewBookmark | FormData) =>
-  async (dispatch: Dispatch<AddBookmarkAction>) => {
+  (formData: NewBookmark | FormData) => async (dispatch: AppDispatch) => {
     try {
       const res = await axios.post<ApiResponse<Bookmark>>(
         '/api/bookmarks',
@@ -89,7 +80,7 @@ export const addBookmark =
         { headers: applyAuth() }
       );
 
-      dispatch<any>({
+      dispatch({
         type: ActionType.createNotification,
         payload: {
           title: 'Success',
@@ -102,14 +93,14 @@ export const addBookmark =
         payload: res.data.data,
       });
 
-      dispatch<any>(sortBookmarks(res.data.data.categoryId));
+      dispatch(sortBookmarks(res.data.data.categoryId));
     } catch (err) {
       console.log(err);
     }
   };
 
 export const pinCategory =
-  (category: Category) => async (dispatch: Dispatch<PinCategoryAction>) => {
+  (category: Category) => async (dispatch: AppDispatch) => {
     try {
       const { id, isPinned, name } = category;
       const res = await axios.put<ApiResponse<Category>>(
@@ -122,7 +113,7 @@ export const pinCategory =
         ? 'unpinned from Homescreen'
         : 'pinned to Homescreen';
 
-      dispatch<any>({
+      dispatch({
         type: ActionType.createNotification,
         payload: {
           title: 'Success',
@@ -139,33 +130,31 @@ export const pinCategory =
     }
   };
 
-export const deleteCategory =
-  (id: number) => async (dispatch: Dispatch<DeleteCategoryAction>) => {
-    try {
-      await axios.delete<ApiResponse<{}>>(`/api/categories/${id}`, {
-        headers: applyAuth(),
-      });
+export const deleteCategory = (id: number) => async (dispatch: AppDispatch) => {
+  try {
+    await axios.delete<ApiResponse<unknown>>(`/api/categories/${id}`, {
+      headers: applyAuth(),
+    });
 
-      dispatch<any>({
-        type: ActionType.createNotification,
-        payload: {
-          title: 'Success',
-          message: `Category deleted`,
-        },
-      });
+    dispatch({
+      type: ActionType.createNotification,
+      payload: {
+        title: 'Success',
+        message: `Category deleted`,
+      },
+    });
 
-      dispatch({
-        type: ActionType.deleteCategory,
-        payload: id,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    dispatch({
+      type: ActionType.deleteCategory,
+      payload: id,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const updateCategory =
-  (id: number, formData: NewCategory) =>
-  async (dispatch: Dispatch<UpdateCategoryAction>) => {
+  (id: number, formData: NewCategory) => async (dispatch: AppDispatch) => {
     try {
       const res = await axios.put<ApiResponse<Category>>(
         `/api/categories/${id}`,
@@ -173,7 +162,7 @@ export const updateCategory =
         { headers: applyAuth() }
       );
 
-      dispatch<any>({
+      dispatch({
         type: ActionType.createNotification,
         payload: {
           title: 'Success',
@@ -186,21 +175,20 @@ export const updateCategory =
         payload: res.data.data,
       });
 
-      dispatch<any>(sortCategories());
+      dispatch(sortCategories());
     } catch (err) {
       console.log(err);
     }
   };
 
 export const deleteBookmark =
-  (bookmarkId: number, categoryId: number) =>
-  async (dispatch: Dispatch<DeleteBookmarkAction>) => {
+  (bookmarkId: number, categoryId: number) => async (dispatch: AppDispatch) => {
     try {
-      await axios.delete<ApiResponse<{}>>(`/api/bookmarks/${bookmarkId}`, {
+      await axios.delete<ApiResponse<unknown>>(`/api/bookmarks/${bookmarkId}`, {
         headers: applyAuth(),
       });
 
-      dispatch<any>({
+      dispatch({
         type: ActionType.createNotification,
         payload: {
           title: 'Success',
@@ -229,11 +217,7 @@ export const updateBookmark =
       curr: number;
     }
   ) =>
-  async (
-    dispatch: Dispatch<
-      DeleteBookmarkAction | AddBookmarkAction | UpdateBookmarkAction
-    >
-  ) => {
+  async (dispatch: AppDispatch) => {
     try {
       const res = await axios.put<ApiResponse<Bookmark>>(
         `/api/bookmarks/${bookmarkId}`,
@@ -241,7 +225,7 @@ export const updateBookmark =
         { headers: applyAuth() }
       );
 
-      dispatch<any>({
+      dispatch({
         type: ActionType.createNotification,
         payload: {
           title: 'Success',
@@ -275,7 +259,7 @@ export const updateBookmark =
         });
       }
 
-      dispatch<any>(sortBookmarks(res.data.data.categoryId));
+      dispatch(sortBookmarks(res.data.data.categoryId));
     } catch (err) {
       console.log(err);
     }
@@ -308,14 +292,14 @@ export const reorderCategories =
     try {
       const updateQuery: ReorderQuery = { categories: [] };
 
-      categories.forEach((category, index) =>
+      categories.forEach((category, index) => {
         updateQuery.categories.push({
           id: category.id,
           orderId: index + 1,
-        })
-      );
+        });
+      });
 
-      await axios.put<ApiResponse<{}>>(
+      await axios.put<ApiResponse<unknown>>(
         '/api/categories/0/reorder',
         updateQuery,
         { headers: applyAuth() }
@@ -361,14 +345,14 @@ export const reorderBookmarks =
     try {
       const updateQuery: ReorderQuery = { bookmarks: [] };
 
-      bookmarks.forEach((bookmark, index) =>
+      bookmarks.forEach((bookmark, index) => {
         updateQuery.bookmarks.push({
           id: bookmark.id,
           orderId: index + 1,
-        })
-      );
+        });
+      });
 
-      await axios.put<ApiResponse<{}>>(
+      await axios.put<ApiResponse<unknown>>(
         '/api/bookmarks/0/reorder',
         updateQuery,
         { headers: applyAuth() }

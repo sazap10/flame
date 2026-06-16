@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom';
-
-import classes from './BookmarkGrid.module.css';
-
 import type { Category } from '../../../interfaces';
+import { Message } from '../../UI';
 
 import { BookmarkCard } from '../BookmarkCard/BookmarkCard';
-import { Message } from '../../UI';
+import classes from './BookmarkGrid.module.css';
 
 interface Props {
   categories: Category[];

@@ -1,18 +1,15 @@
-import { ActionType } from '../action-types';
+import axios from 'axios';
 import type { Dispatch } from 'redux';
 import type { ApiResponse, App, Config, NewApp } from '../../interfaces';
+import { applyAuth } from '../../utility';
+import { ActionType } from '../action-types';
 import type {
-  AddAppAction,
-  DeleteAppAction,
   GetAppsAction,
-  PinAppAction,
   ReorderAppsAction,
   SetEditAppAction,
   SortAppsAction,
-  UpdateAppAction,
 } from '../actions/app';
-import axios from 'axios';
-import { applyAuth } from '../../utility';
+import type { AppDispatch } from '../store';
 
 export const getApps =
   () => async (dispatch: Dispatch<GetAppsAction<undefined | App[]>>) => {
@@ -35,49 +32,48 @@ export const getApps =
     }
   };
 
-export const pinApp =
-  (app: App) => async (dispatch: Dispatch<PinAppAction>) => {
-    try {
-      const { id, isPinned, name } = app;
-      const res = await axios.put<ApiResponse<App>>(
-        `/api/apps/${id}`,
-        {
-          isPinned: !isPinned,
-        },
-        {
-          headers: applyAuth(),
-        }
-      );
+export const pinApp = (app: App) => async (dispatch: AppDispatch) => {
+  try {
+    const { id, isPinned, name } = app;
+    const res = await axios.put<ApiResponse<App>>(
+      `/api/apps/${id}`,
+      {
+        isPinned: !isPinned,
+      },
+      {
+        headers: applyAuth(),
+      }
+    );
 
-      const status = isPinned
-        ? 'unpinned from Homescreen'
-        : 'pinned to Homescreen';
+    const status = isPinned
+      ? 'unpinned from Homescreen'
+      : 'pinned to Homescreen';
 
-      dispatch<any>({
-        type: ActionType.createNotification,
-        payload: {
-          title: 'Success',
-          message: `App ${name} ${status}`,
-        },
-      });
+    dispatch({
+      type: ActionType.createNotification,
+      payload: {
+        title: 'Success',
+        message: `App ${name} ${status}`,
+      },
+    });
 
-      dispatch({
-        type: ActionType.pinApp,
-        payload: res.data.data,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    dispatch({
+      type: ActionType.pinApp,
+      payload: res.data.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const addApp =
-  (formData: NewApp | FormData) => async (dispatch: Dispatch<AddAppAction>) => {
+  (formData: NewApp | FormData) => async (dispatch: AppDispatch) => {
     try {
       const res = await axios.post<ApiResponse<App>>('/api/apps', formData, {
         headers: applyAuth(),
       });
 
-      dispatch<any>({
+      dispatch({
         type: ActionType.createNotification,
         payload: {
           title: 'Success',
@@ -91,39 +87,38 @@ export const addApp =
       });
 
       // Sort apps
-      dispatch<any>(sortApps());
+      dispatch(sortApps());
     } catch (err) {
       console.log(err);
     }
   };
 
-export const deleteApp =
-  (id: number) => async (dispatch: Dispatch<DeleteAppAction>) => {
-    try {
-      await axios.delete<ApiResponse<{}>>(`/api/apps/${id}`, {
-        headers: applyAuth(),
-      });
+export const deleteApp = (id: number) => async (dispatch: AppDispatch) => {
+  try {
+    await axios.delete<ApiResponse<unknown>>(`/api/apps/${id}`, {
+      headers: applyAuth(),
+    });
 
-      dispatch<any>({
-        type: ActionType.createNotification,
-        payload: {
-          title: 'Success',
-          message: 'App deleted',
-        },
-      });
+    dispatch({
+      type: ActionType.createNotification,
+      payload: {
+        title: 'Success',
+        message: 'App deleted',
+      },
+    });
 
-      dispatch({
-        type: ActionType.deleteApp,
-        payload: id,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    dispatch({
+      type: ActionType.deleteApp,
+      payload: id,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const updateApp =
   (id: number, formData: NewApp | FormData) =>
-  async (dispatch: Dispatch<UpdateAppAction>) => {
+  async (dispatch: AppDispatch) => {
     try {
       const res = await axios.put<ApiResponse<App>>(
         `/api/apps/${id}`,
@@ -133,7 +128,7 @@ export const updateApp =
         }
       );
 
-      dispatch<any>({
+      dispatch({
         type: ActionType.createNotification,
         payload: {
           title: 'Success',
@@ -147,7 +142,7 @@ export const updateApp =
       });
 
       // Sort apps
-      dispatch<any>(sortApps());
+      dispatch(sortApps());
     } catch (err) {
       console.log(err);
     }
@@ -165,16 +160,20 @@ export const reorderApps =
     try {
       const updateQuery: ReorderQuery = { apps: [] };
 
-      apps.forEach((app, index) =>
+      apps.forEach((app, index) => {
         updateQuery.apps.push({
           id: app.id,
           orderId: index + 1,
-        })
-      );
-
-      await axios.put<ApiResponse<{}>>('/api/apps/0/reorder', updateQuery, {
-        headers: applyAuth(),
+        });
       });
+
+      await axios.put<ApiResponse<unknown>>(
+        '/api/apps/0/reorder',
+        updateQuery,
+        {
+          headers: applyAuth(),
+        }
+      );
 
       dispatch({
         type: ActionType.reorderApps,

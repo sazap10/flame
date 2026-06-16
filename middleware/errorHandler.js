@@ -1,8 +1,7 @@
-const ErrorResponse = require('../utils/ErrorResponse');
 const Logger = require('../utils/Logger');
 const logger = new Logger();
 
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, _req, res, _next) => {
   const error = { ...err };
   error.message = err.message;
 
@@ -13,7 +12,7 @@ const errorHandler = (err, req, res, next) => {
 
   logger.log(error.message.split(',')[0], 'ERROR');
 
-  if (process.env.NODE_ENV == 'development') {
+  if (process.env.NODE_ENV === 'development') {
     console.log(err);
   }
 

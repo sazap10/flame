@@ -1,7 +1,7 @@
-import searchQueries from './searchQueries.json';
 import type { SearchResult } from '../interfaces';
 import { store } from '../store/store';
 import { isUrlOrIp } from '.';
+import searchQueries from './searchQueries.json';
 
 export const searchParser = (searchQuery: string): SearchResult => {
   const queries = searchQueries.queries;

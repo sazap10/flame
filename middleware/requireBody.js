@@ -1,6 +1,6 @@
 const ErrorResponse = require('../utils/ErrorResponse');
 
-const requireBody = (keys) => (req, res, next) => {
+const requireBody = (keys) => (req, _res, next) => {
   const missing = keys.filter((key) => !Object.keys(req.body).includes(key));
 
   if (missing.length) {

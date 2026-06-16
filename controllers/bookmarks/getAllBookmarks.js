@@ -6,14 +6,14 @@ const loadConfig = require('../../utils/loadConfig');
 // @desc      Get all bookmarks
 // @route     GET /api/bookmarks
 // @access    Public
-const getAllBookmarks = asyncWrapper(async (req, res, next) => {
+const getAllBookmarks = asyncWrapper(async (req, res, _next) => {
   const { useOrdering: orderType } = await loadConfig();
 
   // bookmarks visibility
   const where = req.isAuthenticated ? {} : { isPublic: true };
 
   const order =
-    orderType == 'name'
+    orderType === 'name'
       ? [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']]
       : [[orderType, 'ASC']];
 

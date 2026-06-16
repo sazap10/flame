@@ -1,7 +1,7 @@
-import type { Action } from '../actions';
-import { ActionType } from '../action-types';
 import type { Config, Query } from '../../interfaces';
 import { configTemplate } from '../../utility';
+import { ActionType } from '../action-types';
+import type { Action } from '../actions';
 
 interface ConfigState {
   loading: boolean;

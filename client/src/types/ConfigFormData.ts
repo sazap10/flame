@@ -1,8 +1,8 @@
 import type {
   DockerSettingsForm,
-  UISettingsForm,
   GeneralForm,
   ThemeSettingsForm,
+  UISettingsForm,
   WeatherForm,
 } from '../interfaces';
 

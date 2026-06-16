@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('node:fs');
 const multer = require('multer');
 
 if (!fs.existsSync('data/uploads')) {
@@ -6,11 +6,11 @@ if (!fs.existsSync('data/uploads')) {
 }
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (_req, _file, cb) => {
     cb(null, './data/uploads');
   },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '--' + file.originalname);
+  filename: (_req, file, cb) => {
+    cb(null, `${Date.now()}--${file.originalname}`);
   },
 });
 
@@ -24,7 +24,7 @@ const supportedTypes = [
   'webp',
 ];
 
-const fileFilter = (req, file, cb) => {
+const fileFilter = (_req, file, cb) => {
   if (supportedTypes.includes(file.mimetype.split('/')[1])) {
     cb(null, true);
   } else {

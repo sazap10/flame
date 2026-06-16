@@ -21,7 +21,7 @@ class Logger {
     const tz = -d.getTimezoneOffset() / 60;
 
     return `${year}-${month}-${day} ${hour}:${minutes}:${seconds}.${miliseconds} UTC${
-      tz >= 0 ? '+' + tz : tz
+      tz >= 0 ? `+${tz}` : tz
     }`;
   }
 

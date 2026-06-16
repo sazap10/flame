@@ -8,6 +8,8 @@
     "test": "node --test",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
+    "format": "biome format --write .",
+    "check": "biome check --write .",
     "ci": "biome ci .",
     "init-server": "echo Installing server dependencies && npm install",
     "init-client": "cd client && echo Installing client dependencies && npm install",

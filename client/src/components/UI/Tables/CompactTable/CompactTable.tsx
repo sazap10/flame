@@ -12,8 +12,8 @@ export const CompactTable = ({ headers, children }: Props): JSX.Element => {
       className={classes.CompactTable}
       style={{ gridTemplateColumns: `repeat(${headers.length}, 1fr)` }}
     >
-      {headers.map((h, idx) => (
-        <span key={idx}>{h}</span>
+      {headers.map((h) => (
+        <span key={h}>{h}</span>
       ))}
 
       <div

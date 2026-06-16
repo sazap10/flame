@@ -1,4 +1,4 @@
-const { readFile } = require('fs/promises');
+const { readFile } = require('node:fs/promises');
 const checkFileExists = require('../utils/checkFileExists');
 const initConfig = require('../utils/init/initConfig');
 

@@ -8,7 +8,7 @@ const { useDocker } = require('../apps/docker');
 // @desc      Get all categories
 // @route     GET /api/categories
 // @access    Public
-const getAllCategories = asyncWrapper(async (req, res, next) => {
+const getAllCategories = asyncWrapper(async (req, res, _next) => {
   const { useOrdering: orderType, dockerApps: useDockerAPI } =
     await loadConfig();
 
@@ -28,7 +28,7 @@ const getAllCategories = asyncWrapper(async (req, res, next) => {
   const where = req.isAuthenticated ? {} : { isPublic: true };
 
   const order =
-    orderType == 'name'
+    orderType === 'name'
       ? [
           [Sequelize.fn('lower', Sequelize.col('Category.name')), 'ASC'],
           [Sequelize.fn('lower', Sequelize.col('bookmarks.name')), 'ASC'],

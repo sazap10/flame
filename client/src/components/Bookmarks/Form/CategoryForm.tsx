@@ -3,16 +3,13 @@ import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 // Redux
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../store';
-
 // Typescript
 import type { Category, NewCategory } from '../../../interfaces';
-
-// UI
-import { ModalForm, InputGroup, Button } from '../../UI';
-
+import { actionCreators } from '../../../store';
 // Utils
 import { inputHandler, newCategoryTemplate } from '../../../utility';
+// UI
+import { Button, InputGroup, ModalForm } from '../../UI';
 
 interface Props {
   modalHandler: () => void;

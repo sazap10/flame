@@ -1,5 +1,6 @@
-import classes from './AppCard.module.css';
-import { Icon } from '../../UI';
+import { useSelector } from 'react-redux';
+import type { App } from '../../../interfaces';
+import type { State } from '../../../store/reducers';
 import {
   iconParser,
   isImage,
@@ -8,10 +9,8 @@ import {
   parseShorthandIcon,
   urlParser,
 } from '../../../utility';
-
-import type { App } from '../../../interfaces';
-import { useSelector } from 'react-redux';
-import type { State } from '../../../store/reducers';
+import { Icon } from '../../UI';
+import classes from './AppCard.module.css';
 
 interface Props {
   app: App;
@@ -37,6 +36,8 @@ export const AppCard = ({ app }: Props): JSX.Element => {
             data-src={shorthandIcon.url}
             fill="var(--color-primary)"
             className={classes.CustomIcon}
+            role="img"
+            aria-label={`${app.name} icon`}
           ></svg>
         </div>
       ) : (
@@ -65,6 +66,8 @@ export const AppCard = ({ app }: Props): JSX.Element => {
           data-src={source}
           fill="var(--color-primary)"
           className={classes.CustomIcon}
+          role="img"
+          aria-label={`${app.name} icon`}
         ></svg>
       </div>
     );

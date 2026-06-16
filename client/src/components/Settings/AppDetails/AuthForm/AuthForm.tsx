@@ -1,14 +1,14 @@
-import { type FormEvent, Fragment, useEffect, useState, useRef } from 'react';
+import { type FormEvent, Fragment, useEffect, useRef, useState } from 'react';
 
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../../store';
 import type { State } from '../../../../store/reducers';
 import { decodeToken, parseTokenExpire } from '../../../../utility';
 
 // Other
-import { InputGroup, Button } from '../../../UI';
+import { Button, InputGroup } from '../../../UI';
 import classes from '../AppDetails.module.css';
 
 export const AuthForm = (): JSX.Element => {
@@ -51,8 +51,8 @@ export const AuthForm = (): JSX.Element => {
   if (isAnonymous) {
     return (
       <p className={classes.text}>
-        Anonymous access is enabled on this instance, so password
-        authentication is disabled. Everyone can view and edit. Unset the{' '}
+        Anonymous access is enabled on this instance, so password authentication
+        is disabled. Everyone can view and edit. Unset the{' '}
         <code>ANONYMOUS_AUTH</code> environment variable to re-enable the login.
       </p>
     );

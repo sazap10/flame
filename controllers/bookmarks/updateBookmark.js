@@ -21,7 +21,7 @@ const updateBookmark = asyncWrapper(async (req, res, next) => {
 
   const body = {
     ...req.body,
-    categoryId: parseInt(req.body.categoryId),
+    categoryId: parseInt(req.body.categoryId, 10),
   };
 
   if (body.icon) {

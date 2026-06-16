@@ -1,17 +1,15 @@
+import axios, { type AxiosError } from 'axios';
 import type { Dispatch } from 'redux';
+import type { ApiResponse, Config, Query } from '../../interfaces';
+import type { ConfigFormData } from '../../types';
+import { applyAuth, storeUIConfig } from '../../utility';
+import { ActionType } from '../action-types';
 import type {
-  AddQueryAction,
   DeleteQueryAction,
   FetchQueriesAction,
-  GetConfigAction,
-  UpdateConfigAction,
   UpdateQueryAction,
 } from '../actions/config';
-import axios, { type AxiosError } from 'axios';
-import type { ApiResponse, Config, Query } from '../../interfaces';
-import { ActionType } from '../action-types';
-import { storeUIConfig, applyAuth } from '../../utility';
-import type { ConfigFormData } from '../../types';
+import type { AppDispatch } from '../store';
 import { setAnonymousAuth } from './auth';
 
 const keys: (keyof Config)[] = [
@@ -23,7 +21,7 @@ const keys: (keyof Config)[] = [
   'hideDate',
 ];
 
-export const getConfig = () => async (dispatch: Dispatch<GetConfigAction>) => {
+export const getConfig = () => async (dispatch: AppDispatch) => {
   try {
     const res = await axios.get<ApiResponse<Config>>('/api/config');
 
@@ -34,7 +32,7 @@ export const getConfig = () => async (dispatch: Dispatch<GetConfigAction>) => {
 
     // Enable anonymous auth when the server reports it is configured
     if (res.data.data.isAnonymousAuth) {
-      dispatch<any>(setAnonymousAuth());
+      dispatch(setAnonymousAuth());
     }
 
     // Set custom page title if set
@@ -50,8 +48,7 @@ export const getConfig = () => async (dispatch: Dispatch<GetConfigAction>) => {
 };
 
 export const updateConfig =
-  (formData: ConfigFormData) =>
-  async (dispatch: Dispatch<UpdateConfigAction>) => {
+  (formData: ConfigFormData) => async (dispatch: AppDispatch) => {
     try {
       const res = await axios.put<ApiResponse<Config>>(
         '/api/config',
@@ -61,7 +58,7 @@ export const updateConfig =
         }
       );
 
-      dispatch<any>({
+      dispatch({
         type: ActionType.createNotification,
         payload: {
           title: 'Success',
@@ -97,29 +94,28 @@ export const fetchQueries =
     }
   };
 
-export const addQuery =
-  (query: Query) => async (dispatch: Dispatch<AddQueryAction>) => {
-    try {
-      const res = await axios.post<ApiResponse<Query>>('/api/queries', query, {
-        headers: applyAuth(),
-      });
+export const addQuery = (query: Query) => async (dispatch: AppDispatch) => {
+  try {
+    const res = await axios.post<ApiResponse<Query>>('/api/queries', query, {
+      headers: applyAuth(),
+    });
 
-      dispatch({
-        type: ActionType.addQuery,
-        payload: res.data.data,
-      });
-    } catch (err) {
-      const error = err as AxiosError<{ error: string }>;
+    dispatch({
+      type: ActionType.addQuery,
+      payload: res.data.data,
+    });
+  } catch (err) {
+    const error = err as AxiosError<{ error: string }>;
 
-      dispatch<any>({
-        type: ActionType.createNotification,
-        payload: {
-          title: 'Error',
-          message: error.response?.data.error,
-        },
-      });
-    }
-  };
+    dispatch({
+      type: ActionType.createNotification,
+      payload: {
+        title: 'Error',
+        message: error.response?.data.error,
+      },
+    });
+  }
+};
 
 export const deleteQuery =
   (prefix: string) => async (dispatch: Dispatch<DeleteQueryAction>) => {

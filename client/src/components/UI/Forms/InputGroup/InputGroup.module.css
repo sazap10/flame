@@ -39,12 +39,12 @@
   height: 50vh;
 }
 
-.InputGroup input[type='color'] {
+.InputGroup input[type="color"] {
   margin: 0;
   padding: 0;
   background-color: transparent;
 }
 
-.InputGroup input[type='color']:hover {
+.InputGroup input[type="color"]:hover {
   cursor: pointer;
 }

@@ -2,15 +2,15 @@ import { Fragment, useState } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import type { State } from '../../../../store/reducers';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../../store';
-
 // Typescript
 import type { Query } from '../../../../interfaces';
+import { actionCreators } from '../../../../store';
+import type { State } from '../../../../store/reducers';
+import { onActivate } from '../../../../utility';
 
 // UI
-import { Modal, Icon, Button, CompactTable, ActionIcons } from '../../../UI';
+import { ActionIcons, Button, CompactTable, Icon, Modal } from '../../../UI';
 
 // Components
 import { QueriesForm } from './QueriesForm';
@@ -67,24 +67,34 @@ export const CustomQueries = (): JSX.Element => {
       <section>
         {customQueries.length ? (
           <CompactTable headers={['Name', 'Prefix', 'Actions']}>
-            {customQueries.map((q: Query, idx) => (
-              <Fragment key={idx}>
+            {customQueries.map((q: Query) => (
+              <Fragment key={q.prefix}>
                 <span>{q.name}</span>
                 <span>{q.prefix}</span>
                 <ActionIcons>
-                  <span onClick={() => updateHandler(q)}>
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Edit query"
+                    onClick={() => updateHandler(q)}
+                    onKeyDown={onActivate(() => updateHandler(q))}
+                  >
                     <Icon icon="mdiPencil" />
                   </span>
-                  <span onClick={() => deleteHandler(q)}>
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Delete query"
+                    onClick={() => deleteHandler(q)}
+                    onKeyDown={onActivate(() => deleteHandler(q))}
+                  >
                     <Icon icon="mdiDelete" />
                   </span>
                 </ActionIcons>
               </Fragment>
             ))}
           </CompactTable>
-        ) : (
-          <></>
-        )}
+        ) : null}
 
         <Button
           click={() => {

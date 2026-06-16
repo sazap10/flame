@@ -1,19 +1,16 @@
-import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
+import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import type { State } from '../../../store/reducers';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../store';
-
 // Typescript
 import type { UISettingsForm } from '../../../interfaces';
-
-// UI
-import { InputGroup, Button, SettingsHeadline } from '../../UI';
-
+import { actionCreators } from '../../../store';
+import type { State } from '../../../store/reducers';
 // Utils
-import { uiSettingsTemplate, inputHandler } from '../../../utility';
+import { inputHandler, uiSettingsTemplate } from '../../../utility';
+// UI
+import { Button, InputGroup, SettingsHeadline } from '../../UI';
 
 export const UISettings = (): JSX.Element => {
   const { loading, config } = useSelector((state: State) => state.config);

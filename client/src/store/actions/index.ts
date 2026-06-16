@@ -1,16 +1,37 @@
-import type { App } from '../../interfaces';
-
+import type { App, Category } from '../../interfaces';
 import type {
-  AddThemeAction,
-  DeleteThemeAction,
-  EditThemeAction,
-  FetchThemesAction,
-  SetThemeAction,
-  SetColorSchemeAction,
-  SetSlotThemeAction,
-  UpdateThemeAction,
-} from './theme';
-
+  AddAppAction,
+  DeleteAppAction,
+  GetAppsAction,
+  PinAppAction,
+  ReorderAppsAction,
+  SetEditAppAction,
+  SortAppsAction,
+  UpdateAppAction,
+} from './app';
+import type {
+  AuthErrorAction,
+  AutoLoginAction,
+  LoginAction,
+  LogoutAction,
+  SetAnonymousAuthAction,
+} from './auth';
+import type {
+  AddBookmarkAction,
+  AddCategoryAction,
+  DeleteBookmarkAction,
+  DeleteCategoryAction,
+  GetCategoriesAction,
+  PinCategoryAction,
+  ReorderBookmarksAction,
+  ReorderCategoriesAction,
+  SetEditBookmarkAction,
+  SetEditCategoryAction,
+  SortBookmarksAction,
+  SortCategoriesAction,
+  UpdateBookmarkAction,
+  UpdateCategoryAction,
+} from './bookmark';
 import type {
   AddQueryAction,
   DeleteQueryAction,
@@ -19,47 +40,20 @@ import type {
   UpdateConfigAction,
   UpdateQueryAction,
 } from './config';
-
 import type {
   ClearNotificationAction,
   CreateNotificationAction,
 } from './notification';
-
 import type {
-  GetAppsAction,
-  PinAppAction,
-  AddAppAction,
-  DeleteAppAction,
-  UpdateAppAction,
-  ReorderAppsAction,
-  SortAppsAction,
-  SetEditAppAction,
-} from './app';
-
-import type {
-  GetCategoriesAction,
-  AddCategoryAction,
-  PinCategoryAction,
-  DeleteCategoryAction,
-  UpdateCategoryAction,
-  SortCategoriesAction,
-  ReorderCategoriesAction,
-  AddBookmarkAction,
-  DeleteBookmarkAction,
-  UpdateBookmarkAction,
-  SetEditCategoryAction,
-  SetEditBookmarkAction,
-  ReorderBookmarksAction,
-  SortBookmarksAction,
-} from './bookmark';
-
-import type {
-  AuthErrorAction,
-  AutoLoginAction,
-  LoginAction,
-  LogoutAction,
-  SetAnonymousAuthAction,
-} from './auth';
+  AddThemeAction,
+  DeleteThemeAction,
+  EditThemeAction,
+  FetchThemesAction,
+  SetColorSchemeAction,
+  SetSlotThemeAction,
+  SetThemeAction,
+  UpdateThemeAction,
+} from './theme';
 
 export type Action =
   // Theme
@@ -91,7 +85,7 @@ export type Action =
   | SortAppsAction
   | SetEditAppAction
   // Categories
-  | GetCategoriesAction<any>
+  | GetCategoriesAction<undefined | Category[]>
   | AddCategoryAction
   | PinCategoryAction
   | DeleteCategoryAction

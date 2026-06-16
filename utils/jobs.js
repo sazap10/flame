@@ -9,9 +9,9 @@ const logger = new Logger();
 module.exports = async () => {
   const { WEATHER_API_KEY } = await loadConfig();
 
-  if (WEATHER_API_KEY != '') {
+  if (WEATHER_API_KEY !== '') {
     // Update weather data every 15 minutes
-    const weatherJob = schedule.scheduleJob(
+    const _weatherJob = schedule.scheduleJob(
       'updateWeather',
       '0 */15 * * * *',
       async () => {
@@ -28,7 +28,7 @@ module.exports = async () => {
     );
 
     // Clear old weather data every 4 hours
-    const weatherCleanerJob = schedule.scheduleJob(
+    const _weatherCleanerJob = schedule.scheduleJob(
       'clearWeather',
       '0 5 */4 * * *',
       async () => {

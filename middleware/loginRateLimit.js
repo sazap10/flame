@@ -11,7 +11,7 @@ const loginRateLimit = rateLimit({
   // Proxy trust is an explicit operator opt-in via TRUST_PROXY (see api.js),
   // so skip the library's permissive-trust-proxy guard.
   validate: { trustProxy: false },
-  handler: (req, res, next) =>
+  handler: (_req, _res, next) =>
     next(new ErrorResponse('Too many login attempts, try again later', 429)),
 });
 

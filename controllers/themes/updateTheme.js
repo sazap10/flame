@@ -4,11 +4,11 @@ const File = require('../../utils/File');
 // @desc      Update theme
 // @route     PUT /api/themes/:name
 // @access    Public
-const updateTheme = asyncWrapper(async (req, res, next) => {
+const updateTheme = asyncWrapper(async (req, res, _next) => {
   const file = new File('data/themes.json');
   const content = JSON.parse(file.read());
 
-  const themeIdx = content.themes.findIndex((t) => t.name == req.params.name);
+  const themeIdx = content.themes.findIndex((t) => t.name === req.params.name);
 
   // theme found
   if (themeIdx > -1) {

@@ -1,24 +1,22 @@
-import { useState, useEffect, Fragment } from 'react';
 import {
   DragDropContext,
-  Droppable,
   Draggable,
+  Droppable,
   type DropResult,
 } from '@hello-pangea/dnd';
+import { Fragment, useEffect, useState } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import type { State } from '../../../store/reducers';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../store';
-
 // Typescript
 import type { Bookmark, Category } from '../../../interfaces';
-
+import { actionCreators } from '../../../store';
+import type { State } from '../../../store/reducers';
+import { bookmarkTemplate } from '../../../utility';
+import { TableActions } from '../../Actions/TableActions';
 // UI
 import { Message, Table } from '../../UI';
-import { TableActions } from '../../Actions/TableActions';
-import { bookmarkTemplate } from '../../../utility';
 
 interface Props {
   openFormForUpdating: (data: Category | Bookmark) => void;

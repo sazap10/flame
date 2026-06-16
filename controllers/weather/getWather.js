@@ -4,7 +4,7 @@ const Weather = require('../../models/Weather');
 // @desc      Get latest weather status
 // @route     GET /api/weather
 // @access    Public
-const getWeather = asyncWrapper(async (req, res, next) => {
+const getWeather = asyncWrapper(async (_req, res, _next) => {
   const weather = await Weather.findAll({
     order: [['createdAt', 'DESC']],
     limit: 1,

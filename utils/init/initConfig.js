@@ -1,4 +1,4 @@
-const { copyFile, readFile, writeFile } = require('fs/promises');
+const { copyFile, readFile, writeFile } = require('node:fs/promises');
 const checkFileExists = require('../checkFileExists');
 const initialConfig = require('./initialConfig.json');
 

@@ -1,4 +1,4 @@
-const { createHash, timingSafeEqual } = require('crypto');
+const { createHash, timingSafeEqual } = require('node:crypto');
 const asyncWrapper = require('../../middleware/asyncWrapper');
 const ErrorResponse = require('../../utils/ErrorResponse');
 const signToken = require('../../utils/signToken');

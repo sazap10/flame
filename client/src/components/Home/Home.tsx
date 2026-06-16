@@ -1,29 +1,23 @@
-import { useState, useEffect, Fragment } from 'react';
-import { Link } from 'react-router-dom';
-
+import { Fragment, useEffect, useState } from 'react';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import type { State } from '../../store/reducers';
+import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../store';
-
 // Typescript
 import type { App, Category } from '../../interfaces';
-
-// UI
-import { Icon, Container, SectionHeadline, Spinner, Message } from '../UI';
-
-// CSS
-import classes from './Home.module.css';
-
+import { actionCreators } from '../../store';
+import type { State } from '../../store/reducers';
+// Utils
+import { escapeRegex } from '../../utility';
 // Components
 import { AppCategoryGrid } from '../Apps/AppGrid/AppCategoryGrid';
 import { BookmarkGrid } from '../Bookmarks/BookmarkGrid/BookmarkGrid';
 import { SearchBar } from '../SearchBar/SearchBar';
+// UI
+import { Container, Icon, Message, SectionHeadline, Spinner } from '../UI';
 import { Header } from './Header/Header';
-
-// Utils
-import { escapeRegex } from '../../utility';
+// CSS
+import classes from './Home.module.css';
 
 export const Home = (): JSX.Element => {
   const {
@@ -109,9 +103,7 @@ export const Home = (): JSX.Element => {
           Welcome to Flame! Go to <Link to="/settings/app">/settings</Link>,
           login and start customizing your new homepage
         </Message>
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       {!config.hideApps && (isAuthenticated || apps.some((a) => a.isPinned)) ? (
         <Fragment>
@@ -132,9 +124,7 @@ export const Home = (): JSX.Element => {
           )}
           <div className={classes.HomeSpace}></div>
         </Fragment>
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       {!config.hideCategories &&
       (isAuthenticated || categories.some((c) => c.isPinned)) ? (
@@ -161,9 +151,7 @@ export const Home = (): JSX.Element => {
             />
           )}
         </Fragment>
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       <Link to="/settings" className={classes.SettingsButton}>
         <Icon icon="mdiCog" color="var(--color-background)" />

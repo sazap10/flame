@@ -30,8 +30,5 @@
     "build": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "prettier": "^3.8.4"
   }
 }

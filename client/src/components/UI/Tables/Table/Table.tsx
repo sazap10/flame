@@ -1,9 +1,10 @@
+import type { ReactNode, Ref } from 'react';
 import classes from './Table.module.css';
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
   headers: string[];
-  innerRef?: any;
+  innerRef?: Ref<HTMLDivElement>;
 }
 
 export const Table = (props: Props): JSX.Element => {
@@ -13,8 +14,8 @@ export const Table = (props: Props): JSX.Element => {
         <thead className={classes.TableHead}>
           <tr>
             {props.headers.map(
-              (header: string, index: number): JSX.Element => (
-                <th key={index}>{header}</th>
+              (header: string): JSX.Element => (
+                <th key={header}>{header}</th>
               )
             )}
           </tr>

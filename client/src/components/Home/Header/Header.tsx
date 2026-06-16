@@ -1,20 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-
 // Redux
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import type { State } from '../../../store/reducers';
-
-// CSS
-import classes from './Header.module.css';
-
 // Components
 import { WeatherWidget } from '../../Widgets/WeatherWidget/WeatherWidget';
-import { ThemeToggle } from './ThemeToggle/ThemeToggle';
-
 // Utils
 import { getDateTime } from './functions/getDateTime';
 import { greeter } from './functions/greeter';
+// CSS
+import classes from './Header.module.css';
+import { ThemeToggle } from './ThemeToggle/ThemeToggle';
 
 export const Header = (): JSX.Element => {
   const { hideHeader, hideDate, showTime } = useSelector(

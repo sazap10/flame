@@ -1,19 +1,16 @@
-import { useRef, useEffect, type KeyboardEvent } from 'react';
+import { type KeyboardEvent, useCallback, useEffect, useRef } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-
+import { bindActionCreators } from 'redux';
 // Typescript
 import type { App, Category } from '../../interfaces';
-
+import { actionCreators } from '../../store';
+import type { State } from '../../store/reducers';
+// Utils
+import { redirectUrl, searchParser, urlParser } from '../../utility';
 // CSS
 import classes from './SearchBar.module.css';
-
-// Utils
-import { searchParser, urlParser, redirectUrl } from '../../utility';
-import type { State } from '../../store/reducers';
-import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../store';
 
 interface Props {
   setLocalSearch: (query: string) => void;
@@ -38,10 +35,15 @@ export const SearchBar = (props: Props): JSX.Element => {
     }
   }, [config]);
 
+  const clearSearch = useCallback(() => {
+    inputRef.current.value = '';
+    setLocalSearch('');
+  }, [setLocalSearch]);
+
   // Listen for keyboard events outside of search bar
   useEffect(() => {
-    const keyOutsideFocus = (e: any) => {
-      const { key } = e as KeyboardEvent;
+    const keyOutsideFocus = (e: globalThis.KeyboardEvent) => {
+      const { key } = e;
 
       if (key === 'Escape') {
         clearSearch();
@@ -56,12 +58,7 @@ export const SearchBar = (props: Props): JSX.Element => {
     window.addEventListener('keyup', keyOutsideFocus);
 
     return () => window.removeEventListener('keyup', keyOutsideFocus);
-  }, []);
-
-  const clearSearch = () => {
-    inputRef.current.value = '';
-    setLocalSearch('');
-  };
+  }, [clearSearch]);
 
   const searchHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     const {

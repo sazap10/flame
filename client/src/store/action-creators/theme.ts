@@ -1,35 +1,34 @@
+import axios, { type AxiosError } from 'axios';
 import type { Dispatch } from 'redux';
 import type {
-  AddThemeAction,
-  DeleteThemeAction,
+  ApiResponse,
+  ColorScheme,
+  Config,
+  Theme,
+  ThemeColors,
+  ThemeMode,
+} from '../../interfaces';
+import {
+  applyAuth,
+  DARK_THEME_KEY,
+  getSlotColors,
+  getStoredMode,
+  isThemeMode,
+  LIGHT_THEME_KEY,
+  migrateLegacyTheme,
+  parseThemeToPAB,
+  resolveScheme,
+  THEME_MODE_KEY,
+} from '../../utility';
+import { ActionType } from '../action-types';
+import type {
   EditThemeAction,
   FetchThemesAction,
   SetColorSchemeAction,
   SetSlotThemeAction,
   UpdateThemeAction,
 } from '../actions/theme';
-import { ActionType } from '../action-types';
-import type {
-  Theme,
-  ApiResponse,
-  ThemeColors,
-  ThemeMode,
-  ColorScheme,
-  Config,
-} from '../../interfaces';
-import {
-  applyAuth,
-  parseThemeToPAB,
-  resolveScheme,
-  getStoredMode,
-  getSlotColors,
-  isThemeMode,
-  migrateLegacyTheme,
-  THEME_MODE_KEY,
-  LIGHT_THEME_KEY,
-  DARK_THEME_KEY,
-} from '../../utility';
-import axios, { type AxiosError } from 'axios';
+import type { AppDispatch } from '../store';
 
 // Write theme colors to CSS variables and reflect the active scheme on <body>
 const applyColors = (colors: ThemeColors, scheme: ColorScheme): void => {
@@ -41,22 +40,21 @@ const applyColors = (colors: ThemeColors, scheme: ColorScheme): void => {
 };
 
 // Apply the stored color scheme on app start (prevents flash of default theme)
-export const initTheme =
-  () => (dispatch: Dispatch<SetColorSchemeAction>) => {
-    // Carry over any pre-light/dark single-theme preference into a slot
-    migrateLegacyTheme();
+export const initTheme = () => (dispatch: Dispatch<SetColorSchemeAction>) => {
+  // Carry over any pre-light/dark single-theme preference into a slot
+  migrateLegacyTheme();
 
-    const mode = getStoredMode();
-    const scheme = resolveScheme(mode);
-    const colors = getSlotColors(scheme);
+  const mode = getStoredMode();
+  const scheme = resolveScheme(mode);
+  const colors = getSlotColors(scheme);
 
-    applyColors(colors, scheme);
+  applyColors(colors, scheme);
 
-    dispatch({
-      type: ActionType.setColorScheme,
-      payload: { mode, scheme, colors },
-    });
-  };
+  dispatch({
+    type: ActionType.setColorScheme,
+    payload: { mode, scheme, colors },
+  });
+};
 
 // Change the user color scheme preference (light / dark / system)
 export const setThemeMode =
@@ -173,62 +171,60 @@ export const fetchThemes =
     }
   };
 
-export const addTheme =
-  (theme: Theme) => async (dispatch: Dispatch<AddThemeAction>) => {
-    try {
-      const res = await axios.post<ApiResponse<Theme>>('/api/themes', theme, {
-        headers: applyAuth(),
-      });
+export const addTheme = (theme: Theme) => async (dispatch: AppDispatch) => {
+  try {
+    const res = await axios.post<ApiResponse<Theme>>('/api/themes', theme, {
+      headers: applyAuth(),
+    });
 
-      dispatch({
-        type: ActionType.addTheme,
-        payload: res.data.data,
-      });
+    dispatch({
+      type: ActionType.addTheme,
+      payload: res.data.data,
+    });
 
-      dispatch<any>({
-        type: ActionType.createNotification,
-        payload: {
-          title: 'Success',
-          message: 'Theme added',
-        },
-      });
-    } catch (err) {
-      const error = err as AxiosError<{ error: string }>;
+    dispatch({
+      type: ActionType.createNotification,
+      payload: {
+        title: 'Success',
+        message: 'Theme added',
+      },
+    });
+  } catch (err) {
+    const error = err as AxiosError<{ error: string }>;
 
-      dispatch<any>({
-        type: ActionType.createNotification,
-        payload: {
-          title: 'Error',
-          message: error.response?.data.error,
-        },
-      });
-    }
-  };
+    dispatch({
+      type: ActionType.createNotification,
+      payload: {
+        title: 'Error',
+        message: error.response?.data.error,
+      },
+    });
+  }
+};
 
-export const deleteTheme =
-  (name: string) => async (dispatch: Dispatch<DeleteThemeAction>) => {
-    try {
-      const res = await axios.delete<ApiResponse<Theme[]>>(
-        `/api/themes/${name}`,
-        { headers: applyAuth() }
-      );
+export const deleteTheme = (name: string) => async (dispatch: AppDispatch) => {
+  try {
+    const res = await axios.delete<ApiResponse<Theme[]>>(
+      `/api/themes/${name}`,
+      { headers: applyAuth() }
+    );
 
-      dispatch({
-        type: ActionType.deleteTheme,
-        payload: res.data.data,
-      });
+    dispatch({
+      type: ActionType.deleteTheme,
+      payload: res.data.data,
+    });
 
-      dispatch<any>({
-        type: ActionType.createNotification,
-        payload: {
-          title: 'Success',
-          message: 'Theme deleted',
-        },
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    dispatch({
+      type: ActionType.createNotification,
+      payload: {
+        title: 'Success',
+        message: 'Theme deleted',
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const editTheme =
   (theme: Theme | null) => (dispatch: Dispatch<EditThemeAction>) => {

@@ -1,12 +1,18 @@
-import { type MouseEvent, type ReactNode, useRef } from 'react';
+import {
+  type KeyboardEvent,
+  type MouseEvent,
+  type ReactNode,
+  useEffect,
+  useRef,
+} from 'react';
 
 import classes from './Modal.module.css';
 
 interface Props {
   isOpen: boolean;
-  setIsOpen: Function;
+  setIsOpen: (isOpen: boolean) => void;
   children: ReactNode;
-  cb?: Function;
+  cb?: () => void;
 }
 
 export const Modal = ({
@@ -15,22 +21,51 @@ export const Modal = ({
   children,
   cb,
 }: Props): JSX.Element => {
-  const modalRef = useRef(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const modalClasses = [
     classes.Modal,
     isOpen ? classes.ModalOpen : classes.ModalClose,
   ].join(' ');
 
-  const clickHandler = (e: MouseEvent) => {
-    if (e.target === modalRef.current) {
-      setIsOpen(false);
+  // Focus the backdrop when the modal opens so the Escape key handler fires
+  // (tabIndex={-1} keeps it out of the tab order while still focusable).
+  useEffect(() => {
+    if (isOpen) {
+      modalRef.current?.focus();
+    }
+  }, [isOpen]);
 
-      if (cb) cb();
+  const close = () => {
+    setIsOpen(false);
+
+    if (cb) cb();
+  };
+
+  const clickHandler = (e: MouseEvent) => {
+    // Only dismiss when the backdrop itself (not the content) is clicked
+    if (e.target === modalRef.current) {
+      close();
+    }
+  };
+
+  const keyHandler = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      close();
     }
   };
 
   return (
-    <div className={modalClasses} onClick={clickHandler} ref={modalRef}>
+    // The backdrop closes the modal on outside-click / Escape; role="dialog"
+    // marks it as an interactive surface for assistive tech.
+    <div
+      className={modalClasses}
+      onClick={clickHandler}
+      onKeyDown={keyHandler}
+      ref={modalRef}
+      role="dialog"
+      aria-modal="true"
+      tabIndex={-1}
+    >
       {children}
     </div>
   );

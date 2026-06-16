@@ -1,4 +1,4 @@
-const { join } = require('path');
+const { join } = require('node:path');
 const express = require('express');
 const helmet = require('helmet');
 const { errorHandler } = require('./middleware');
@@ -34,7 +34,7 @@ api.use(
 // Static files
 api.use(express.static(join(__dirname, 'public')));
 api.use('/uploads', express.static(join(__dirname, 'data/uploads')));
-api.get(/^\/(?!api)/, (req, res) => {
+api.get(/^\/(?!api)/, (_req, res) => {
   res.sendFile(join(__dirname, 'public/index.html'));
 });
 

@@ -8,11 +8,9 @@ const { useKubernetes } = require('./docker');
 // @desc      Get all apps
 // @route     GET /api/apps
 // @access    Public
-const getAllApps = asyncWrapper(async (req, res, next) => {
-  const {
-    useOrdering: orderType,
-    kubernetesApps: useKubernetesAPI,
-  } = await loadConfig();
+const getAllApps = asyncWrapper(async (req, res, _next) => {
+  const { useOrdering: orderType, kubernetesApps: useKubernetesAPI } =
+    await loadConfig();
 
   let apps;
 
@@ -24,7 +22,7 @@ const getAllApps = asyncWrapper(async (req, res, next) => {
   const where = req.isAuthenticated ? {} : { isPublic: true };
 
   const order =
-    orderType == 'name'
+    orderType === 'name'
       ? [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']]
       : [[orderType, 'ASC']];
 

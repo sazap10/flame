@@ -1,4 +1,4 @@
-const { readFile, writeFile } = require('fs/promises');
+const { readFile, writeFile } = require('node:fs/promises');
 
 const normalizeTheme = async () => {
   // open main config file

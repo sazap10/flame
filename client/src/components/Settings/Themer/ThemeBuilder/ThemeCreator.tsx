@@ -1,17 +1,15 @@
-import { type ChangeEvent, type FormEvent, useState, useEffect } from 'react';
+import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
+// Other
+import type { Theme } from '../../../../interfaces';
 import { actionCreators } from '../../../../store';
 import type { State } from '../../../../store/reducers';
-
 // UI
 import { Button, InputGroup, ModalForm } from '../../../UI';
 import classes from './ThemeCreator.module.css';
-
-// Other
-import type { Theme } from '../../../../interfaces';
 
 interface Props {
   modalHandler: () => void;

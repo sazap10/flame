@@ -4,7 +4,7 @@ const File = require('../../utils/File');
 // @desc      Get themes file
 // @route     GET /api/themes
 // @access    Public
-const getThemes = asyncWrapper(async (req, res, next) => {
+const getThemes = asyncWrapper(async (_req, res, _next) => {
   const file = new File('data/themes.json');
   const content = JSON.parse(file.read());
 

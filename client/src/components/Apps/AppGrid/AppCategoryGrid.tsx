@@ -1,8 +1,6 @@
 import { Fragment } from 'react';
-
-import classes from './AppCategoryGrid.module.css';
-
 import type { App, Category } from '../../../interfaces';
+import classes from './AppCategoryGrid.module.css';
 
 import { AppGrid } from './AppGrid';
 
