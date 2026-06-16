@@ -31,16 +31,19 @@ afterEach(() => {
 });
 
 describe('WeatherWidget', () => {
-  it('opens the weather socket exactly once', () => {
+  it('opens the weather socket exactly once', async () => {
     renderWithStore(<WeatherWidget />);
+    // Flush the initial /api/weather promise so its setState runs inside act.
+    await act(async () => {});
 
     expect(MockWebSocket.instances).toHaveLength(1);
   });
 
-  it('does not recreate the socket when a weather update arrives', () => {
+  it('does not recreate the socket when a weather update arrives', async () => {
     // Regression guard: a `weather` dependency on the socket effect tore the
     // connection down and reopened it on every incoming message.
     renderWithStore(<WeatherWidget />);
+    await act(async () => {});
     expect(MockWebSocket.instances).toHaveLength(1);
 
     act(() => {

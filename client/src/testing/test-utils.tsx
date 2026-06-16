@@ -15,8 +15,11 @@ import { reducers, type State } from '../store/reducers';
 export const makeStore = (preloadedState?: Partial<State>) =>
   createStore(
     reducers,
-    // combineReducers tolerates a partial preloaded state; the cast just
-    // satisfies createStore's stricter parameter type.
+    // The real contract is the `Partial<State>` parameter above: combineReducers
+    // fills any omitted slices from their initial state. The `as never` only
+    // bridges to createStore's legacy type — redux 5 dropped the PreloadedState
+    // helper and, with an enhancer, types this argument as an unsatisfiable
+    // `Partial<Record<keyof State, never>>`.
     preloadedState as never,
     applyMiddleware(thunk)
   );

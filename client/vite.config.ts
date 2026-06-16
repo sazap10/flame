@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react';
-/// <reference types="vitest/config" />
+// `defineConfig` from vitest/config types the `test` field below.
 import { defineConfig } from 'vitest/config';
 
 // https://vite.dev/config/
