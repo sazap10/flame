@@ -50,8 +50,6 @@ jobs:
         with:
           context: .
           file: .docker/Dockerfile
-          # Unraid (normandy) is amd64. Add linux/arm64 here if you ever need it
-          # — note the native sqlite3 build makes arm64 under QEMU slow.
           platforms: linux/amd64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
