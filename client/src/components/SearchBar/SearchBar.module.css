@@ -1,18 +1,109 @@
-.SearchBar {
+.SearchContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   width: 100%;
-  padding: 10px 0;
-  color: var(--color-primary);
-  /* font-size: 20px; */
   margin-bottom: 20px;
-  background-color: transparent;
-  border: none;
+  padding: 10px 0;
   border-bottom: 2px solid var(--color-accent);
   opacity: 0.5;
-  transition: all 0.2s;
-  border-radius: 0px;
+  transition: opacity 0.2s;
 }
 
-.SearchBar:focus {
+.SearchContainer:focus-within {
   opacity: 1;
+}
+
+.SearchIcon {
+  display: flex;
+  align-items: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.SearchBar {
+  flex: 1;
+  min-width: 0;
+  color: var(--color-primary);
+  background-color: transparent;
+  border: none;
+}
+
+.ClearButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.ClearButton:hover {
+  opacity: 1;
+}
+
+.SearchBar::placeholder {
+  color: var(--color-primary);
+  /* 0.7 keeps the hint clearly above the 4.5:1 contrast floor in both the
+     light and dark default themes. */
+  opacity: 0.7;
+}
+
+/* Keep the underline-only look for pointer focus; give keyboard focus a
+   clearly visible ring. */
+.SearchBar:focus {
   outline: none;
+}
+
+.SearchBar:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 6px;
+}
+
+/* First-run tip teaching the search syntax. Full-contrast (no container
+   opacity) so it's readable, but small and quiet so it doesn't shout. */
+.SearchHint {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+  color: var(--color-primary);
+  font-size: 0.8em;
+  line-height: 1.5;
+}
+
+.SearchHint code {
+  font-family: monospace;
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.HintDismiss {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.HintDismiss:hover {
+  opacity: 1;
 }

@@ -1,8 +1,16 @@
 .Header h1 {
   color: var(--color-primary);
   font-weight: 700;
-  font-size: 4em;
+  /* Smaller on phones so the greeting doesn't crowd the weather widget; full
+     size from small tablets up. Fixed steps, not fluid, per product UI. */
+  font-size: 2.5em;
   display: inline-block;
+}
+
+@media (min-width: 500px) {
+  .Header h1 {
+    font-size: 4em;
+  }
 }
 
 .Header p {

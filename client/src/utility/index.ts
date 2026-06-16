@@ -2,6 +2,7 @@ export * from './applyAuth';
 export * from './arrayPartition';
 export * from './checkVersion';
 export * from './colorScheme';
+export * from './contrast';
 export * from './decodeToken';
 export * from './escapeRegex';
 export * from './iconParser';

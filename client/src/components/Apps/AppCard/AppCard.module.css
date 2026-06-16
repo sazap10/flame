@@ -11,21 +11,21 @@
   margin-right: 0.5em;
 }
 
-.AppCardDetails {
-  text-transform: uppercase;
-}
-
 .AppCardDetails h5 {
   font-size: 1em;
   font-weight: 500;
   color: var(--color-primary);
   margin-bottom: -4px;
+  /* Names are short labels, so uppercase is fine here. */
+  text-transform: uppercase;
 }
 
 .AppCardDetails span {
   color: var(--color-accent);
   font-weight: 400;
-  font-size: 0.8em;
+  /* Descriptions can be full sentences or URLs; keep them sentence case and
+     a touch larger so they stay readable. */
+  font-size: 0.85em;
   opacity: 1;
 }
 

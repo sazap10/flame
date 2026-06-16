@@ -4,4 +4,25 @@
   font-weight: 900;
   font-size: 20px;
   margin-bottom: 16px;
+  transition: color 0.2s;
+}
+
+/* Signal that the heading links to the full list ("view all"), subtly at rest
+   and clearly on hover/focus. */
+.SectionHeadline::after {
+  content: "›";
+  margin-left: 0.35em;
+  font-weight: 700;
+  opacity: 0.45;
+  transition: opacity 0.2s;
+}
+
+.SectionHeadline:hover,
+a:focus-visible .SectionHeadline {
+  color: var(--color-accent);
+}
+
+.SectionHeadline:hover::after,
+a:focus-visible .SectionHeadline::after {
+  opacity: 1;
 }
