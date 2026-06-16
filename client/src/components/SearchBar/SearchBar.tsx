@@ -57,12 +57,13 @@ export const SearchBar = (props: Props): JSX.Element => {
   // Search bar autofocus. Skip on touch-sized screens so opening the page
   // doesn't immediately pop the on-screen keyboard.
   useEffect(() => {
-    const isDesktop = window.matchMedia('(min-width: 769px)').matches;
+    const isDesktop =
+      window.matchMedia?.('(min-width: 769px)')?.matches ?? false;
 
     if (!loading && !config.disableAutofocus && isDesktop) {
       inputRef.current.focus();
     }
-  }, [config]);
+  }, [config, loading]);
 
   const clearSearch = useCallback(() => {
     inputRef.current.value = '';

@@ -16,7 +16,9 @@ const relativeLuminance = (hex: string): number => {
       .join('');
   }
 
-  if (h.length !== 6) return 0;
+  // Reject anything that isn't exactly six hex digits, so a bad value (wrong
+  // length or non-hex characters) yields 0 rather than NaN downstream.
+  if (!/^[0-9a-f]{6}$/i.test(h)) return 0;
 
   const r = parseInt(h.slice(0, 2), 16);
   const g = parseInt(h.slice(2, 4), 16);

@@ -4,12 +4,15 @@
   grid-gap: 10px;
 }
 
+/* Fixed amber callout colors (not theme variables) so the warning stays
+   readable even while the user is editing a low-contrast theme. */
 .ContrastWarning {
   margin-top: 12px;
   padding: 8px 12px;
-  border: 1px solid var(--color-accent);
+  border: 1px solid #d4a72c;
   border-radius: 4px;
-  color: var(--color-primary);
+  background-color: #fff8e1;
+  color: #5c4400;
   font-size: 0.85em;
   line-height: 1.4;
 }

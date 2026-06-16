@@ -31,7 +31,7 @@ export const configTemplate: Config = {
   showTime: false,
   defaultTheme: 'tron',
   defaultColorScheme: 'system',
-  defaultLightTheme: '#222222;#dddddd;#ffffff',
+  defaultLightTheme: '#222222;#0e7490;#ffffff',
   defaultDarkTheme: '#EFFBFF;#6EE2FF;#242B33',
   isKilometer: true,
   weatherData: 'cloud',
