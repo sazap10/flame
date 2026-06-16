@@ -1,4 +1,4 @@
-FROM node:22-alpine as builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
@@ -26,6 +26,7 @@ WORKDIR /app
 EXPOSE 5005
 
 ENV NODE_ENV=production
-ENV PASSWORD=flame_password
+# PASSWORD is intentionally not set here. Supply it at runtime (env or
+# PASSWORD_FILE / Docker secret); login fails closed when it is missing.
 
 CMD ["sh", "-c", "chown -R node /app/data && node server.js"]
