@@ -66,6 +66,7 @@ export const ThemeBuilder = ({ themes }: Props): JSX.Element => {
       {isAuthenticated && (
         <div className={classes.Buttons}>
           <Button
+            type="button"
             click={() => {
               editTheme(null);
               toggleIsInEdit(false);
@@ -77,6 +78,7 @@ export const ThemeBuilder = ({ themes }: Props): JSX.Element => {
 
           {themes.length ? (
             <Button
+              type="button"
               click={() => {
                 toggleIsInEdit(true);
                 toggleShowModal(!showModal);

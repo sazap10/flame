@@ -97,6 +97,7 @@ export const CustomQueries = (): JSX.Element => {
         ) : null}
 
         <Button
+          type="button"
           click={() => {
             setEditableQuery(null);
             setModalIsOpen(true);
