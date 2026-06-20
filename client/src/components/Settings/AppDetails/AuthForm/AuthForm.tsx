@@ -114,7 +114,9 @@ export const AuthForm = (): JSX.Element => {
             You are logged in. Your session will expire{' '}
             <span>{tokenExpires}</span>
           </p>
-          <Button click={logout}>Logout</Button>
+          <Button type="button" click={logout}>
+            Logout
+          </Button>
         </div>
       )}
     </Fragment>

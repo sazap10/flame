@@ -45,7 +45,9 @@ export const AppDetails = (): JSX.Element => {
               </a>
             </p>
 
-            <Button click={() => checkVersion(true)}>Check for updates</Button>
+            <Button type="button" click={() => checkVersion(true)}>
+              Check for updates
+            </Button>
           </div>
         </Fragment>
       )}
