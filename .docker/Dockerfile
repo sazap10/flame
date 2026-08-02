@@ -29,8 +29,8 @@ ENV NODE_ENV=production
 # PASSWORD is intentionally not set here. Supply it at runtime (env or
 # PASSWORD_FILE / Docker secret); login fails closed when it is missing.
 
-# Liveness probe 
+# Liveness probe
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-    CMD wget -q --spider http://localhost:5005/ || exit 1
+    CMD-SHELL wget -q --spider "http://localhost:${PORT:-5005}/api/config"
 
 CMD ["sh", "-c", "chown -R node /app/data && node server.js"]
