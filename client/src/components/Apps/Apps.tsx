@@ -16,6 +16,7 @@ import { AppCategoryGrid } from './AppGrid/AppCategoryGrid';
 // CSS
 import classes from './Apps.module.css';
 import { AppTable } from './AppTable/AppTable';
+import { ContainerStatePoller } from './ContainerStatePoller/ContainerStatePoller';
 
 interface Props {
   searching: boolean;
@@ -79,6 +80,7 @@ export const Apps = (props: Props): JSX.Element => {
 
   return (
     <Container>
+      <ContainerStatePoller />
       <Modal isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
         <AppForm modalHandler={toggleModal} />
       </Modal>

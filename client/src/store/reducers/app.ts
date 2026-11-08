@@ -10,6 +10,9 @@ interface AppsState {
   apps: App[];
   errors: string | undefined;
   appInUpdate: App | null;
+  // Docker State per app id, for apps with container control. An id is absent
+  // until the first successful fetch (or when control is disabled server-side).
+  containerStates: Record<number, string>;
 }
 
 const initialState: AppsState = {
@@ -17,6 +20,7 @@ const initialState: AppsState = {
   apps: [],
   errors: undefined,
   appInUpdate: null,
+  containerStates: {},
 };
 
 export const appsReducer = (
@@ -102,6 +106,30 @@ export const appsReducer = (
       return {
         ...state,
         appInUpdate: action.payload,
+      };
+    }
+
+    case ActionType.getContainerStatesSuccess: {
+      // Replace wholesale so apps whose container disappeared drop out.
+      const containerStates: Record<number, string> = {};
+
+      for (const { appId, state: containerState } of action.payload) {
+        containerStates[appId] = containerState;
+      }
+
+      return {
+        ...state,
+        containerStates,
+      };
+    }
+
+    case ActionType.setContainerState: {
+      return {
+        ...state,
+        containerStates: {
+          ...state.containerStates,
+          [action.payload.appId]: action.payload.state,
+        },
       };
     }
 

@@ -14,4 +14,8 @@ export interface NewApp {
 export interface App extends Model, NewApp {
   orderId: number;
   isPinned: boolean;
+  // Set by Docker discovery, never by the user: the container behind this app
+  // and whether it opted in to start/stop (flame.control=true).
+  containerName: string | null;
+  dockerControl: boolean;
 }

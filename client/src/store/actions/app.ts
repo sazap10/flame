@@ -1,4 +1,4 @@
-import type { App } from '../../interfaces';
+import type { App, ContainerState } from '../../interfaces';
 import type { ActionType } from '../action-types';
 
 export interface GetAppsAction<T> {
@@ -40,4 +40,14 @@ export interface SortAppsAction {
 export interface SetEditAppAction {
   type: ActionType.setEditApp;
   payload: App | null;
+}
+
+export interface GetContainerStatesSuccessAction {
+  type: ActionType.getContainerStatesSuccess;
+  payload: ContainerState[];
+}
+
+export interface SetContainerStateAction {
+  type: ActionType.setContainerState;
+  payload: ContainerState;
 }

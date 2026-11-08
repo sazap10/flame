@@ -5,5 +5,6 @@ module.exports = {
   loginRateLimit: require('./loginRateLimit'),
   upload: require('./multer'),
   requireAuth: require('./requireAuth'),
+  requireDockerControl: require('./requireDockerControl'),
   requireBody: require('./requireBody'),
 };

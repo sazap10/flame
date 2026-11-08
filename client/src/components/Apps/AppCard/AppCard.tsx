@@ -11,6 +11,7 @@ import {
 } from '../../../utility';
 import { Icon } from '../../UI';
 import classes from './AppCard.module.css';
+import { ContainerControls, isContainerStopped } from './ContainerControls';
 
 interface Props {
   app: App;
@@ -19,6 +20,16 @@ interface Props {
 export const AppCard = ({ app }: Props): JSX.Element => {
   const { config } = useSelector((state: State) => state.config);
   const { scheme } = useSelector((state: State) => state.theme);
+  const isAuthenticated = useSelector(
+    (state: State) => state.auth.isAuthenticated
+  );
+  // Known only once the server reported it, i.e. container control is enabled
+  // and the container opted in.
+  const containerState = useSelector(
+    (state: State) => state.apps.containerStates[app.id]
+  );
+  const showControls =
+    app.dockerControl && isAuthenticated && containerState !== undefined;
 
   const [displayUrl, redirectUrl] = urlParser(app.url);
 
@@ -75,18 +86,30 @@ export const AppCard = ({ app }: Props): JSX.Element => {
     iconEl = <Icon icon={iconParser(icon)} />;
   }
 
+  const cardClasses = [
+    classes.AppCard,
+    showControls && isContainerStopped(containerState)
+      ? classes.AppCardStopped
+      : '',
+  ]
+    .join(' ')
+    .trim();
+
   return (
-    <a
-      href={redirectUrl}
-      target={config.appsSameTab ? '' : '_blank'}
-      rel="noreferrer"
-      className={classes.AppCard}
-    >
-      <div className={classes.AppCardIcon}>{iconEl}</div>
-      <div className={classes.AppCardDetails}>
-        <h5>{app.name}</h5>
-        <span>{!app.description.length ? displayUrl : app.description}</span>
-      </div>
-    </a>
+    <div className={classes.AppCardRow}>
+      <a
+        href={redirectUrl}
+        target={config.appsSameTab ? '' : '_blank'}
+        rel="noreferrer"
+        className={cardClasses}
+      >
+        <div className={classes.AppCardIcon}>{iconEl}</div>
+        <div className={classes.AppCardDetails}>
+          <h5>{app.name}</h5>
+          <span>{!app.description.length ? displayUrl : app.description}</span>
+        </div>
+      </a>
+      {showControls && <ContainerControls app={app} state={containerState} />}
+    </div>
   );
 };

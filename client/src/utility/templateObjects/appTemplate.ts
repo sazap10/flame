@@ -15,6 +15,8 @@ export const appTemplate: App = {
   ...newAppTemplate,
   isPinned: false,
   orderId: 0,
+  containerName: null,
+  dockerControl: false,
   id: -1,
   createdAt: new Date(),
   updatedAt: new Date(),

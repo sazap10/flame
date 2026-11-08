@@ -255,6 +255,55 @@ sudo service docker restart
 curl http://${IP}:${PORT}/version
 ```
 
+#### Connecting through `DOCKER_HOST`
+
+Set the `DOCKER_HOST` environment variable to point Flame at a Docker API endpoint, e.g. a [docker-socket-proxy](https://github.com/Tecnativa/docker-socket-proxy) instead of the raw socket:
+
+```yml
+environment:
+  - DOCKER_HOST=tcp://flame-socket-proxy:2375 # tcp:// and http:// are accepted
+```
+
+When set, it overrides the "Docker host" setting for both discovery and container control. When unset, the setting is used as before (`localhost` uses `/var/run/docker.sock`, anything else is reached over http). Other schemes (`unix://`, `https://`, `ssh://`) are not supported.
+
+Discovery lists containers with `all=1`, so apps for stopped containers stay on the page.
+
+#### Start/stop containers from Flame (opt-in)
+
+Flame can show a container's state and offer a start/stop button on its app tile. It is off unless you enable it **and** label each container you want controllable:
+
+```yml
+# Flame container
+environment:
+  - DOCKER_CONTROL=true
+  - DOCKER_HOST=tcp://flame-socket-proxy:2375 # optional
+
+# A container Flame may start/stop
+labels:
+  - flame.name=Jellyfin
+  - flame.url=https://jellyfin.example.com
+  - flame.control=true # must be exactly "true"
+```
+
+- `DOCKER_CONTROL=true` enables the feature. Unset or any other value: no buttons, and the control endpoints (`GET /api/apps/containers`, `POST /api/apps/:id/start|stop`) return 404.
+- Only containers carrying `flame.control=true` are controllable. The label is re-checked against the live container on every start/stop request, so removing the label revokes control immediately.
+- Buttons are shown to authenticated users (and to everyone when `ANONYMOUS_AUTH=true`). The tile shows a state dot and a start or stop button; a stopped container's tile is dimmed but still links to the app. State refreshes every 15 seconds while the page is visible.
+
+##### Docker API calls Flame makes
+
+If you front the Docker socket with a proxy, these are the only requests Flame sends (unversioned paths; `<name>` matches `[a-zA-Z0-9_.-]+`). Allowlist exactly these:
+
+| Method | Path | Used for |
+| ------ | ---- | -------- |
+| `GET`  | `/containers/json` (e.g. `?all=1`) | discovery, state of all controllable apps |
+| `GET`  | `/containers/<name>/json` | label re-check and post-action state |
+| `POST` | `/containers/<name>/start` | start |
+| `POST` | `/containers/<name>/stop` | stop |
+
+Without `DOCKER_CONTROL=true` only the first one is used.
+
+> **Security:** anyone who can reach Flame with an authenticated session can start and stop every container labelled `flame.control=true`. With `ANONYMOUS_AUTH=true` that means **everyone who can reach Flame**. Only enable this behind a trusted network or reverse proxy, label only containers you are happy to expose, and prefer a socket proxy that allows just the four requests above over mounting the raw Docker socket.
+
 ### Kubernetes integration
 
 In order to use the Kubernetes integration, each ingress must have the following annotations:

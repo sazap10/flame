@@ -20,6 +20,10 @@ const updateApp = asyncWrapper(async (req, res, next) => {
 
   const body = { ...req.body };
 
+  // Docker linkage is owned by discovery; never writable through the API.
+  delete body.containerName;
+  delete body.dockerControl;
+
   if (body.icon) {
     body.icon = body.icon.trim();
   }
