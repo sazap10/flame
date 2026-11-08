@@ -1,6 +1,13 @@
 import axios from 'axios';
 import type { Dispatch } from 'redux';
-import type { ApiResponse, App, Config, NewApp } from '../../interfaces';
+import type {
+  ApiResponse,
+  App,
+  Config,
+  ContainerAction,
+  ContainerState,
+  NewApp,
+} from '../../interfaces';
 import { applyAuth } from '../../utility';
 import { ActionType } from '../action-types';
 import type {
@@ -203,4 +210,56 @@ export const setEditApp =
       type: ActionType.setEditApp,
       payload: app,
     });
+  };
+
+// Fetch the Docker state of every controllable app in one call. Errors (e.g.
+// 404 when DOCKER_CONTROL is off on the server) leave the previous state as is.
+export const getContainerStates = () => async (dispatch: AppDispatch) => {
+  try {
+    const res = await axios.get<ApiResponse<ContainerState[]>>(
+      '/api/apps/containers',
+      {
+        headers: applyAuth(),
+      }
+    );
+
+    dispatch({
+      type: ActionType.getContainerStatesSuccess,
+      payload: res.data.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// Start or stop the container behind an app and store the resulting state.
+export const controlContainer =
+  (app: App, action: ContainerAction) => async (dispatch: AppDispatch) => {
+    try {
+      const res = await axios.post<
+        ApiResponse<{ appId: number; containerName: string; state: string }>
+      >(`/api/apps/${app.id}/${action}`, undefined, {
+        headers: applyAuth(),
+      });
+
+      dispatch({
+        type: ActionType.setContainerState,
+        payload: res.data.data,
+      });
+    } catch (err) {
+      const message =
+        (axios.isAxiosError(err) && err.response?.data?.error) ||
+        `Could not ${action} ${app.name}`;
+
+      dispatch({
+        type: ActionType.createNotification,
+        payload: {
+          title: 'Error',
+          message,
+        },
+      });
+
+      // The failure may mean the container changed under us; re-sync.
+      dispatch(getContainerStates());
+    }
   };

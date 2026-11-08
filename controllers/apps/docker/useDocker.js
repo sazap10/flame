@@ -2,10 +2,9 @@ const { Op } = require('sequelize');
 const App = require('../../../models/App');
 const Category = require('../../../models/Category');
 const Bookmark = require('../../../models/Bookmark');
-const axios = require('axios');
 const Logger = require('../../../utils/Logger');
 const logger = new Logger();
-const loadConfig = require('../../../utils/loadConfig');
+const { dockerRequest } = require('./dockerApi');
 const parseContainerLabels = require('./parseLabels');
 
 // Discovery hits the Docker API and writes to the DB, but it's triggered on
@@ -14,7 +13,7 @@ const parseContainerLabels = require('./parseLabels');
 const DISCOVERY_INTERVAL = 30 * 1000;
 let lastDiscovery = 0;
 
-// Discover running containers via the Docker API and turn them into Flame
+// Discover containers (running or stopped) via the Docker API and turn them into Flame
 // apps grouped into categories. A container's category comes from the
 // `flame.category` label; containers without it fall back to the default
 // category (DOCKER_DEFAULT_CATEGORY env var, or "Apps"). Any bookmark
@@ -27,34 +26,22 @@ const useDocker = async () => {
   }
   lastDiscovery = now;
 
-  const { dockerHost: host } = await loadConfig();
-
   const defaultCategory = process.env.DOCKER_DEFAULT_CATEGORY || 'Apps';
 
   let containers = null;
 
-  // Get list of containers
+  // Get list of containers. all=1 includes stopped ones so their apps keep
+  // existing (and stay controllable) while the container is down.
   try {
-    if (host.includes('localhost')) {
-      // Use default host
-      const { data } = await axios.get(
-        `http://${host}/containers/json?{"status":["running"]}`,
-        {
-          socketPath: '/var/run/docker.sock',
-        }
-      );
+    const { data } = await dockerRequest({
+      method: 'get',
+      url: '/containers/json',
+      params: { all: 1 },
+    });
 
-      containers = data;
-    } else {
-      // Use custom host
-      const { data } = await axios.get(
-        `http://${host}/containers/json?{"status":["running"]}`
-      );
-
-      containers = data;
-    }
-  } catch {
-    logger.log(`Can't connect to the Docker API on ${host}`, 'ERROR');
+    containers = data;
+  } catch (err) {
+    logger.log(`Can't connect to the Docker API: ${err.message}`, 'ERROR');
   }
 
   if (!containers) {
@@ -71,12 +58,16 @@ const useDocker = async () => {
   const dockerApps = [];
 
   for (const container of containers) {
-    dockerApps.push(
-      ...parseContainerLabels(container.Labels, {
-        tsdproxyDomain,
-        defaultCategory,
-      })
-    );
+    // Names[0] carries a leading slash ("/name"); it's what the control
+    // endpoints address the container by.
+    const containerName = container.Names?.[0]?.replace(/^\//, '') || null;
+
+    for (const app of parseContainerLabels(container.Labels, {
+      tsdproxyDomain,
+      defaultCategory,
+    })) {
+      dockerApps.push({ ...app, containerName });
+    }
   }
 
   if (dockerApps.length === 0) {
@@ -142,6 +133,8 @@ const useDocker = async () => {
         iconLight: item.iconLight,
         iconDark: item.iconDark,
         categoryId: category.id,
+        containerName: item.containerName,
+        dockerControl: item.dockerControl,
       });
     } else {
       // Pin newly discovered apps so they show on the home page, matching the
@@ -155,6 +148,8 @@ const useDocker = async () => {
         iconLight: item.iconLight,
         iconDark: item.iconDark,
         categoryId: category.id,
+        containerName: item.containerName,
+        dockerControl: item.dockerControl,
         isPinned: true,
       });
     }
@@ -169,7 +164,15 @@ const useDocker = async () => {
   // so an app's pinned state is left untouched on update.
   if (toUpdate.length > 0) {
     await App.bulkCreate(toUpdate, {
-      updateOnDuplicate: ['url', 'icon', 'iconLight', 'iconDark', 'categoryId'],
+      updateOnDuplicate: [
+        'url',
+        'icon',
+        'iconLight',
+        'iconDark',
+        'categoryId',
+        'containerName',
+        'dockerControl',
+      ],
     });
   }
 

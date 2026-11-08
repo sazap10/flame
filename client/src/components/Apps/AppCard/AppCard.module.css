@@ -1,14 +1,87 @@
-.AppCard {
+.AppCardRow {
   width: 100%;
   display: flex;
   align-items: center;
   margin-bottom: 20px;
 }
 
+.AppCard {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Stopped container: still a working link, but visibly inactive. */
+.AppCardStopped {
+  opacity: 0.55;
+}
+
+.ContainerControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+
+.StateDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--color-accent);
+}
+
+.StateRunning {
+  background-color: #3fb950;
+  border-color: #3fb950;
+}
+
+.StateTransitional {
+  background-color: #d29922;
+  border-color: #d29922;
+}
+
+.StateStopped {
+  background-color: transparent;
+}
+
+.StateMissing {
+  background-color: transparent;
+  border-style: dashed;
+}
+
+.ControlButton {
+  width: 28px;
+  height: 28px;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ControlButton:hover:not(:disabled),
+.ControlButton:focus-visible {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.ControlButton:disabled {
+  opacity: 0.4;
+  cursor: progress;
+}
+
 .AppCardIcon {
   width: 35px;
   height: 35px;
   margin-right: 0.5em;
+}
+
+.AppCardStopped .AppCardIcon {
+  filter: grayscale(1);
 }
 
 .AppCardDetails h5 {

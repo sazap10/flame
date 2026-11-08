@@ -31,6 +31,8 @@ export enum ActionType {
   reorderApps = 'REORDER_APPS',
   sortApps = 'SORT_APPS',
   setEditApp = 'SET_EDIT_APP',
+  getContainerStatesSuccess = 'GET_CONTAINER_STATES_SUCCESS',
+  setContainerState = 'SET_CONTAINER_STATE',
   // CATEGORES
   getCategories = 'GET_CATEGORIES',
   getCategoriesSuccess = 'GET_CATEGORIES_SUCCESS',

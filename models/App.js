@@ -46,6 +46,16 @@ const App = sequelize.define(
       allowNull: true,
       defaultValue: 1,
     },
+    containerName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: null,
+    },
+    dockerControl: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
     description: {
       type: DataTypes.STRING,
       allowNull: false,

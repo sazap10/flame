@@ -11,6 +11,7 @@ import type { State } from '../../store/reducers';
 import { escapeRegex } from '../../utility';
 // Components
 import { AppCategoryGrid } from '../Apps/AppGrid/AppCategoryGrid';
+import { ContainerStatePoller } from '../Apps/ContainerStatePoller/ContainerStatePoller';
 import { BookmarkGrid } from '../Bookmarks/BookmarkGrid/BookmarkGrid';
 import { SearchBar } from '../SearchBar/SearchBar';
 // UI
@@ -84,6 +85,7 @@ export const Home = (): JSX.Element => {
 
   return (
     <Container>
+      <ContainerStatePoller />
       {!config.hideSearch ? (
         <SearchBar
           setLocalSearch={setLocalSearch}

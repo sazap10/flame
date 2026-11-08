@@ -3,6 +3,7 @@ export * from './App';
 export * from './Bookmark';
 export * from './Category';
 export * from './Config';
+export * from './Container';
 export * from './Forms';
 export * from './Notification';
 export * from './Query';

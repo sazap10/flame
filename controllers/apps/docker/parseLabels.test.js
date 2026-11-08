@@ -22,6 +22,7 @@ test('discovers a basic flame.* app and defaults icon/category', () => {
       iconLight: '',
       iconDark: '',
       category: 'Apps',
+      dockerControl: false,
     },
   ]);
 });
@@ -200,6 +201,7 @@ test('falls back to the first value when later name/url/icon entries are missing
     iconLight: '',
     iconDark: '',
     category: 'Apps',
+    dockerControl: false,
   });
 });
 
@@ -246,4 +248,50 @@ test('does not mutate the caller-provided labels object', () => {
   parseContainerLabels(labels);
 
   assert.deepEqual(labels, snapshot);
+});
+
+test('flame.control=true marks every app of the container as controllable', () => {
+  const apps = parseContainerLabels({
+    'flame.name': 'A;B',
+    'flame.url': 'https://a;https://b',
+    'flame.control': 'true',
+  });
+
+  assert.equal(apps.length, 2);
+  assert.deepEqual(
+    apps.map((app) => app.dockerControl),
+    [true, true]
+  );
+});
+
+test('apps are not controllable without the flame.control label', () => {
+  const [app] = parseContainerLabels({
+    'flame.name': 'Service',
+    'flame.url': 'https://service',
+  });
+
+  assert.equal(app.dockerControl, false);
+});
+
+test('only the exact value "true" enables flame.control', () => {
+  const base = { 'flame.name': 'Service', 'flame.url': 'https://service' };
+
+  for (const value of ['false', 'TRUE', 'True', '1', 'yes', '', ' true']) {
+    const [app] = parseContainerLabels({ ...base, 'flame.control': value });
+    assert.equal(app.dockerControl, false, `value ${JSON.stringify(value)}`);
+  }
+});
+
+test('flame.control works alongside a tsdproxy-derived app', () => {
+  const [app] = parseContainerLabels(
+    {
+      'tsdproxy.enable': 'true',
+      'tsdproxy.name': 'svc',
+      'flame.control': 'true',
+    },
+    { tsdproxyDomain: 'example.ts.net' }
+  );
+
+  assert.equal(app.url, 'https://svc.example.ts.net');
+  assert.equal(app.dockerControl, true);
 });

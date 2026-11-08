@@ -3,8 +3,10 @@ import type {
   AddAppAction,
   DeleteAppAction,
   GetAppsAction,
+  GetContainerStatesSuccessAction,
   PinAppAction,
   ReorderAppsAction,
+  SetContainerStateAction,
   SetEditAppAction,
   SortAppsAction,
   UpdateAppAction,
@@ -84,6 +86,8 @@ export type Action =
   | ReorderAppsAction
   | SortAppsAction
   | SetEditAppAction
+  | GetContainerStatesSuccessAction
+  | SetContainerStateAction
   // Categories
   | GetCategoriesAction<undefined | Category[]>
   | AddCategoryAction

@@ -6,6 +6,11 @@
 // The derivation order mirrors the original inline logic: Traefik rules, then
 // tsdproxy, then the flame.* fields. Any explicit flame.* label always wins
 // over a derived value because derivation only fills fields that are absent.
+//
+// Each app also carries `dockerControl`: whether its container opted in to
+// start/stop with flame.control=true.
+const { isControlLabelSet } = require('./controlLabel');
+
 const parseContainerLabels = (
   rawLabels,
   { tsdproxyDomain = '', defaultCategory = 'Apps' } = {}
@@ -100,6 +105,10 @@ const parseContainerLabels = (
   const iconsDark =
     'flame.icon.dark' in labels ? labels['flame.icon.dark'].split(';') : [];
 
+  // Container-level opt-in for start/stop; shared by every app the container
+  // produces.
+  const dockerControl = isControlLabelSet(labels);
+
   const apps = [];
 
   for (let i = 0; i < names.length; i++) {
@@ -110,6 +119,7 @@ const parseContainerLabels = (
       iconLight: iconsLight[i] || iconsLight[0] || '',
       iconDark: iconsDark[i] || iconsDark[0] || '',
       category,
+      dockerControl,
     });
   }
 
